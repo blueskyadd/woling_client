@@ -27,9 +27,16 @@
     </div>
     <!--    页面主题-->
     <div class="web-index-menu">
-      <div class="web-index-content"></div>
       <div class="web-index-content">
-        <!-- <div class="singIn" v-if="isSign" @click="setSingIn"><img src="../../assets/img/singIn.png" alt /></div> -->
+        <div>
+          <div class="title"></div>
+          <ul>
+            <li></li>
+          </ul>
+        </div>
+      </div>
+      <div class="web-index-content">
+        <div class="singIn"  @click="setSingIn"><img src="../../assets/img/singIn.png" alt /></div>
         <div class="web-index-rightList">
           <ul>
             <li><img src="../../assets/img/audition.png" alt=""></li>
@@ -412,16 +419,19 @@ export default {
     width: 100%;
     display: flex;
     justify-content: space-between;
-
+    height: calc(100% - 2.1rem);
     .web-index-content {
       width: 100%;
       height: 100%;
       position: relative;
+      display: flex;
+      justify-content: flex-end;
       .singIn {
         width: 1rem;
-        float: right;
-        margin-right: 0.31rem;
         height: 1rem;
+        margin-right: 0.18rem;
+        height: 1rem;
+        margin-top: .15rem;
         img {
           width: 100%;
           height: 100%;
@@ -430,12 +440,13 @@ export default {
       .web-index-rightList{
         display: flex;
         justify-content: flex-end;
+        height: 100%;
         ul{
           display: flex;
           flex-direction: column;
-          justify-content: space-around;
+          justify-content: space-between;
           li{
-            height: .63rem;
+            height: .7rem;
             width: .62rem;
             img{
               width: 100%;
