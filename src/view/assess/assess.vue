@@ -14,33 +14,33 @@
                   <div class="cal-one cal-assess">
                     <span>教学计划：</span>
                       <!-- 展示-->
-                    <mu-select label="" color="#182942" v-model="plan" full-width>
+                    <!-- <mu-select label="" color="#182942" v-model="plan" full-width>
                         <mu-option v-for="item in options1" :key="item.value" :label="item.id" :value="item.value"></mu-option>
-                    </mu-select>                             
+                    </mu-select>                              -->
                     <i style="right:.75rem"><img src="../../assets/img/arrows.png" alt=""></i>
                   </div>
                   <div class="cal-two cal-assess">
                     <span>训练总结：</span>
                     <!-- 展示-->
-                    <mu-select label="" color="#182942" v-model="summary" full-width>
+                    <!-- <mu-select label="" color="#182942" v-model="summary" full-width>
                         <mu-option v-for="item in options" :key="item.value" :label="item.id" :value="item.value"></mu-option>
-                    </mu-select>                             
+                    </mu-select>                              -->
                     <i style="right:.75rem"><img src="../../assets/img/arrows.png" alt=""></i>
                   </div>
                   <div class="cal-three cal-assess">
                     <span>每课教案：</span>
                     <!-- 展示-->
-                    <mu-select label="" color="#182942" v-model="teaching" full-width>
+                    <!-- <mu-select label="" color="#182942" v-model="teaching" full-width>
                         <mu-option v-for="item in options1" :key="item.value" :label="item.id" :value="item.value"></mu-option>
-                    </mu-select>                             
+                    </mu-select>                              -->
                     <i style="right:.75rem"><img src="../../assets/img/arrows.png" alt=""></i>
                   </div>
                   <div class="cal-four cal-assess">
                     <span>学员评价表：</span>
                     <!-- 展示-->
-                    <mu-select label="" color="#182942" v-model="estimate" full-width>
+                    <!-- <mu-select label="" color="#182942" v-model="estimate" full-width>
                         <mu-option v-for="item in options" :key="item.value" :label="item.id" :value="item.value"></mu-option>
-                    </mu-select>                             
+                    </mu-select>                              -->
                     <i style="right:.75rem"><img src="../../assets/img/arrows.png" alt=""></i>
                   </div>
                 </div>
@@ -51,33 +51,33 @@
                   <div class="cal-one cal-assess">
                     <span>学员安全：</span>
                     <!-- 展示-->
-                    <mu-select label="" color="#182942" v-model="safety" full-width>
+                    <!-- <mu-select label="" color="#182942" v-model="safety" full-width>
                         <mu-option v-for="item in options1" :key="item.value" :label="item.id" :value="item.value"></mu-option>
-                    </mu-select>                             
+                    </mu-select>                              -->
                     <i ><img src="../../assets/img/arrows.png" alt=""></i>
                   </div>
                   <div class="cal-two cal-assess">
                     <span>主题明确：</span>
                     <!-- 展示-->
-                    <mu-select label="" color="#182942" v-model="explicit" full-width>
+                    <!-- <mu-select label="" color="#182942" v-model="explicit" full-width>
                         <mu-option v-for="item in options2" :key="item.value" :label="item.id" :value="item.value"></mu-option>
-                    </mu-select>                             
+                    </mu-select>                              -->
                     <i><img src="../../assets/img/arrows.png" alt=""></i>
                   </div>
                   <div class="cal-three cal-assess">
                     <span>强度合理：</span>
                     <!-- 展示-->
-                   <mu-select label="" color="#182942" v-model="rational" full-width>
+                   <!-- <mu-select label="" color="#182942" v-model="rational" full-width>
                         <mu-option v-for="item in options1" :key="item.value" :label="item.id" :value="item.value"></mu-option>
-                    </mu-select>                             
+                    </mu-select>                              -->
                     <i ><img src="../../assets/img/arrows.png" alt=""></i>
                   </div>
                   <div class="cal-four cal-assess">
                     <span>整体高效：</span>
-                    <!-- 展示-->
+                    <!-- 展示
                     <mu-select label="" color="#182942" v-model="efficient" full-width>
                         <mu-option v-for="item in options1" :key="item.value" :label="item.id" :value="item.value"></mu-option>
-                    </mu-select>                             
+                    </mu-select>                              -->
                     <i><img src="../../assets/img/arrows.png" alt=""></i>
                   </div>
                 </div>
@@ -88,25 +88,25 @@
                   <div class="cal-one cal-assess">
                     <span>全套运动装备：</span>
                     <!-- 展示-->
-                    <mu-select label="" color="#182942" v-model="equipment" full-width>
+                    <!-- <mu-select label="" color="#182942" v-model="equipment" full-width>
                         <mu-option v-for="item in options" :key="item.value" :label="item.id" :value="item.value"></mu-option>
-                    </mu-select>                             
+                    </mu-select>                              -->
                     <i ><img src="../../assets/img/arrows.png" alt=""></i>
                   </div>
                   <div class="cal-two cal-assess">
                     <span>无不文明行文：</span>
                     <!-- 展示-->
-                    <mu-select label="" color="#182942" v-model="action" full-width>
+                    <!-- <mu-select label="" color="#182942" v-model="action" full-width>
                         <mu-option v-for="item in options1" :key="item.value" :label="item.id" :value="item.value"></mu-option>
-                    </mu-select>                             
+                    </mu-select>                              -->
                     <i ><img src="../../assets/img/arrows.png" alt=""></i>
                   </div>
                   <div class="cal-three cal-assess">
                     <span>不得击打队员：</span>
                     <!-- 展示-->
-                    <mu-select label="" color="#182942" v-model="strike" full-width>
+                    <!-- <mu-select label="" color="#182942" v-model="strike" full-width>
                         <mu-option v-for="item in options" :key="item.value" :label="item.id" :value="item.value"></mu-option>
-                    </mu-select>                             
+                    </mu-select>                              -->
                     <i><img src="../../assets/img/arrows.png" alt=""></i>
                   </div>
                 </div>

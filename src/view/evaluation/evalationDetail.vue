@@ -2,9 +2,9 @@
     <div class="evaluation_evaluationDetail">
         <headerTitle :title="headerTitle" :isUpload = 'false'/>
         <div class="main">
-            <mu-paper :z-depth="1" class="demo-loadmore-wrap list">
+            <!-- <mu-paper :z-depth="1" class="demo-loadmore-wrap list">
                 <mu-container ref="container" class="demo-loadmore-content">
-                    <mu-load-more @refresh="refresh" :refreshing="refreshing" :loading="loading" @load="load" :loaded-all='isLoaded'>
+                    <mu-load-more @refresh="refresh" :refreshing="refreshing" :loading="loading" @load="load" :loaded-all='isLoaded'> -->
                         <ul>
                             <li  @click="goEditTable(item)" v-for="item in tableList" :key="item.id" v-show="item.status != '未上'">
                                 <div   class='mainLeft_img'>
@@ -19,9 +19,9 @@
                                 </div>
                             </li>
                         </ul>
-                    </mu-load-more> 
+                    <!-- </mu-load-more> 
                 </mu-container>
-            </mu-paper>
+            </mu-paper> -->
         </div>
     </div>
 </template>

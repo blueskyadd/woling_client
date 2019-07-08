@@ -15,6 +15,11 @@ export default new Router({
       component:() => import('@/view/loging/index'),
     },
     {
+      path:'/changeChild',
+      name:'changeChild',
+      component:() => import('@/view/loging/changeChild.vue')
+    },
+    {
       path:'/index',
       name:'index',
       component:() => import('@/view/index/index')

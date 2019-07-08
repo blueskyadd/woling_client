@@ -60,57 +60,57 @@
             <div class="row1">
               <div class="cal ">
                 <span>组织能力:</span>
-                <mu-select label="" color="#182942" v-model="organization" full-width>
+                <!-- <mu-select label="" color="#182942" v-model="organization" full-width>
                     <mu-option v-for="option in options1" :key="option" :label="option" :value="option"></mu-option>
-                </mu-select>
+                </mu-select> -->
               </div>
               <div class="cal cal2 ">
                 <span>沟通能力:</span>
-                <mu-select label="" color="#182942" v-model="communication" full-width>
+                <!-- <mu-select label="" color="#182942" v-model="communication" full-width>
                     <mu-option v-for="option in options1" :key="option" :label="option" :value="option"></mu-option>
-                </mu-select> 
+                </mu-select>  -->
               </div>
             </div>
             <div class="row1">
               <div class="cal">
                 <span>激励能力:</span>
-                <mu-select label="" color="#182942" v-model="stimulate" full-width>
+                <!-- <mu-select label="" color="#182942" v-model="stimulate" full-width>
                     <mu-option v-for="option in options" :key="option" :label="option" :value="option"></mu-option>
-                </mu-select> 
+                </mu-select>  -->
               </div>
               <div class="cal cal2">
                 <span>时间管理:</span>
-                <mu-select label="" color="#182942" v-model="time_management" full-width>
+                <!-- <mu-select label="" color="#182942" v-model="time_management" full-width>
                     <mu-option v-for="option in options" :key="option" :label="option" :value="option"></mu-option>
-                </mu-select> 
+                </mu-select>  -->
               </div>
             </div>
             <div class="row1">
               <div class="cal">
                 <span>观察能力:</span>
-                <mu-select label="" color="#182942" v-model="observational" full-width>
+                <!-- <mu-select label="" color="#182942" v-model="observational" full-width>
                     <mu-option v-for="option in options" :key="option" :label="option" :value="option"></mu-option>
-                </mu-select> 
+                </mu-select>  -->
               </div>
               <div class="cal cal2">
                 <span>提问引导:</span>
-                <mu-select label="" color="#182942" v-model="probe" full-width>
+                <!-- <mu-select label="" color="#182942" v-model="probe" full-width>
                     <mu-option v-for="option in options" :key="option" :label="option" :value="option"></mu-option>
-                </mu-select> 
+                </mu-select>  -->
               </div>
             </div>
             <div class="row1">
               <div class="cal">
                 <span>应变能力:</span>
-                <mu-select label="" color="#182942" v-model="strain_capacity" full-width>
+                <!-- <mu-select label="" color="#182942" v-model="strain_capacity" full-width>
                     <mu-option v-for="option in options" :key="option" :label="option" :value="option"></mu-option>
-                </mu-select> 
+                </mu-select>  -->
               </div>
               <div class="cal cal2">
                 <span style="margin-left: .23rem;">幽默感:</span>
-                <mu-select label="" color="#182942" v-model="humor" full-width>
+                <!-- <mu-select label="" color="#182942" v-model="humor" full-width>
                     <mu-option v-for="option in options" :key="option" :label="option" :value="option"></mu-option>
-                </mu-select> 
+                </mu-select>  -->
               </div>
             </div>
           </div>

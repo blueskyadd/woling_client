@@ -8,7 +8,7 @@
           <span @click="goexerciseGrade" :class="{'activeButton': routerIndex == 2}">班级</span>
         </div>
         <div style="overflow:hidden;height:calc(100% + 0.6rem);" v-if="routerIndex == 1">
-          <mu-paper :z-depth="1" class="demo-loadmore-wrap list">
+          <!-- <mu-paper :z-depth="1" class="demo-loadmore-wrap list">
             <mu-container ref="container" class="demo-loadmore-content">
               <mu-load-more
                 @refresh="refresh"
@@ -16,7 +16,7 @@
                 :loading="loading"
                 @load="load"
                 :loaded-all="isLoaded"
-              >
+              > -->
                 <ul class="routerIndexOne">
                   <li v-for="(item,index) in list " :key="index">
                     <div class="list-item" data-type="0">
@@ -46,9 +46,9 @@
                     </div>
                   </li>
                 </ul>
-              </mu-load-more>
+              <!-- </mu-load-more>
             </mu-container>
-          </mu-paper>
+          </mu-paper> -->
         </div>
         <div style="overflow:hidden;height:calc(100% + 0.6rem);" v-else>
           <mu-paper :z-depth="1" class="demo-loadmore-wrap list">
@@ -124,8 +124,8 @@
       <div class="upoloadMaian">
         <div class="search">
           <span>练习名称:</span>
-          <mu-col span="12" lg="4" sm="6">
-            <mu-select
+          <!-- <mu-col span="12" lg="4" sm="6"> -->
+            <!-- <mu-select
               placeholder="点击输入练习名称"
               filterable
               v-model="courseName"
@@ -133,8 +133,8 @@
               @change="change"
             >
               <mu-option v-for="item in searchData" :key="item.id" :label="item.name" :value="item"></mu-option>
-            </mu-select>
-          </mu-col>
+            </mu-select> -->
+          <!-- </mu-col> -->
         </div>
         <div class="Time">
           <span>练习时间:</span>

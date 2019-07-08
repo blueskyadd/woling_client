@@ -1,13 +1,13 @@
 <template>
-    <mu-paper :z-depth="1" class="demo-loadmore-wrap list">
+    <!-- <mu-paper :z-depth="1" class="demo-loadmore-wrap list">
         <mu-container ref="container" class="demo-loadmore-content">
-            <mu-load-more @refresh="refresh" :refreshing="refreshing" :loading="loading" @load="load" :loaded-all='isLoaded'>
+            <mu-load-more @refresh="refresh" :refreshing="refreshing" :loading="loading" @load="load" :loaded-all='isLoaded'> -->
                 <ul class="listMain">
                     <li v-for="item in tableList" :key="item.id"  @click="goDetail(item)"><img :src="item.front_image" alt=""><span>{{item.name}}</span></li>
                 </ul>
-            </mu-load-more> 
+            <!-- </mu-load-more> 
         </mu-container>
-    </mu-paper>
+    </mu-paper> -->
 </template>
 <script>
 export default {

@@ -10,59 +10,59 @@
                     <div class="main_form">
                         <div>
                             <span>强壮身体:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value1" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value1" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>
+                            </mu-select> -->
                             <i><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>速度:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value2" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value2" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i style="right:.75rem"><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>动作评率:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value3" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value3" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i ><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         
                         <div>
                             <span>耐力:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value4" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value4" full-width>
                                 <mu-option v-for="(option, index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i style="right:.75rem"><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>爆发力:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value5" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value5" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i style="right:.5rem"><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>协调性:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value6" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value6" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                            
+                            </mu-select>                             -->
                              <i style="right:.5rem"><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>灵活:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value7" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value7" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i style="right:.75rem"><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>平衡:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value8" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value8" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i style="right:.75rem"><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                     </div>
@@ -72,100 +72,100 @@
                     <div class="main_form">
                         <div>
                             <span>压力控球:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value9" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value9" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>第一触球:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value10" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value10" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>短传:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value11" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value11" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i style="right:.75rem"><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>长传:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value12" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value12" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i style="right:.75rem"><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>盘带:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value13" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value13" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i style="right:.75rem"><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>1v1进攻:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value14" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value14" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i style="right: 0.35rem;"><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>1v1防守:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value15" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value15" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i style="right: .35rem;"><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>铲球上抢:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value16" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value16" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>头球:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value17" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value17" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i style="right:.75rem"><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>逆足:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value18" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value18" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i style="right:.75rem"><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>远射:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value19" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value19" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i style="right:.75rem"><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>定位球:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value20" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value20" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i style="right: 0.52rem;"><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>射门:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value21" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value21" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i style="right:.75rem"><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>转身技术:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value22" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value22" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         
@@ -176,72 +176,72 @@
                     <div class="main_form">
                         <div>
                             <span>组织能力:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value23" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value23" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>位置感:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value24" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value24" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i style="right: 0.52rem;"><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>提前观察:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value25" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value25" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                            
+                            </mu-select>                             -->
                              <i><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>视野:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value26" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value26" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i style="right:.75rem"><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>无球跑动:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value27" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value27" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>阅读比赛:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value28" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value28" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>攻守转换:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value29" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value29" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>盯人:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value30" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value30" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i style="right:.75rem"><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>补位保护:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value31" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value31" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>决断:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value32" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value32" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                            
+                            </mu-select>                             -->
                              <i style="right:.75rem"><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         
@@ -252,72 +252,72 @@
                     <div class="main_form">
                         <div>
                             <span>影响力:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value33" full-width>
-                                <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value33" full-width>
+                                <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option> -->
+                            <!-- </mu-select>                              -->
                             <i style="right: 0.52rem;"><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>创造力:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value34" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value34" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                            
+                            </mu-select>                             -->
                              <i style="right: 0.52rem;"><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>战斗精神:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value35" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value35" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>压力抵抗:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value36" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value36" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>团队合作:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value37" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value37" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>专注度:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value38" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value38" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i style="right: 0.52rem;"><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>侵略性:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value39" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value39" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i style="right:.5rem"><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>稳定状态:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value40" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value40" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>体育精神:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value41" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value41" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>执行力:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value42" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value42" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i style="right: 0.52rem;"><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         
@@ -328,58 +328,58 @@
                     <div class="main_form">
                         <div>
                             <span>力量:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value43" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value43" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>速度:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value44" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value44" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>传球:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value45" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value45" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>盘带:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value46" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value46" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>射门:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value47" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value47" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>防守:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value48" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value48" full-width>
                                 <mu-option v-for="option in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>意识:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value49" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value49" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                             <i><img src="../../assets/img/arrows.png" alt=""></i>
                         </div>
                         <div>
                             <span>精神:</span>
-                            <mu-select label="" color="#182942" v-model="normal.value50" full-width>
+                            <!-- <mu-select label="" color="#182942" v-model="normal.value50" full-width>
                                 <mu-option v-for="(option,index) in options" :key="option" :label="option" :value="option"></mu-option>
-                            </mu-select>                             
+                            </mu-select>                              -->
                                 <i style="right:.75rem"><img src="../../assets/img/arrows.png" alt=""></i>                            
                         </div>
                         <div class="textData">
