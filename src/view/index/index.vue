@@ -27,15 +27,21 @@
     </div>
     <!--    页面主题-->
     <div class="web-index-menu">
-      <div class="web-index-content">
+      <div class="web-index-content content_left">
+         <div class="title">
+           <div><img src="../../assets/img/statusImg.png" alt=""></div>
+           <div>同学榜</div>
+         </div>
         <div>
-          <div class="title"></div>
           <ul>
-            <li></li>
+            <li><img src="http://img4.duitang.com/uploads/item/201412/01/20141201183854_TRArc.thumb.700_0.png" alt=""><div></div></li>
+            <li><img src="http://img4.duitang.com/uploads/item/201412/01/20141201183854_TRArc.thumb.700_0.png" alt=""><div></div></li>
+            <li><img src="http://img4.duitang.com/uploads/item/201412/01/20141201183854_TRArc.thumb.700_0.png" alt=""><div></div></li>
+            <li><img src="http://img4.duitang.com/uploads/item/201412/01/20141201183854_TRArc.thumb.700_0.png" alt=""><div></div></li>
           </ul>
         </div>
       </div>
-      <div class="web-index-content">
+      <div class="web-index-content content_right">
         <div class="singIn"  @click="setSingIn"><img src="../../assets/img/singIn.png" alt /></div>
         <div class="web-index-rightList">
           <ul>
@@ -571,6 +577,78 @@ export default {
           left: 0;
           bottom: 0;
           z-index: 30;
+        }
+      }
+    }
+    .content_right{
+      padding-right: .12rem;
+    }
+    .content_left{
+      width: 1.25rem;
+      flex-direction: column;
+      height: calc(100% - .585rem);
+      border-radius: .11rem;
+      overflow: hidden;
+      margin-top: .1rem;
+      .title{
+        width: 100%;
+        height: .73rem;
+        div{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        div:first-child{
+          background: rgba(24,49,98,.6);
+          height: .4rem;
+          img{
+            width: .18rem;
+            height: .18rem;
+          }
+        }
+        div:last-child{
+          height: .33rem;
+          background: #040E23;
+          font-size:.18rem;
+          font-family:SimHei;
+          color:rgba(130,160,204,1);
+          text-align: center;
+        }
+      }
+      div{
+        width: 100%;
+        height: calc(100% - .73rem);
+        background: rgba(9,26,57,.9);
+        ul{
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          justify-content: space-around;
+          width: 100%;
+          align-items: center;
+          li{
+            width: .87rem;
+            height: .84rem;
+            position: relative;
+            div{
+              width: 100%;
+              height: 100%;
+              position: absolute;
+              top:0;
+              left: 0;
+              background: url(../../assets/img/headk.png) 0 0 / 100% 100%;
+            }
+            img{
+                width: 88%;
+                height: 88%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                margin: auto;
+            }
+          }
         }
       }
     }
