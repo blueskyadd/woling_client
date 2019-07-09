@@ -72,9 +72,9 @@ export default new Router({
       component:() => import('@/view/actively/activelyDetail')
     },
     {
-      path:'/student',
-      name:'student',
-      component:() => import('@/view/student/index')
+      path:'/coach',
+      name:'coach',
+      component:() => import('@/view/coach/index')
     },
     {
       path:'/timeBar',

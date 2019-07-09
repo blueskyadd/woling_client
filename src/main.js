@@ -6,6 +6,7 @@ import router from './router'
 import store from './store/index.js'
 
 import '../src/assets/style/public.scss'
+import '../src/assets/style/comment.scss';//vux公共样式
 import './components/Toast/toast.css';
 import Toast from './components/Toast/index';
 import {ProgressBar} from 'vue-ydui/dist/lib.rem/progressbar';

@@ -4,12 +4,22 @@
             <div class="goBack"  @click="goback()"></div>
             <div class="titleName">{{title}}</div>
             <div v-if="isUpload ? true : false" class="rightButton" @click="showUpdata">上传</div>
+            <div class="changeCity">
+                <div class="rightButton city" @click="setShowAddress">{{location[2]}}</div>
+                <div class="rightButton city" @click="setShowAddress">{{location[1]}}</div>
+                <div class="rightButton city" @click="setShowAddress">{{location[0]}}</div>
+                <x-address style="display:none;" title="title" v-model="city" :list="cityList" ref="cityData" :show.sync="showAddress" @on-hide='changeCity'></x-address>   
+            </div>
         </header>
     </div>
 </template>
 <script>
 import photo from "../components/photo.js";
+import cityList from "../assets/js/city";
+import { XAddress } from 'vux'
+import { truncate } from 'fs';
 export default {
+    components: {XAddress},
     props:{
         title:{
             type: String,
@@ -18,6 +28,14 @@ export default {
         isUpload:{
             type: Boolean,
             required: true
+        }
+    },
+    data(){
+        return{
+            city: [],
+            location:[],
+            cityList,
+            showAddress:false
         }
     },
     methods: {
@@ -32,6 +50,14 @@ export default {
         },
         showUpdata(data){
             this.$emit('showUpdata')
+        },
+        setShowAddress(){
+            this.showAddress = true
+        },
+        changeCity(data){
+           
+            this.location = this.$refs.cityData.nameValue.split(' ')
+             console.log(this.location,this.$refs.cityData)
         }
     },
     destroyed:{}
@@ -70,9 +96,20 @@ header{
         font-family:SimHei;
         background: url(../assets/img/upload.png) 0 0 / 100% 100%;
         text-shadow: 0 0 .1rem #fff;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         input{
             display:none;
         }
     }
+    .changeCity{
+        margin-right: .28rem;
+        .city{
+            width: 1.48rem;
+            margin-right: .15rem;
+        }
+    }
+    
 }
 </style>

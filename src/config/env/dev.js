@@ -1,5 +1,5 @@
 // const winchaingroupApi = "https://www.bmeauto.cn";
-const winchaingroupApi = "http://10.102.100.23:8080/";
+const winchaingroupApi = "http://132.232.114.37:8888/";
 
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
     getUserInfo: winchaingroupApi + 'user/app/info/',//教练信息
 
     //首页
-    isSingIn: winchaingroupApi + 'user/app/sign/',//是否可以签到
+    isSingIn: winchaingroupApi + 'sell/buyer/product/list',//是否可以签到
     singIn: winchaingroupApi + 'user/app/sign/',//签到
 
     //活动

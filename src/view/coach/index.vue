@@ -1,12 +1,13 @@
 
 <template>
-    <div class="student_Detail">
+    <div class="coach_Detail">
         <headerTitle :title="headerTitle" :isUpload = 'false'/>
         <div class="main">
-            <sideBar :leftList='leftList' @change="getStudentList" :setIndex='setIndex'/>
+            <sideBar :leftList='leftList' @change="getcoachList" :setIndex='setIndex'/>
             <div class="selete_main" >
-                <mianList  :loading='loading' :tableList='tableList' :refreshing='refreshing'  @getClassList = 'getSclassList' :isLoaded='isLoaded'/>
+                <mianList  :loading='loading' :tableList='tableList' :refreshing='refreshing' @goDetail = 'getCoachDetail'  @getClassList ='getSclassList' :isLoaded='isLoaded'/>
             </div>
+            <coach-detail ref="coachDetail" :detailData='detailData'></coach-detail>
         </div>
     </div>
 </template>
@@ -14,23 +15,44 @@
 import headerTitle from "../../components/header";
 import sideBar from "../../components/sidebar"
 import mianList from '../../components/mainList'
+import coachDetail from './coachDetail'
 export default {
-    components:{headerTitle, sideBar, mianList},
+    components:{headerTitle, sideBar, mianList, coachDetail},
     data(){
         return{
-            headerTitle: '学员',
-            leftList:[],
-            tableList: [],//数据列表
+            headerTitle: '教练',
+            leftList:[
+                {
+                    'id':1,
+                    'name':'熊猫球场',
+                    'coach':"而开发后尔瓦佛尔积分日光金额偶然间g"
+                }
+            ],
+            tableList: [
+                {
+                    'id':1,
+                    'front_image':'http://img4.duitang.com/uploads/item/201412/01/20141201183854_TRArc.thumb.700_0.png',
+                    'name':'张三',
+                    'coach':"而开发后尔瓦佛尔积分日光金额偶然间g"
+                }
+            ],//数据列表
             loading: false,//全屏Loading
             isLoaded: true,//加载完毕
             refreshing: false,//上拉刷新
-            setIndex:0
+            setIndex:0,
+            isDetail:false,
+            detailData:{}
         }
     },
     methods: {
         activeList(data){
             this.headerTitle = data.item.name
             this.setIndex = data.index
+        },
+        getCoachDetail(data){
+            this.detailData = data
+            this.$refs.coachDetail.isDetail = !this.$refs.coachDetail.isDetail
+
         },
         /**@name获取班级名称列表 */
         getSclassList(num){
@@ -43,7 +65,7 @@ export default {
                         Element.index = index
                     })
 
-                    this.getStudentList({'item': res.data[0], 'index': res.data[0].index})
+                    this.getcoachList({'item': res.data[0], 'index': res.data[0].index})
                     this.leftList = res.data 
                 }
             }).catch(err =>{
@@ -52,11 +74,11 @@ export default {
                 this.$toast.center('服务器错误');
             })
         },
-        getStudentList(data){
+        getcoachList(data){
             this.$loading('');
             this.headerTitle = data.item.name + '学员'
             this.setIndex = data.index
-            this.$http.get(this.$conf.env.getStudentList + data.item.id).then( res =>{
+            this.$http.get(this.$conf.env.getcoachList + data.item.id).then( res =>{
             this.$loading.close()
             console.log(res)
 
@@ -74,13 +96,13 @@ export default {
 
     },
     mounted(){
-        this.$loading('');
-        this.getSclassList(1)
+        // this.$loading('');
+        // this.getSclassList(1)
     }
 }
 </script>
 <style lang="scss" >
-    .student_Detail{
+    .coach_Detail{
         background: url(../../assets/img/bj1.png)  0 0 / 100% 100% ;
         width: 100%;
         height:100%;

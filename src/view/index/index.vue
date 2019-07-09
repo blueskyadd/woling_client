@@ -70,7 +70,7 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/student">
+            <router-link to="/coach">
               <div class="web-footer-image"><img src="../../assets/img/COACH.png" alt /></div>
               <div class="web-footer-words"><p>教练</p><span>COACH</span>
               </div>
@@ -108,8 +108,7 @@
           </li>
           <li>
             <router-link to="/exercise">
-              <div class="web-footer-image"><img src="../../assets/img/proactive.png" alt /></div>
-              <div class="web-footer-words"><p>练习</p><span>PRACTICE</span></div>
+              <div class="web-footer-image footer_actively"><img src="../../assets/img/footerActively.png" alt /></div>
             </router-link>
           </li>
         </ul>
@@ -239,7 +238,7 @@ export default {
   },
   mounted() {
     // this.$loading('');
-    // this.getsingIn()
+    this.getsingIn()
     // this.getUserInfo()
     // var vm = this
     // setTimeout(() => {
@@ -713,8 +712,17 @@ export default {
             }
           }
         }
+       .footer_actively{
+        width: 1.3rem!important;
+        height: 1.2rem!important;
+        margin-right: -.8rem!important;
+        margin-bottom: -.1rem;
+        margin-left: .2rem;
+      }
       }
     }
+     
   }
+  
 }
 </style>
