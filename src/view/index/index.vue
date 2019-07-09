@@ -238,7 +238,7 @@ export default {
   },
   mounted() {
     // this.$loading('');
-    this.getsingIn()
+    // this.getsingIn()
     // this.getUserInfo()
     // var vm = this
     // setTimeout(() => {

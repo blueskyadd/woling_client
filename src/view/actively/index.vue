@@ -90,6 +90,7 @@
   import mianList from '../../components/mainList'
   import { XSwitch,Group,XButton,XNumber,XInput} from 'vux'
   export default {
+    name:'actively',
     components:{headerTitle, sideBar, mianList,XSwitch,Group,XButton,XNumber,XInput},
     data(){
       return{

@@ -172,7 +172,7 @@
 </template>
 <script>
 import headerTitle from "../../components/header";
-import photo from "../../components/photo.js";
+// import photo from "../../components/photo.js";
 import store from "../../store/index";
 // import html2canvas from "html2canvas";
 import { formatDate } from "../../assets/js/date.js";
@@ -332,7 +332,7 @@ export default {
         }
       );
 
-      photo.galleryVideo(this, dataparams, decideparams);
+      // photo.galleryVideo(this, dataparams, decideparams);
     },
     updataVideoPic() {
       console.log("开始选择图片");

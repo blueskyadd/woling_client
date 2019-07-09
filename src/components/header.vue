@@ -4,7 +4,7 @@
             <div class="goBack"  @click="goback()"></div>
             <div class="titleName">{{title}}</div>
             <div v-if="isUpload ? true : false" class="rightButton" @click="showUpdata">上传</div>
-            <div class="changeCity">
+            <div class="changeCity" >
                 <div class="rightButton city" @click="setShowAddress">{{location[2]}}</div>
                 <div class="rightButton city" @click="setShowAddress">{{location[1]}}</div>
                 <div class="rightButton city" @click="setShowAddress">{{location[0]}}</div>
@@ -14,7 +14,7 @@
     </div>
 </template>
 <script>
-import photo from "../components/photo.js";
+// import photo from "../components/photo.js";
 import cityList from "../assets/js/city";
 import { XAddress } from 'vux'
 import { truncate } from 'fs';
@@ -28,7 +28,11 @@ export default {
         isUpload:{
             type: Boolean,
             required: true
-        }
+        },
+        // isLocation:{
+        //     type:Boolean,
+        //     required: true
+        // }
     },
     data(){
         return{
@@ -45,7 +49,7 @@ export default {
         uploadVideo(){
             var dataparams =''
             var decideparams = ''
-            photo.galleryVideo(this, dataparams, decideparams)
+            // photo.galleryVideo(this, dataparams, decideparams)
 
         },
         showUpdata(data){
@@ -60,7 +64,6 @@ export default {
              console.log(this.location,this.$refs.cityData)
         }
     },
-    destroyed:{}
 }
 </script>
 <style lang="scss" scoped>
