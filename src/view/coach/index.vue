@@ -106,7 +106,7 @@ export default {
         background: url(../../assets/img/bj1.png)  0 0 / 100% 100% ;
         width: 100%;
         height:100%;
-        
+
         .main{
             width: 100%;
             height: calc(100% - .64rem);
@@ -117,7 +117,7 @@ export default {
                float: left;
                height: 100%;
                overflow-y: scroll;
-               
+
            }
            .selete_main::-webkit-scrollbar {
                 display: none;
