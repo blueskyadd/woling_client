@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store/index.js'
-
+import 'swiper/dist/css/swiper.css';
 import '../src/assets/style/public.scss'
 import './components/Toast/toast.css';
 import Toast from './components/Toast/index';
