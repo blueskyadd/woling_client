@@ -8,7 +8,7 @@
                 <div class="rightButton city" @click="setShowAddress">{{location[2]}}</div>
                 <div class="rightButton city" @click="setShowAddress">{{location[1]}}</div>
                 <div class="rightButton city" @click="setShowAddress">{{location[0]}}</div>
-                <x-address style="display:none;" title="title" v-model="city" :list="cityList" ref="cityData" :show.sync="showAddress" @on-hide='changeCity'></x-address>   
+                <x-address style="display:none;" title="title" v-model="city" :list="cityList" ref="cityData" :show.sync="showAddress" @on-hide='changeCity'></x-address>
             </div>
         </header>
     </div>
@@ -20,6 +20,7 @@ import { XAddress } from 'vux'
 import { truncate } from 'fs';
 export default {
     components: {XAddress},
+
     props:{
         title:{
             type: String,
@@ -55,7 +56,7 @@ export default {
             this.showAddress = true
         },
         changeCity(data){
-           
+
             this.location = this.$refs.cityData.nameValue.split(' ')
              console.log(this.location,this.$refs.cityData)
         }
@@ -110,6 +111,6 @@ header{
             margin-right: .15rem;
         }
     }
-    
+
 }
 </style>

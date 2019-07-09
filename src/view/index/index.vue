@@ -238,7 +238,7 @@ export default {
   },
   mounted() {
     // this.$loading('');
-    this.getsingIn()
+    // this.getsingIn()
     // this.getUserInfo()
     // var vm = this
     // setTimeout(() => {
@@ -460,7 +460,7 @@ export default {
           }
         }
       }
-      
+
       .web-index-ListBox {
         width: 0.31rem;
         height: 1.38rem;
@@ -721,8 +721,8 @@ export default {
       }
       }
     }
-     
+
   }
-  
+
 }
 </style>
