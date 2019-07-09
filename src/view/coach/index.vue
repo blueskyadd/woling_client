@@ -1,7 +1,7 @@
 
 <template>
     <div class="coach_Detail">
-        <headerTitle :title="headerTitle" :isUpload = 'false'/>
+        <headerTitle :title="headerTitle" :isUpload = 'false' :isLocation='true'/>
         <div class="main">
             <sideBar :leftList='leftList' @change="getcoachList" :setIndex='setIndex'/>
             <div class="selete_main" >

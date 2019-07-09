@@ -59,21 +59,21 @@ export default {
     }, 100);
       // }
   },
-  created() {
-      // 获取当前可视区域的高度
-      const height = document.documentElement.clientHeight;
-      // 在页面整体加载完毕时
-      window.onload = function () {
-        // 把获取到的高度赋值给根div
-        document.getElementById('app').style.height = `${height}px`;
-      };
-    },
+  // created() {
+  //     // 获取当前可视区域的高度
+  //     const height = document.documentElement.clientHeight;
+  //     // 在页面整体加载完毕时
+  //     window.onload = function () {
+  //       // 把获取到的高度赋值给根div
+  //       document.getElementById('app').style.height = `${height}px`;
+  //     };
+  //   },
   watch: {
     $route(to, from) {
       let isBack = this.$store.state.routerState.isBack;
       if (isBack) {
         this.transitionName = "slide-right";
-        this.$loading.close()
+        // this.$loading.close()
       } else {
         this.transitionName = "slide-left";
       }
