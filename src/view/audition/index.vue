@@ -17,7 +17,7 @@
             </div>
             <div class="priceBOx">
               <p>￥3000.00</p>
-              <div class="Py">购买</div>
+              <div class="Py">{{buttonText}}</div>
             </div>
             <div class="AllImgBox">
               <div class="Scll">
@@ -30,13 +30,14 @@
 </template>
 <script>
   import headerTitle from "../../components/header";
-  import sideBar from "../../components/sidebar"
+  import sideBar from "../../components/sidebar";
+  import { querystring } from 'vux'
     export default {
       components:{headerTitle,sideBar},
         name: "index",
       data(){
         return{
-          headerTitle:"课程",
+          headerTitle:this.$route.query.flag == 1 ?"试听": "课程",
           leftList:[
             {
               id:0,
@@ -48,6 +49,7 @@
             }
           ],
           setIndex:0,
+          buttonText: this.$route.query.flag == 1 ?"试听": "购买"
         }
       },
       methods: {
@@ -58,6 +60,9 @@
         }
 
       },
+      mounted(){
+        console.log(this.$route.query.flag)
+      }
     }
 </script>
 
