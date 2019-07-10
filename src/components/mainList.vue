@@ -1,7 +1,10 @@
 <template>
     <div class="demo-loadmore-wrap list">
         <ul class="listMain">
-            <li v-for="item in tableList" :key="item.id"  @click="goDetail(item)"><img :src="item.front_image" alt=""><span>{{item.name}}</span></li>
+            <li v-for="item in tableList" :key="item.id"  @click="goDetail(item)">
+                
+                <slot name="second" :dataItem='item'></slot>
+            </li>
         </ul>
     </div>
 </template>

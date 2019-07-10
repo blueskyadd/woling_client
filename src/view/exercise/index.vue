@@ -1,106 +1,49 @@
 <template>
   <div class="exercise_router_page">
-    <headerTitle :title="headerTitle" @showUpdata="showUpdata" :isUpload="isUpload" />
+    <headerTitle :title="headerTitle" @showUpdata="showUpdata" :isUpload="isUpload" :isLocation='false'/>
     <div class="exprcise_main">
       <div class="exprcise_sidebar" v-if="isGrade">
         <div class="sidebar_title">
           <span @click="goexerciseCoach" :class="{'activeButton': routerIndex == 1}">教练</span>
-          <span @click="goexerciseGrade" :class="{'activeButton': routerIndex == 2}">班级</span>
+          <span @click="goexerciseGrade" :class="{'activeButton': routerIndex == 2}">个人</span>
         </div>
-        <div style="overflow:hidden;height:calc(100% + 0.6rem);" v-if="routerIndex == 1">
-          <!-- <mu-paper :z-depth="1" class="demo-loadmore-wrap list">
-            <mu-container ref="container" class="demo-loadmore-content">
-              <mu-load-more
-                @refresh="refresh"
-                :refreshing="refreshing"
-                :loading="loading"
-                @load="load"
-                :loaded-all="isLoaded"
-              > -->
-                <ul class="routerIndexOne">
-                  <li v-for="(item,index) in list " :key="index">
-                    <div class="list-item" data-type="0">
-                      <div
-                        @touchstart.capture="touchStart"
-                        @touchend.capture="touchEnd"
-                        @click="skip(item, index)"
-                        class="scrollButton"
-                      >
-                        <div class="footballImg">
-                          <img src="../../assets/img/足球.png" />
-                        </div>
-                        <div :class="{'active': index==setVideoIndex}">
-                          <div>
-                            <span>{{item.time}}</span>
-                          </div>
-                          <div>
-                            <span>{{item.name}}</span>
-                          </div>
-                        </div>
+        <div style="overflow:hidden;height:calc(100% + 0.6rem);">
+          <ul class="routerIndexOne"  v-if="routerIndex == 1"  >
+                <li v-for="(item,index) in listCoach " :key="index">
+                  <div>
+                    <div @click="changeStatusVideoTitle(item, index)" class="scrollButton">
+                      <div class="footballImg">
+                        <img src="../../assets/img/足球.png" />
                       </div>
-                      <div class="deleteButton" @click="deleteVideo(item)">
-                        <i>
-                          <img src="../../assets/img/删除.png" alt />
-                        </i>
+                      <div :class="{'active': index==setstudentVideoIndex}">
+                        <div><span>{{item.time}}</span></div>
+                        <div><span>{{item.name}}</span></div>
                       </div>
                     </div>
-                  </li>
-                </ul>
-              <!-- </mu-load-more>
-            </mu-container>
-          </mu-paper> -->
-        </div>
-        <div style="overflow:hidden;height:calc(100% + 0.6rem);" v-else>
-          <mu-paper :z-depth="1" class="demo-loadmore-wrap list">
-            <mu-container ref="container" class="demo-loadmore-content">
-              <mu-load-more
-                @refresh="refreshdata"
-                :refreshing="refreshing"
-                :loading="loading"
-                @load="load"
-                :loaded-all="isLoaded"
-              >
-                <ul class="routerIndexTwo">
-                  <li
-                    v-for="(item, index) in leftList"
-                    :key="index"
-                    @click="activeList(item, index)"
-                    :class="{'active': index==setIndex}"
-                  >
-                    <span>{{item.name}}</span>
-                  </li>
-                </ul>
-              </mu-load-more>
-            </mu-container>
-          </mu-paper>
-        </div>
-      </div>
-      <div class="exprcise_sidebar" v-else>
-        <div class="sidebar_title">
-          <span @click="goexerciseCoach">{{StudentName}}</span>
-        </div>
-        <ul class="routerIndexOne">
-          <li v-for="(item,index) in list " :key="index">
-            <div class="list-item" data-type="0">
-              <div @click="changeStatusVideoTitle(item, index)" class="scrollButton">
-                <div class="footballImg">
-                  <img src="../../assets/img/足球.png" />
-                </div>
-                <div :class="{'active': index==setstudentVideoIndex}">
-                  <div>
-                    <span>{{item.date}}</span>
                   </div>
-                  <div>
-                    <span>{{item.name}}</span>
+                </li>
+              </ul>
+              <ul class="routerIndexOne" v-else>
+                <li v-for="(item,index) in listSelf " :key="index">
+                  <div class="list-item" data-type="0">
+                    <div @touchstart.capture="touchStart" @touchend.capture="touchEnd" @click="skip(item, index)" class="scrollButton">
+                      <div class="footballImg"><img src="../../assets/img/足球.png" /></div>
+                      <div :class="{'active': index==setVideoIndex}">
+                        <div><span>{{item.time}}</span></div>
+                        <div><span>{{item.name}}</span></div>
+                      </div>
+                    </div>
+                    <div class="deleteButton" @click="deleteVideo(item)">
+                      <i><img src="../../assets/img/删除.png" alt /></i>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </li>
-        </ul>
+                </li>
+              </ul>
+              
+        </div>
       </div>
       <div class="exercise_rightVideo">
-        <router-view
+        <exercise-coach
           :htmlUrl="htmlUrl"
           :videoImge="videoImge"
           :setIndex="setIndex"
@@ -111,36 +54,42 @@
           ref="childObj"
           @changeTitle="changeTitle"
           @setVideoNameList="setVideoNameList"
-        ></router-view>
+        ></exercise-coach>
       </div>
     </div>
     <div class="uploadVideo" v-if="isuploadVideo">
       <header>
         上传练习
         <span>
-          <img src="../../assets/img/关闭(1).png" @click="isuploadVideo = false" />
+          <img src="../../assets/img/orderDetailClose.png" @click="isuploadVideo = false" />
         </span>
       </header>
       <div class="upoloadMaian">
-        <div class="search">
-          <span>练习名称:</span>
-          <!-- <mu-col span="12" lg="4" sm="6"> -->
-            <!-- <mu-select
-              placeholder="点击输入练习名称"
-              filterable
-              v-model="courseName"
-              full-width
-              @change="change"
-            >
-              <mu-option v-for="item in searchData" :key="item.id" :label="item.name" :value="item"></mu-option>
-            </mu-select> -->
-          <!-- </mu-col> -->
+        <div class="updata">
+          <span>练习上传:</span>
+          <img src="../../assets/img/上传拷贝.png" alt @click="changefile" />
+          <input
+            type="file"
+            accept="video/*"
+            @change="uploadfile"
+            name="fileTrans"
+            ref="file"
+            value
+            mutiple="mutiple"
+          />上传
         </div>
-        <div class="Time">
-          <span>练习时间:</span>
-          <mu-col span="12" lg="4" sm="6">
-            <mu-date-input v-model="date" :min-date='min_date' container="dialog" label-float full-width></mu-date-input>
-          </mu-col>
+        <div class="updata">
+          <span>练习上传:</span>
+          <img src="../../assets/img/上传拷贝.png" alt @click="changefile" />
+          <input
+            type="file"
+            accept="video/*"
+            @change="uploadfile"
+            name="fileTrans"
+            ref="file"
+            value
+            mutiple="mutiple"
+          />上传
         </div>
         <div class="updata">
           <span>练习上传:</span>
@@ -166,12 +115,13 @@
       >
         <yd-countup :endnum="progress3 * 100" :duration="1" suffix="%">{{progress3 * 100}}%</yd-countup>
       </yd-progressbar>
-      <span class="submitButton" @click="uploadvideo">确定</span>
+      <span class="submitButton" @click="uploadvideo">确定上传</span>
     </div>
   </div>
 </template>
 <script>
 import headerTitle from "../../components/header";
+import exerciseCoach from './coach'
 // import photo from "../../components/photo.js";
 import store from "../../store/index";
 // import html2canvas from "html2canvas";
@@ -179,7 +129,7 @@ import { formatDate } from "../../assets/js/date.js";
 
 export default {
   name: "exercise",
-  components: { headerTitle },
+  components: { headerTitle, exerciseCoach },
   filters: {
     //时间转换
   },
@@ -195,13 +145,35 @@ export default {
       routerIndex: 1,
       startX: 0,
       file: "",
-      startX: 0,
       endX: 0,
       setIndex: 0,
       setVideoIndex: 0,
       setstudentVideoIndex: 0,
       isuploadVideo: false,
-      list: [],
+      listCoach: [
+        {
+          'time':'2018--11-01',
+          'name':'足球卡萨丁'
+        },
+        {
+          'time':'2018--11-01',
+          'name':'足球卡萨丁'
+        }
+      ],//教练
+      listSelf:[
+        {
+          'time':'2018--11-01',
+          'name':'足球卡萨丁'
+        },
+        {
+          'time':'2018--11-01',
+          'name':'足球卡萨丁'
+        },
+        {
+          'time':'2018--11-01',
+          'name':'足球卡萨丁'
+        }
+      ],//个人
       leftList: [],
       StudentName: "",
       isUpload: true, //是否显示上传按钮
@@ -221,17 +193,16 @@ export default {
     /**@name 子页面切换 */
     //不记录当前跳转路由，直接返回父级的上一层
     goexerciseCoach() {
-          this.isLoaded = false
+      //     this.isLoaded = false
       this.routerIndex = 1;
-      this.isUpload = true;
-      this.$router.replace("/exercise/exerciseCoach");
+      // this.isUpload = true;
     },
     goexerciseGrade() {
-      this.number = 1
-          this.isLoaded = false
+      // this.number = 1
+      //     this.isLoaded = false
       this.routerIndex = 2;
-      this.isUpload = false;
-      this.$router.replace("/exercise/exerciseGrade");
+      
+      // this.isUpload = false;
     },
     /**@name教练视频页面左滑删除 */
     //滑动开始
@@ -374,16 +345,13 @@ export default {
     uploadfile(ev) {
       this.$toast.center("上传成功");
       this.file = ev.target.files[0];
-      // this.getVideoImage(this.file)
     },
     uploadvideo() {
-      if (!this.VerificationData()) return;
-      // this.$loading('');
       this.progress3 = 0;
       var vm = this;
       setTimeout(() => {
         if (vm.progress3 < 0.5) {
-          vm.progress3 += 0.2;
+          vm.progress3 += 0.3;
         } else if (vm.progress3 > 0.5 && vm.progress3 < 1) {
           vm.progress3 += 0.01;
         }
@@ -419,52 +387,6 @@ export default {
             this.$toast.center("服务器错误");
           }
         });
-    },
-    // 视频元素转图片
-    getVideoImage(file, call) {
-      var that = this;
-      if (file && file.type.indexOf("video/") == 0) {
-        var video = document.createElement("video");
-        video.src = URL.createObjectURL(file);
-        video.addEventListener("loadeddata", function() {
-          this.width = this.videoWidth;
-          this.height = this.videoHeight;
-          var canvas = document.createElement("canvas");
-          var ctx = canvas.getContext("2d");
-          canvas.width = this.width;
-          canvas.height = this.height;
-          ctx.drawImage(this, 0, 0, canvas.width, canvas.height);
-          var image = {
-            url: canvas.toDataURL("image/jpeg", 1),
-            width: this.width,
-            height: this.height,
-            currentTime: this.currentTime,
-            duration: this.duration
-          };
-          var Obj = {
-            file: URL.createObjectURL(file),
-            pic: image.url
-          };
-
-          that.$refs.childObj.getVideoListData(Obj);
-          return image;
-          canvas.toBlob(function(blob) {
-            image.blob = blob;
-            typeof call == "function"
-              ? call.call(file, image)
-              : console.log(image);
-          });
-        });
-      }
-    },
-    //上传数据校验
-    VerificationData() {
-      if (!this.date || !this.file) {
-        this.$toast.center("请完善您的信息");
-        return false;
-      } else {
-        return true;
-      }
     },
     showUpdata(data) {
       this.isuploadVideo = true;
@@ -566,7 +488,7 @@ export default {
     }
   },
   mounted() {
-    this.getSarchList();
+    // this.getSarchList();
   }
 };
 </script>
@@ -702,13 +624,7 @@ export default {
             height: 0.24rem;
           }
         }
-        .active {
-          div {
-            span {
-              color: #5ce6ff !important;
-            }
-          }
-        }
+        
       }
       .list-item[data-type="0"] {
         transform: translate3d(0, 0, 0);
@@ -717,6 +633,13 @@ export default {
         transform: translate3d(-0.5rem, 0, 0);
       }
     }
+    .active {
+          div {
+            span {
+              color: #5ce6ff !important;
+            }
+          }
+        }
     .exercise_rightVideo {
       float: left;
       width: calc(100% - 2.73rem);
@@ -773,8 +696,10 @@ export default {
     .upoloadMaian {
       font-size: 0.2rem;
       font-family: SimHei;
-      margin: 0.52rem 0 0 0.82rem;
-
+      margin: 0.52rem .2rem 0 0.82rem;
+      height: 2.08rem;
+      overflow: hidden;
+      overflow-y: scroll;
       div {
         margin-bottom: 0.13rem;
       }
@@ -785,33 +710,6 @@ export default {
         div {
           margin: 0;
           min-height: inherit;
-        }
-        .mu-input {
-          padding: 0;
-          min-height: inherit;
-        }
-        @media (min-width: 1200px) {
-          .container {
-            max-width: initial;
-          }
-        }
-        @media (min-width: 992px) {
-          .col-sm-6 {
-            max-width: initial;
-            padding: 0;
-          }
-        }
-        @media (min-width: 768px) {
-          .col-sm-6 {
-            max-width: initial;
-            padding: 0;
-          }
-        }
-        @media (min-width: 576px) {
-          .col-sm-6 {
-            max-width: initial;
-            padding: 0;
-          }
         }
       }
       .Time {
@@ -883,7 +781,7 @@ export default {
       text-align: center;
       line-height: 0.73rem;
       border-radius: 0.08rem;
-      margin: 0.34rem auto 0;
+      margin:0 auto;
     }
   }
   .mu-input-line,

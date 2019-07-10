@@ -1,7 +1,7 @@
 <template>
   <div class="web-evaluation-box">
     <div class="web-evaluation-session">
-    <headerTitle :title="headerTitle" :isUpload = 'false'/>
+    <headerTitle :title="headerTitle" :isUpload = 'false' :isLocation='false'/>
       <div class="web-evaluation-menu">
         <div class="web-evaluation-cont">
           <sideBar :leftList='leftList' @change="activeList" :setIndex='setIndex'/>

@@ -1,6 +1,6 @@
 <template>
     <div class="grade_Detail">
-        <headerTitle :title="headerTitle" :isUpload = 'false'/>
+        <headerTitle :title="headerTitle" :isUpload = 'false' :isLocation='false'/>
         <div class="scroll">
             <div class="main">
                 <form action method="post" id="formData">

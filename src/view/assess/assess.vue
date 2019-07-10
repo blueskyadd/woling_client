@@ -2,7 +2,7 @@
   <div class="web-assess-box">
     <div class="web-assess">
 <!--      头部-->
-      <headerTitle :title="headerTitle" :isUpload = 'false'/>
+      <headerTitle :title="headerTitle" :isUpload = 'false' :isLocation='false'/>
 <!--      页面主体-->
       <div class="web-assess-menu">
         <div class="web-assess-content">

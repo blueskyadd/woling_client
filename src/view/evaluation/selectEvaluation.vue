@@ -143,7 +143,7 @@
         },
         methods: {
           /**@name获取评论详情 */
-          getClassDetail(){
+          getClassDetail(){ 
              this.$loading('');
             this.$http.get(this.$conf.env.getClassDetail + this.$route.params.data.status+ '/').then( res =>{
               this.$loading.close()

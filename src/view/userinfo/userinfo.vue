@@ -1,6 +1,6 @@
 <template>
   <div class="web-userinfo-bigbox">
-    <headerTitle :title="headerTitle" :isUpload = 'false'/>
+    <headerTitle :title="headerTitle" :isUpload = 'false' :isLocation='false'/>
     <div class="web-userinfo-menu">
       <div class="web-userinfo-left">
         <div class="userinfo">

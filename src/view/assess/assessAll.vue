@@ -1,6 +1,6 @@
 <template>
     <div class="web-assessAll-box">
-      <headerTitle :title="headerTitle" :isUpload = 'false'/>
+      <headerTitle :title="headerTitle" :isUpload = 'false' :isLocation='false'/>
         <div class="web-assessAll-menu">
           <sideBar :leftList='leftList' @change="getAccessmainList" :setIndex='setIndex'/>
           <div class="web-assessAll-cont">

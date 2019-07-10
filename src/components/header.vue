@@ -4,7 +4,7 @@
             <div class="goBack"  @click="goback()"></div>
             <div class="titleName">{{title}}</div>
             <div v-if="isUpload ? true : false" class="rightButton" @click="showUpdata">上传</div>
-            <div class="changeCity" >
+            <div class="changeCity" v-if="isLocation ? true : false" >
                 <div class="rightButton city" @click="setShowAddress">{{location[2]}}</div>
                 <div class="rightButton city" @click="setShowAddress">{{location[1]}}</div>
                 <div class="rightButton city" @click="setShowAddress">{{location[0]}}</div>
@@ -30,10 +30,10 @@ export default {
             type: Boolean,
             required: true
         },
-        // isLocation:{
-        //     type:Boolean,
-        //     required: true
-        // }
+        isLocation:{
+            type:Boolean,
+            required: true
+        }
     },
     data(){
         return{
