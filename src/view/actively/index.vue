@@ -1,6 +1,6 @@
 <template>
   <div class="actively_index">
-    <headerTitle :title="headerTitle" :isUpload="false" />
+    <headerTitle :title="headerTitle" :isUpload="false" :isLocation='false'/>
     <div class="demo-loadmore-wrap">
       <div class="demo-loadmore-content">
         <!-- <mu-paper :z-depth="1" class="demo-loadmore-wrap"> -->

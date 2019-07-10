@@ -1,6 +1,6 @@
 <template>
   <div class="auditionBig">
-    <headerTitle :title="headerTitle" :isUpload = 'false'/>
+    <headerTitle :title="headerTitle" :isUpload = 'false' :isLocation='false'/>
     <div class="Menu">
       <sideBar :leftList='leftList' @change="getStudentList" :setIndex='setIndex'/>
       <div class="MenuRight">

@@ -105,7 +105,7 @@
     import headerTitle from "../../components/header";
     import { XNumber,Group} from 'vux'
     export default {
-        name: "assessAll",
+        name: "cart",
       components: {mianList, sideBar, headerTitle,XNumber,Group},
       data(){
           return{

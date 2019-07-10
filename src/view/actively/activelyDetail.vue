@@ -1,6 +1,6 @@
 <template>
     <div class="actively_Detail">
-        <headerTitle :title="headerTitle" :isUpload = 'false'/>
+        <headerTitle :title="headerTitle" :isUpload = 'false' :isLocation='false'/>
         <div class="main">
             <img v-for="item in activelyImgList" :key="item.id" :src="item.image" alt="">
         </div>

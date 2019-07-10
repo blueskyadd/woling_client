@@ -97,7 +97,7 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/assessAll">
+            <router-link to="/cart">
               <div class="web-footer-image"><img src="../../assets/img/CART.png" alt /></div>
               <div class="web-footer-words"><p>购物车</p><span>CART</span></div>
             </router-link>
