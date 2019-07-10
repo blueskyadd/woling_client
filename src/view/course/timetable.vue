@@ -21,14 +21,14 @@ export default {
         }
     },
     methods: {
-        goCourseDetail(data){ 
-            
+        goCourseDetail(data){
+
             this.$router.push({name:'courseDetail',params:{id:data.id}})
         },
         /**@name获取课程列表 */
         getClassList(num){
             console.log(num)
-            var url = this.$conf.env.getClassList + num 
+            var url = this.$conf.env.getClassList + num
             this.$http.get(num == 1 ? this.$conf.env.getClassList : url ).then( res =>{
                 this.$loading.close()
                 this.refreshing = false;
@@ -42,7 +42,7 @@ export default {
                     this.loading = false
                     console.log(this.tableList)
                 }
-                
+
             }).catch(err =>{
                 this.isLoaded = true
                 this.refreshing = false;

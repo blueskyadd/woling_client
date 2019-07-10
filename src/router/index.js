@@ -114,7 +114,17 @@ export default new Router({
           component:() => import('@/view/exercise/grade'),
         },
       ]
-    }
+    },
+    {
+      path:'/audition',
+      name:'audition',
+      component:() => import('@/view/audition/index'),
+    },
+    {
+      path:'/shopping',
+      name:'shopping',
+      component:() => import('@/view/shopping/index'),
+    },
   ]
 })
 Router.prototype.routerBack = function () {

@@ -5,6 +5,7 @@
       <div class="web-userinfo-left">
         <div class="userinfo">
           <span>个人主页</span>
+          <span>社交</span>
         </div>
       </div>
       <div class="web-user-contnet">
@@ -22,22 +23,15 @@
                   <span>{{user.name}}</span>
                 </div>
                 <div class="userinfo-iphone-box">
-                 <span class="iphone-tit">联系方式：</span>
-                  <input type="number" v-model="user.username"   oninput="if(value.length>11)value=value.slice(0,11)" class="user-iphone">
-                  <div class="change-iphone">
-                    <img src="../../assets/img/changeIphone.png" alt="">
-                  </div>
+                 <span class="iphone-tit">陈译豪</span>
                 </div>
               </div>
             </div>
           </div>
           <div class="web-userinfo-jjBox">
             <div class="web-userinfo-wordsBox">
-              <p class="web-userinfo-wordTit">教练简介</p>
-              <div class="web-usserinfo-wordContent">
-                <p>
-                  {{user.intro}}
-                </p>
+              <div class="UPbox">
+                <div class="UserS"></div>
               </div>
               <div class="show-put">
                 <div class="user-sheng">
@@ -65,7 +59,7 @@
       </div>
     </div>
   </div>
-</template> 
+</template>
 
 <script>
 import headerTitle from "../../components/header";
@@ -78,29 +72,14 @@ import headerTitle from "../../components/header";
            headerTitle: '个人主页',
            user:{
              name: '',
-             intro: '暂无介绍',
              picture: '',
              sign: 0,
-             username: '',
            }
          }
       },
       methods: {
-        getUserInfo(){
-          this.$http.get(this.$conf.env.getUserInfo).then( res =>{
-          console.log(res)
-          
-            this.user = res.data
-            this.$loading.close()
-          }).catch(err =>{
-            this.$loading.close()
-            this.$toast.center('服务器错误');
-          })
-        }
       },
       mounted() {
-        this.$loading('');
-        this.getUserInfo()
       },
     }
 </script>
@@ -117,7 +96,7 @@ import headerTitle from "../../components/header";
       height:.64rem;
       background:linear-gradient(0deg,rgba(22,37,68,1) 0%,rgba(57,87,139,1) 100%);
       overflow: hidden;
-         
+
       .web-userinfo-back{
         height:100%;
         float: left;
@@ -146,7 +125,7 @@ import headerTitle from "../../components/header";
     .web-userinfo-menu{
       flex: 1;
       display: flex;
-      
+
       .web-userinfo-left{
         width: 1.4rem;
         height:100%;
@@ -157,6 +136,8 @@ import headerTitle from "../../components/header";
           height:.8rem;
           background:rgba(96,122,159,1);
           margin-top:.14rem;
+          padding:0 .21rem;
+          box-sizing: border-box;
           span{
             font-size:.24rem;
             font-family:SimHei;
@@ -164,6 +145,7 @@ import headerTitle from "../../components/header";
             line-height:.8rem;
             display: block;
             text-align: center;
+            border-bottom: 1px solid #2E4564;
           }
         }
       }
@@ -333,6 +315,11 @@ import headerTitle from "../../components/header";
                   font-family:SimHei;
                   color:rgba(184,207,238,1);
                 }
+              }
+              .UPbox{
+                width: 100%;
+                height: 1.66rem;
+
               }
             }
           }

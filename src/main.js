@@ -17,6 +17,7 @@ import http from "./track/http.js";
 import RouteTransition from 'vue-route-transition'
 import 'vue-ydui/dist/ydui.base.css';
 window.Hls = require('hls.js');
+
 Vue.use(RouteTransition)
 Vue.component(ProgressBar.name, ProgressBar);
 if (process.env.NODE_ENV === 'production') {
