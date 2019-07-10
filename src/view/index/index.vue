@@ -46,17 +46,17 @@
         <div class="web-index-rightList">
           <ul>
             <!-- 试听 -->
-            <li ><img src="../../assets/img/audition.png" alt=""></li>
+            <router-link to="/audition" tag="li"><img src="../../assets/img/audition.png" alt=""></router-link>
             <!-- 商城 -->
-            <li ><img src="../../assets/img/store.png" alt=""></li>
+            <router-link to="/shopping" tag="li"><img src="../../assets/img/store.png" alt=""></router-link>
             <!-- 活动 -->
-            <li @click="goActively"><img src="../../assets/img/activelyLogo.png" alt=""></li>
+            <router-link to="/actively" tag="li"><img src="../../assets/img/activelyLogo.png" alt=""></router-link>
             <!-- 课程 -->
-            <li ><img src="../../assets/img/class.png" alt=""></li>
+            <router-link to="/audition" tag="li"><img src="../../assets/img/class.png" alt=""></router-link>
             <!-- 课表 -->
-            <li><img src="../../assets/img/course.png" alt=""></li>
+            <router-link to="/course" tag="li"><img src="../../assets/img/course.png" alt=""></router-link>
             <!-- 赛事 -->
-            <li ><img src="../../assets/img/Competition.png" alt=""></li>
+            <li><img src="../../assets/img/Competition.png" alt=""></li>
           </ul>
         </div>
       </div>
@@ -261,10 +261,6 @@ export default {
     getcounselor() {
       this.isDetail = !this.isDetail
     },
-    /**@name侧边栏页面跳转 */
-    goActively(){
-      this.$router.push({name:'actively'})
-    }
   },
   mounted() {
     // this.$loading('');
@@ -751,7 +747,7 @@ export default {
       }
       }
     }
-    
+
   }
   .vux-popup-dialog{
       border-radius: .1rem;
@@ -820,6 +816,6 @@ export default {
         right: .19rem;
       }
     }
-  
+
 }
 </style>
