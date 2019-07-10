@@ -127,6 +127,11 @@ export default new Router({
       path:'/orderForm',
       name: 'orderForm',
       component:() => import('@/view/orderForm/index')
+    },
+    {
+      path:'/puy',
+      name: 'puy',
+      component:() => import('@/components/puy')
     }
   ]
 })

@@ -10,8 +10,8 @@
                 </div>
               <div class="NewsBox" v-if="SelectNes === 0 ">
                 <div class="imageBoxTit">位置与综合评价</div>
-                <div class="MyCharts">
-                  <canvas id="cl"></canvas>
+                <div class="MyCharts" >
+                  <canvas id="c1" style="width: 100%;height: 100%;"></canvas>
                 </div>
               </div>
               <div class="historyBox" v-else></div>
@@ -33,42 +33,46 @@ export default {
         }
     },
     mounted() {
+      GM.Global.pixelRatio =2;
+      var data = [
+        {name: '张飞',props: '力量', value: 4.5},
+        {name: '张飞',props: '速度', value: 4.5},
+        {name: '张飞',props: '传球', value: 3.5},
+        {name: '张飞',props: '盘带', value: 3.5},
+        {name: '张飞',props: '射门', value: 4.5},
+        {name: '张飞',props: '防守', value: 5},
+        {name: '张飞',props: '意识', value: 5},
+        {name: '张飞',props: '精神', value: 2}
+      ];
+      var chart = new GM.Chart({
+        id: 'c1'
+      });
+      chart.coord('polar');
+      chart.source(data, {
+        value: {
+          min: 0,
+          tickInterval: 2
+        }
+      });
+      //配置刻度文字大小，供PC端显示用(移动端可以使用默认值20px)
+      chart.axis('props', {
+        label: {
+          fontSize: 12
+        },
+        line: null
+      });
+      chart.axis('value', {
+        label: {
+          fontSize:0.0001
+        }
+      });
+      chart.area().position('props*value').color('name').style({
+        opacity: 0.6
+      });
+      // x和y轴同时缩放的动画
+      chart.animate().scalexy();
+      chart.render();
 
-        GM.Global.pixelRatio = 1;
-        var data = [
-          {name: '张飞',props: '力量', value: 4.5},
-          {name: '张飞',props: '速度', value: 4.5},
-          {name: '张飞',props: '传球', value: 3.5},
-          {name: '张飞',props: '盘带', value: 3.5},
-          {name: '张飞',props: '射门', value: 4.5},
-          {name: '张飞',props: '防守', value: 5},
-          {name: '张飞',props: '意识', value: 5},
-          {name: '张飞',props: '精神', value: 2},
-        ];
-        var chart = new GM.Chart({
-          id: 'c1'
-        });
-        chart.coord('polar');
-        chart.source(data, {
-          value: {
-            min: 0,
-            tickInterval: 1
-          }
-        });
-        //配置刻度文字大小，供PC端显示用(移动端可以使用默认值20px)
-        chart.axis('props', {
-          label: {
-            fontSize: 14
-          },
-          line: null
-        });
-        chart.axis('value', {
-          label: {
-            fontSize: 14
-          }
-        });
-        chart.line().position('props*value').color('name');
-        chart.render();
       }
 
 }
@@ -130,7 +134,7 @@ export default {
                 line-height:.76rem;
                 text-indent: .7rem;
               }
-              .ayCharts{
+              .MyCharts{
                 width: 3.35rem;
                 height: 2.88rem;
                 #cl{

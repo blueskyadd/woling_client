@@ -13,7 +13,8 @@
             <h2>熊猫球场   <span>70元 / 小时 / 位</span></h2>
             <span>经营时间：8:30-17:30</span>
             <p style="padding-top: .09rem;padding-bottom: .1rem">场地介绍：该场地建于2015年，有着最新的设备、和一流的管理人员，举办过少儿的足 球比赛，也作为各大公司的活动举办地。</p>
-            <p>地址：上海市浦东新区海趣路</p>
+            <p>地址：上海市浦东新区海趣路     <span v-on:click="gogogo">去这里</span></p>
+
           </div>
         </div>
         <div class="YD">
@@ -119,6 +120,100 @@
       getStudentList(data){
         this.headerTitle = data.item.name + '学员'
         this.setIndex = data.index
+      },
+      gogogo(){
+
+
+        // var marker = new AMap.Marker({
+        //   position:[108.94702,34.259432]
+        // });
+        //     //I  Want go home
+        // marker.markOnAMAP({
+        //   position: marker.getPosition(),
+        //   name:'西安钟楼'//name属性在移动端有效
+        // })
+
+
+        var u = navigator.userAgent,
+            app = navigator.appVersion,
+            Helper = location.href,
+            lat = 108.94702,
+            lon = 34.259432
+            name = "西安钟楼";
+
+          var isAndroid = u.indexOf("Android") > -1 || u.indexOf("Linux") > -1; //g
+          var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+        if(isIOS) {
+          Array.prototype.push.apply(buttons, [
+            {
+              text: '苹果地图',
+              onClick: () => {
+                Helper.openScheme(
+                  `http://maps.apple.com/?sll=${lat},${lon}&address=${name}`
+                );
+              }
+            },
+            {
+              text: '高德地图',
+              onClick: () => {
+                Helper.openScheme(
+                  `iosamap://viewMap?sourceApplication=applicationName&poiname=${name}&lat=${lat}&lon=${lon}&dev=1`
+                );
+              }
+            },
+            {
+              text: '百度地图',
+              onClick: () => {
+                Helper.openScheme(
+                  `baidumap://map/marker?location=${lat},${lon}&title=${name}&src=webapp.marker.yourCompanyName.yourAppName`
+                );
+              }
+            },
+            {
+              text: '腾讯地图',
+              onClick: () => {
+                Helper.openScheme(
+                  `qqmap://map/marker?marker=coord:${lat},${lon};title:${name}&referer=myapp`
+                );
+              }
+            }
+          ]);
+        } else if (isAndroid) {
+          Array.prototype.push.apply(buttons, [
+            {
+              text: '高德地图',
+              onClick: () => {
+                Helper.openScheme(
+                  `androidamap://viewMap?sourceApplication=appname&poiname=${name}&lat=${lat}&lon=${lon}&dev=1`
+                );
+              }
+            },
+            {
+              text: '百度地图',
+              onClick: () => {
+                Helper.openScheme(
+                  `bdapp://map/marker?location=${lat},${lon}&title=${name}`
+                );
+              }
+            },
+            {
+              text: '腾讯地图',
+              onClick: () => {
+                Helper.openScheme(
+                  `qqmap://map/marker?marker=coord:${lat},${lon};title:${name}&referer=myapp`
+                );
+              }
+            }
+          ]);
+        }
+
+
+
+
+
+
+
+
       }
 
     },

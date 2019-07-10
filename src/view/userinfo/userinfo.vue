@@ -113,7 +113,7 @@ import headerTitle from "../../components/header";
 
 <style scoped lang="scss">
   .web-userinfo-bigbox{
-     background: url(/static/img/bj1.4b1d590.png) 0 0/100% 100%;
+    background: url(../../assets/img/bj1.png)  0 0 / 100% 100% ;
     width: 100%;
     height:100%;
     display: flex;
@@ -187,7 +187,7 @@ import headerTitle from "../../components/header";
           height:100%;
           .user-header-box{
             width: 7.24rem;
-            height: 2.1rem;
+            height:1.98rem;
             margin-top:.1rem;
             margin-left:.16rem;
             background:linear-gradient(0deg,rgba(57,110,162,1) 0%,rgba(18,41,72,0) 100%);
@@ -272,7 +272,7 @@ import headerTitle from "../../components/header";
           }
           .web-userinfo-jjBox{
             width: 6.96rem;
-            height: 4.5rem;
+            height: 3.89rem;
             margin-left:.3rem;
             background:linear-gradient(0deg,rgba(11,27,51,1) 0%,rgba(30,61,93,1) 100%);
             opacity:0.8;
@@ -348,7 +348,7 @@ import headerTitle from "../../components/header";
                 height: 1.66rem;
                 padding:.37rem .32rem 0 .34rem;
                 box-sizing: border-box;
-                margin-bottom: 1.3rem;
+                margin-bottom: .7rem;
                 .UserS{
                   width: 100%;
                   height: 100%;
@@ -392,6 +392,8 @@ import headerTitle from "../../components/header";
             height: 1rem;
             width: 100%;
             align-items: center;
+            padding-left: .29rem;
+            box-sizing: border-box;
             span{
               font-size:.18rem;
               font-family:SimHei;
@@ -399,18 +401,20 @@ import headerTitle from "../../components/header";
             }
             ul{
               display: flex;
+              margin-left: .1rem;
               li{
                 width:.36rem;
                 height:.36rem;
                 background: red;
                 border-radius:50%;
+                margin:0 .04rem;
               }
             }
           }
         }
              /*球星展示*/
         .football-prohoto-box{
-          width: 5.49rem;
+          width: 4.49rem;
           height:100%;
           .footballStar-prohoto{
             width: 100%;
