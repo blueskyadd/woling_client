@@ -31,7 +31,26 @@
           <div class="web-userinfo-jjBox">
             <div class="web-userinfo-wordsBox">
               <div class="UPbox">
-                <div class="UserS"></div>
+                <div class="UserS">
+                  <ul>
+                    <li>
+                      <p>1086</p>
+                      <p>看赛事时长</p>
+                    </li>
+                    <li>
+                      <p>2</p>
+                      <p>挑战</p>
+                    </li>
+                    <li>
+                      <p>2</p>
+                      <p>课程</p>
+                    </li>
+                    <li>
+                      <p>2</p>
+                      <p>上传视频</p>
+                    </li>
+                  </ul>
+                </div>
               </div>
               <div class="show-put">
                 <div class="user-sheng">
@@ -45,6 +64,14 @@
               </div>
             </div>
 
+          </div>
+          <div class="FK">
+              <span>最近访客></span>
+              <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+              </ul>
           </div>
         </div>
         <!--球星展示-->
@@ -245,7 +272,7 @@ import headerTitle from "../../components/header";
           }
           .web-userinfo-jjBox{
             width: 6.96rem;
-            height: 3.89rem;
+            height: 4.5rem;
             margin-left:.3rem;
             background:linear-gradient(0deg,rgba(11,27,51,1) 0%,rgba(30,61,93,1) 100%);
             opacity:0.8;
@@ -319,51 +346,71 @@ import headerTitle from "../../components/header";
               .UPbox{
                 width: 100%;
                 height: 1.66rem;
-
-              }
-            }
-          }
-          .fangke-ing{
-            width: 100%;
-            height:1rem;
-            padding-left:.3rem;
-            box-sizing: border-box;
-            .fangke{
-              width: 100%;
-              height: 100%;
-              padding-top: .22rem;
-              p{
-                font-size:.12rem;
-                font-family:SimHei;
-                color:rgba(184,207,238,1);
-                margin-right: 8px;
-                span{
-                  padding-left: 3px;
-                }
-              }
-              .header-box{
-                ul{
-                  display: flex;
-                  li{
-                    width: .42rem;
-                    height:.42rem;
-                    border-radius: 50%;
-                    margin-right: 4px;
-                    img{
-                      width: 100%;
-                      height:100%;
-                      display: block;
-                      border-radius: 50%;
+                padding:.37rem .32rem 0 .34rem;
+                box-sizing: border-box;
+                margin-bottom: 1.3rem;
+                .UserS{
+                  width: 100%;
+                  height: 100%;
+                  border-bottom: 1px solid #254260;
+                  padding-bottom: .56rem;
+                  box-sizing: border-box;
+                  ul{
+                    width: 100%;
+                    height:100%;
+                    display: flex;
+                    flex-wrap: nowrap;
+                    li{
+                      width: 24.9%;
+                      border-right: 1px solid #254260;
+                      &:last-child{
+                        border-right: 0;
+                      }
+                      p{
+                        color: #B8CFEE;
+                        white-space: nowrap;
+                        text-align: center;
+                        &:first-child{
+                          font-size:.36rem;
+                          line-height: .5rem;
+                          font-family:SimHei;
+                        }
+                        &:last-child{
+                          font-size:.16rem;
+                          line-height: .34rem;
+                          font-family:SimHei;
+                        }
+                      }
                     }
                   }
                 }
               }
             }
           }
+          .FK{
+            display: flex;
+            height: 1rem;
+            width: 100%;
+            align-items: center;
+            span{
+              font-size:.18rem;
+              font-family:SimHei;
+              color:rgba(184,207,238,1);
+            }
+            ul{
+              display: flex;
+              li{
+                width:.36rem;
+                height:.36rem;
+                background: red;
+                border-radius:50%;
+              }
+            }
+          }
         }
              /*球星展示*/
         .football-prohoto-box{
-          width: 4.49rem;
+          width: 5.49rem;
           height:100%;
           .footballStar-prohoto{
             width: 100%;

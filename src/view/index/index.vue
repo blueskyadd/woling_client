@@ -45,7 +45,7 @@
         <div class="singIn"  @click="setSingIn"><img src="../../assets/img/singIn.png" alt /></div>
         <div class="web-index-rightList">
           <ul>
-            <li><img src="../../assets/img/audition.png" alt=""></li>
+            <router-link to="/audition" tag="li"><img src="../../assets/img/audition.png" alt=""></router-link>
             <li><img src="../../assets/img/store.png" alt=""></li>
             <li><img src="../../assets/img/activelyLogo.png" alt=""></li>
             <li><img src="../../assets/img/class.png" alt=""></li>
@@ -741,7 +741,7 @@ export default {
       }
       }
     }
-    
+
   }
   .vux-popup-dialog{
       border-radius: .1rem;
@@ -810,6 +810,6 @@ export default {
         right: .19rem;
       }
     }
-  
+
 }
 </style>

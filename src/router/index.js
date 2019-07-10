@@ -102,11 +102,11 @@ export default new Router({
           component:() => import('@/view/exercise/coach'),
         },
         //
-        {
-          path:'/exercise/exerciseGrade',
-          name:'exerciseGrade',
-          component:() => import('@/view/exercise/grade'),
-        },
+        // {
+        //   path:'/exercise/exerciseGrade',
+        //   name:'exerciseGrade',
+        //   component:() => import('@/view/exercise/grade'),
+        // },
       ]
     },
     {
