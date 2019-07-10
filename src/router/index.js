@@ -90,6 +90,16 @@ export default new Router({
       component:() => import('@/view/shopping/index'),
     },
     {
+      path:'/orderForm',
+      name: 'orderForm',
+      component:() => import('@/view/orderForm/index')
+    },
+    {
+      path:'/puy',
+      name: 'puy',
+      component:() => import('@/components/puy')
+    },
+    {
       path:'/course',
       name:'course',
       component:() => import('@/view/course/timetable'),
