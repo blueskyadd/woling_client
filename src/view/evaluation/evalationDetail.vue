@@ -1,6 +1,6 @@
 <template>
     <div class="evaluation_evaluationDetail">
-        <headerTitle :title="headerTitle" :isUpload = 'false'/>
+        <headerTitle :title="headerTitle" :isUpload = 'false' :isLocation='false'/>
         <div class="main">
             <!-- <mu-paper :z-depth="1" class="demo-loadmore-wrap list">
                 <mu-container ref="container" class="demo-loadmore-content">

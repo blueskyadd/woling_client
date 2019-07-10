@@ -5,9 +5,14 @@
         <div class="main">
             <sideBar :leftList='leftList' @change="getcoachList" :setIndex='setIndex'/>
             <div class="selete_main" >
-                <mianList  :loading='loading' :tableList='tableList' :refreshing='refreshing' @goDetail = 'getCoachDetail'  @getClassList ='getSclassList' :isLoaded='isLoaded'/>
+                <mian-list  :loading='loading' :tableList='tableList' :refreshing='refreshing' @goDetail = 'getCoachDetail'  @getClassList ='getSclassList' :isLoaded='isLoaded'>
+                    <template slot="second" slot-scope="scope">
+                        <img :src="scope.dataItem.front_image" alt="">
+                        <span>{{scope.dataItem.name}}</span>
+                    </template>
+                </mian-list>
             </div>
-            <coach-detail ref="coachDetail" :detailData='detailData'></coach-detail>
+            <coachDetail ref="coachDetail" :detailData='detailData'/>
         </div>
     </div>
 </template>
@@ -18,6 +23,7 @@ import mianList from '../../components/mainList'
 import coachDetail from './coachDetail'
 export default {
     components:{headerTitle, sideBar, mianList, coachDetail},
+    name:'coach',
     data(){
         return{
             headerTitle: '教练',

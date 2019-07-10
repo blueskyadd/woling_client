@@ -17,6 +17,7 @@
 <script>
 import { Popup, Group, } from 'vux';
 export default {
+    name:'coachDetail',
     components: { Popup, Group },
     props:{
         detailData:{

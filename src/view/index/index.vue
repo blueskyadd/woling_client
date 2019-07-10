@@ -53,10 +53,6 @@
             <li><img src="../../assets/img/Competition.png" alt=""></li>
           </ul>
         </div>
-        <!-- <div class="web-index-Assessment" @click="noLink">
-          <div class="web-index-AsseImage"><img src="../../assets/img/zc.png" alt /></div>
-          <div class="web-index-words">综测</div>
-        </div> -->
       </div>
     </div>
     <!--    底部-->
@@ -77,7 +73,7 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/timeBar">
+            <router-link to="/medal">
               <div class="web-footer-image"><img src="../../assets/img/MEDAL.png" alt /></div>
               <div class="web-footer-words"><p>勋章</p><span>MEDAL</span></div>
             </router-link>
@@ -89,7 +85,7 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/evaluationIndex">
+            <router-link to="/exercise">
               <div class="web-footer-image"><img src="../../assets/img/PRACTICE.png" alt /></div>
               <div class="web-footer-words"><p>练习</p><span>PRACTICE</span></div>
             </router-link>
@@ -101,25 +97,48 @@
             </router-link>
           </li>
           <li>
-            <a @click="noLink">
+            <router-link to="/orderForm">
               <div class="web-footer-image"><img src="../../assets/img/ORDER.png" alt /></div>
               <div class="web-footer-words"><p>订单</p><span>ORDER</span></div>
-            </a>
+            </router-link>
           </li>
           <li>
-            <router-link to="/exercise">
+            <a @click="getcounselor">
               <div class="web-footer-image footer_actively"><img src="../../assets/img/footerActively.png" alt /></div>
-            </router-link>
+            </a>
           </li>
         </ul>
       </div>
     </div>
+    <popup v-model="isDetail" height="270px" is-transparent >
+      <div class="detail_box">
+          <img class="indexcounselorImg" src="../../assets/img/indexcounselorImg.png" alt="">
+          <img class="indexFooter" src="../../assets/img/indexFooter.png" alt="">
+          <img class="indexClose" src="../../assets/img/indexClose.png" alt="" @click="isDetail=false">
+          <div class="main_text">
+            <div>
+              <span>销售顾问:</span>
+              <p>李老师</p>
+            </div>
+            <div>
+              <span>联系电话:</span>
+              <p>186-4526-5684</p>
+            </div>
+            <div>
+              <span>工作地址:</span>
+              <p>黄浦区外马路1353号世博黄浦体育园一号楼三楼</p>
+            </div>
+          </div>
+      </div>
+    </popup>
   </div>
 </template>
 
 <script>
+import { Popup } from 'vux';
 export default {
   name: "index",
+  components: { Popup },
   data() {
     return {
       isSign: false,
@@ -128,7 +147,8 @@ export default {
       getelectricity: 100, //电量
       isElectricity: false, //充电状态
       networkStatus: "", //网络状态
-      ISnetworkStatus: false
+      ISnetworkStatus: false,
+      isDetail: false
     };
   },
   computed: {
@@ -232,8 +252,8 @@ export default {
           this.$toast.center("服务器错误");
         });
     },
-    noLink() {
-      this.$toast.center("此功能暂未开放");
+    getcounselor() {
+      this.isDetail = !this.isDetail
     }
   },
   mounted() {
@@ -714,15 +734,82 @@ export default {
         }
        .footer_actively{
         width: 1.3rem!important;
-        height: 1.2rem!important;
+        height: 1.4rem!important;
         margin-right: -.8rem!important;
         margin-bottom: -.1rem;
         margin-left: .2rem;
       }
       }
     }
-
+    
   }
-
+  .vux-popup-dialog{
+      border-radius: .1rem;
+      width: 50%;
+      background: #101F32!important;
+      left: 0;
+      right: 0;
+      margin: auto;
+      bottom: 2.04rem;
+      height: 3.79rem!important;
+      overflow-y: inherit;
+      .detail_box{
+        position: relative;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .main_text{
+          width: 4.4rem;
+          height: 2.33rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          font-family:SimHei;
+          font-weight:400;
+          color:rgba(233,252,253,1);
+          font-size: .26rem;
+          div{
+            display: flex;
+            span{
+              margin-right: .18rem;
+              // width: 1.2rem;
+            }
+          }
+        }
+        .main_text>div:last-child{
+            display: block;
+            span{
+              float: left;
+              height: .45rem;
+            }
+            p{
+              line-height: .44rem;
+            }
+        }
+        img{
+          position: absolute;
+        }
+      }
+      .detail_box>.indexcounselorImg{
+        width: 2.74rem;
+        height: 4.32rem;
+        top: -.53rem;
+        left: -1.44rem;
+      }
+      .detail_box>.indexFooter{
+        width: 1.43rem;
+        height: 1.67rem;
+        right: -.32rem;
+        bottom: -.3rem;
+      }
+      .detail_box>.indexClose{
+        width:.42rem;
+        height: .42rem;
+        top: .15rem;
+        right: .19rem;
+      }
+    }
+  
 }
 </style>

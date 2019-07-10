@@ -1,6 +1,6 @@
 <template>
     <div class="evaluation_timetable">
-        <headerTitle :title="headerTitle" :isUpload = 'false'/>
+        <headerTitle :title="headerTitle" :isUpload = 'false' :isLocation='false'/>
         <div class="main">
             <mianList @goDetail='goevaluationDetail' :loading='loading' :tableList='tableList' :refreshing='refreshing'  :isLoaded='isLoaded'/>
         </div>
@@ -11,6 +11,7 @@ import headerTitle from "../../components/header";
 import mianList from '../../components/mainList';
 import store from "../../store/index";
 export default {
+    name:'evaluationIndex',
     components:{headerTitle, mianList},
     data(){
         return{

@@ -1,6 +1,6 @@
 <template>
     <div class="web-assessAll-box">
-      <headerTitle :title="headerTitle" :isUpload = 'false'/>
+      <headerTitle :title="headerTitle" :isUpload = 'false' :isLocation='false'/>
         <div class="web-assessAll-menu">
           <div class="ShoopingCart">
             <div class="BigBox">

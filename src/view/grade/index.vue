@@ -1,7 +1,7 @@
 
 <template>
     <div class="grade_index">
-        <headerTitle :title="headerTitle" :isUpload = 'false'/>
+        <headerTitle :title="headerTitle" :isUpload = 'false' :isLocation='false'/>
         <div class="main">
             <aside>
               <div class="TabSel">

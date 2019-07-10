@@ -31,7 +31,7 @@ export default {
   },
   data() {
     return {
-      isPlay:false,
+      isPlay:true,
       url:{
           video: {
           url: '',
@@ -43,7 +43,7 @@ export default {
           remainingTimeDisplay: false,
           fullscreenToggle: true  //全屏按钮
         },
-        autoplay: true
+        autoplay: false
       },
       picUrl: '',
       videoDetail:[]
@@ -127,12 +127,12 @@ export default {
     }
   },
   mounted() {
-    if(this.$route.params.data){
-       this.$loading('');
-      this.getVideoListData(this.$route.params.data[0])
-    }else{
-      this.getuploadvideoList(1);
-    }
+    // if(this.$route.params.data){
+    //    this.$loading('');
+    //   this.getVideoListData(this.$route.params.data[0])
+    // }else{
+    //   this.getuploadvideoList(1);
+    // }
     
   }
 };

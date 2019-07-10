@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '../store/index'
-import Index from '../components/layout/index'
 
 Vue.use(Router)
 
@@ -77,14 +76,9 @@ export default new Router({
       component:() => import('@/view/coach/index')
     },
     {
-      path:'/timeBar',
-      name:'timeBar',
-      component:() => import('@/view/course/timetable')
-    },
-    {
-      path:'/courseDetail',
-      name:'courseDetail',
-      component:() => import('@/view/course/courseDetail')
+      path:'/medal',
+      name:'medal',
+      component:() => import('@/view/medal/index')
     },
     {
       path:'/gradeIndex',
@@ -125,6 +119,15 @@ export default new Router({
       name:'shopping',
       component:() => import('@/view/shopping/index'),
     },
+
+    //   component:() => import('@/view/exercise/index')
+    // },
+    //订单管理
+    {
+      path:'/orderForm',
+      name: 'orderForm',
+      component:() => import('@/view/orderForm/index')
+    }
   ]
 })
 Router.prototype.routerBack = function () {

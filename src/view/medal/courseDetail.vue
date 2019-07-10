@@ -1,6 +1,6 @@
 <template>
     <div class="course_courseDetail">
-        <headerTitle :title="headerTitle" :isUpload = 'false'/>
+        <headerTitle :title="headerTitle" :isUpload = 'false' :isLocation='false' />
         <div class="main">
             <ul>
                 <li v-for="(val,index) in ClassList" :key="index">
