@@ -13,7 +13,10 @@ export default {
     data(){
         return{
             headerTitle: this.$route.params.name,
-            activelyImgList: [],
+            activelyImgList: [{
+                image:'http://img4.duitang.com/uploads/item/201412/01/20141201183854_TRArc.thumb.700_0.png',
+                id:45
+            }],
         }
     },
     methods:{
@@ -28,8 +31,8 @@ export default {
         }
     },
     mounted(){
-        this.$loading('');
-        this.getActivelyDetail()
+        // this.$loading('');
+        // this.getActivelyDetail()
     }
 }
 </script>

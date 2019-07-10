@@ -12,7 +12,7 @@
                     </template>
                 </mian-list>
             </div>
-            <coachDetail ref="coachDetail" :detailData='detailData'/>
+            <coachDetail ref="coachDetail" :detailData='detailData' :detaiilTitle = 'detaiilTitle'/>
         </div>
     </div>
 </template>
@@ -37,7 +37,7 @@ export default {
             tableList: [
                 {
                     'id':1,
-                    'front_image':'http://img4.duitang.com/uploads/item/201412/01/20141201183854_TRArc.thumb.700_0.png',
+                    'front_image':'http://img3.imgtn.bdimg.com/it/u=2017451364,1155593535&fm=15&gp=0.jpg',
                     'name':'张三',
                     'coach':"而开发后尔瓦佛尔积分日光金额偶然间g"
                 }
@@ -47,7 +47,8 @@ export default {
             refreshing: false,//上拉刷新
             setIndex:0,
             isDetail:false,
-            detailData:{}
+            detailData:{},
+            detaiilTitle:'教练简介'
         }
     },
     methods: {

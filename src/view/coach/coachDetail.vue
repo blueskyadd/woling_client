@@ -4,9 +4,12 @@
         <div class="detail_box">
             <header>{{detailData.name}} <img @click="isDetail = false" src='../../assets/img/close.png'/> </header>
             <div class="detail_main">
-                <div><img :src="detailData.front_image" alt=""></div>
+                <div v-if="!detailData.good_details"><img :src="detailData.front_image" alt=""></div>
+                <div v-else>
+                    <swiper :list="detailData.good_details" height="4.93rem" :min-moving-distance="12" dots-position="center" :auto='true' :loop='true'></swiper>
+                </div>
                 <div>
-                    <span>教练简介</span>
+                    <span>{{detaiilTitle}}</span>
                     <div>{{detailData.coach}}</div>
                 </div>
             </div>
@@ -15,14 +18,18 @@
     </div>
 </template>
 <script>
-import { Popup, Group, } from 'vux';
+import { Popup, Swiper} from 'vux';
 export default {
     name:'coachDetail',
-    components: { Popup, Group },
+    components: { Popup, Swiper },
     props:{
         detailData:{
             type:Object,
             required:true
+        },
+        detaiilTitle:{
+            type:String,
+            required: true
         }
     },
     data(){
@@ -34,7 +41,8 @@ export default {
     }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
+
 .coach_detail{
     .vux-popup-dialog{
         top: .78rem;
@@ -66,6 +74,7 @@ export default {
                 display: flex;
                 padding: .18rem .2rem;
                 height: calc(100% - .64rem);
+                
                 div:first-child{
                     width: 2.72rem;
                     margin-right: .39rem;
@@ -75,6 +84,22 @@ export default {
                         width: 100%;
                         height: 100%;
                     }
+                    .vux-img{
+                        background-size: cover;
+                    }
+                    .vux-icon-dot{
+                        width: .34rem;
+                        height: .08rem;
+                    }
+                    .active{
+                        background-color: #FFD100 !important;
+                    }
+                    .vux-indicator{
+                        width: 100%;
+                        display: flex;
+                        justify-content: center;
+                    }
+                    
                 }
                 div:last-child{
                     span{

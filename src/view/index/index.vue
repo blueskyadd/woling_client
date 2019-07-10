@@ -34,10 +34,10 @@
          </div>
         <div>
           <ul>
-            <li><img src="http://img4.duitang.com/uploads/item/201412/01/20141201183854_TRArc.thumb.700_0.png" alt=""><div></div></li>
-            <li><img src="http://img4.duitang.com/uploads/item/201412/01/20141201183854_TRArc.thumb.700_0.png" alt=""><div></div></li>
-            <li><img src="http://img4.duitang.com/uploads/item/201412/01/20141201183854_TRArc.thumb.700_0.png" alt=""><div></div></li>
-            <li><img src="http://img4.duitang.com/uploads/item/201412/01/20141201183854_TRArc.thumb.700_0.png" alt=""><div></div></li>
+            <li><img src="http://img3.imgtn.bdimg.com/it/u=2017451364,1155593535&fm=15&gp=0.jpg" alt=""><div></div></li>
+            <li><img src="http://img3.imgtn.bdimg.com/it/u=2017451364,1155593535&fm=15&gp=0.jpg" alt=""><div></div></li>
+            <li><img src="http://img3.imgtn.bdimg.com/it/u=2017451364,1155593535&fm=15&gp=0.jpg" alt=""><div></div></li>
+            <li><img src="http://img3.imgtn.bdimg.com/it/u=2017451364,1155593535&fm=15&gp=0.jpg" alt=""><div></div></li>
           </ul>
         </div>
       </div>
@@ -45,11 +45,17 @@
         <div class="singIn"  @click="setSingIn"><img src="../../assets/img/singIn.png" alt /></div>
         <div class="web-index-rightList">
           <ul>
+            <!-- 试听 -->
             <router-link to="/audition" tag="li"><img src="../../assets/img/audition.png" alt=""></router-link>
-            <li><img src="../../assets/img/store.png" alt=""></li>
-            <li><img src="../../assets/img/activelyLogo.png" alt=""></li>
-            <li><img src="../../assets/img/class.png" alt=""></li>
-            <li><img src="../../assets/img/course.png" alt=""></li>
+            <!-- 商城 -->
+            <router-link to="/shopping" tag="li"><img src="../../assets/img/store.png" alt=""></router-link>
+            <!-- 活动 -->
+            <router-link to="/actively" tag="li"><img src="../../assets/img/activelyLogo.png" alt=""></router-link>
+            <!-- 课程 -->
+            <router-link to="/audition" tag="li"><img src="../../assets/img/class.png" alt=""></router-link>
+            <!-- 课表 -->
+            <router-link to="/course" tag="li"><img src="../../assets/img/course.png" alt=""></router-link>
+            <!-- 赛事 -->
             <li><img src="../../assets/img/Competition.png" alt=""></li>
           </ul>
         </div>
@@ -60,7 +66,7 @@
       <div class="web-index-footer">
         <ul>
           <li>
-            <router-link to="/actively">
+            <router-link to="/ballPack">
               <div class="web-footer-image"> <img src="../../assets/img/FIELD.png" alt /></div>
               <div class="web-footer-words"><p>球场</p> <span>FIELD</span></div>
             </router-link>
@@ -91,7 +97,7 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/assessAll">
+            <router-link to="/cart">
               <div class="web-footer-image"><img src="../../assets/img/CART.png" alt /></div>
               <div class="web-footer-words"><p>购物车</p><span>CART</span></div>
             </router-link>
@@ -254,7 +260,7 @@ export default {
     },
     getcounselor() {
       this.isDetail = !this.isDetail
-    }
+    },
   },
   mounted() {
     // this.$loading('');

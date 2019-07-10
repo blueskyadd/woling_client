@@ -1,5 +1,4 @@
 <template>
-    <div class="order_detail">
       <popup v-model="isDetail" height="270px" is-transparent >
         <div class="detail_box">
             <header class="close"><img @click="isDetail = false" src='../assets/img/orderDetailClose.png'/> </header>
@@ -12,7 +11,6 @@
             </div>
         </div>
       </popup>
-    </div>
 </template>
 <script>
 import { Popup } from 'vux';
@@ -35,7 +33,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.order_detail{
     .vux-popup-dialog{
         top: 1.47rem;
         height: 100%!important;
@@ -101,7 +98,11 @@ export default {
                 margin: 0 0 0 1.5rem;
                 }
             }
+            .vux-badge{
+                position: absolute;
+                right: .1rem;
+                top: .8rem;
+            }
         }
     }
-}
 </style>

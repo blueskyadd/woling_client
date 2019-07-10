@@ -561,8 +561,6 @@ export default {
         },
     },
     mounted() {
-        console.log(this.$route.params.data.id)
-        console.log('this.$route.params.selfClassId', this.$route.params.selfClassId);
         
     },
 }

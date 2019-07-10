@@ -16,23 +16,26 @@
               </div>
               <div class="historyBox" v-else></div>
             </aside>
-        </div>
     </div>
+  </div>
 </template>
 <script>
 import headerTitle from "../../components/header";
-import GM from 'g2-mobile'
+import GM from "g2-mobile";
 export default {
-    name:'gradeIndex',
-    components:{headerTitle},
-    data(){
-        return{
-          headerTitle: '成就',
-          SelectNes:0,
-          Charts:[]
-        }
-    },
-    mounted() {
+  name: "gradeIndex",
+  components: { headerTitle },
+  data() {
+    return {
+      headerTitle: "成就",
+      SelectNes: 0,
+      Charts: []
+    };
+  },
+  methods: {
+    
+  },
+  mounted() {
       GM.Global.pixelRatio =2;
       var data = [
         {name: '张飞',props: '力量', value: 4.5},
@@ -72,16 +75,30 @@ export default {
       // x和y轴同时缩放的动画
       chart.animate().scalexy();
       chart.render();
-
+    
       }
 
 }
 </script>
 
 <style lang="scss" >
-  @import "../../assets/style/AllStyle";
-      .grade_index{
-        background: url(../../assets/img/bj1.png)  0 0 / 100% 100% ;
+.grade_index {
+  background: url(../../assets/img/bj1.png) 0 0 / 100% 100%;
+  width: 100%;
+  height: 100%;
+  .main {
+    width: 100%;
+    height: calc(100% - 0.64rem);
+    overflow: hidden;
+    aside {
+      width: 3.54rem;
+      height: 100%;
+      background: linear-gradient(
+        0deg,
+        rgba(16, 32, 57, 1) 0%,
+        rgba(27, 46, 78, 1) 100%
+      );
+      .TabSel {
         width: 100%;
         height:100%;
         .main{
@@ -145,5 +162,38 @@ export default {
             }
           }
         }
+      }
+      .NewsBox,
+      .historyBox {
+        width: 100%;
+        height: calc(100% - 0.53rem);
+        &.active {
+          display: none;
+        }
+      }
+      .NewsBox {
+        .imageBoxTit {
+          width: 2.85rem;
+          height: 0.76rem;
+          margin: 0.26rem auto 0.2rem;
+          background: url("../../assets/img/tuceng.png") no-repeat;
+          background-size: 100%;
+          font-size: 0.25rem;
+          font-family: SimHei;
+          color: rgba(0, 228, 255, 1);
+          line-height: 0.76rem;
+          text-indent: 0.7rem;
+        }
+        .ayCharts {
+          width: 3.35rem;
+          height: 2.88rem;
+          #cl {
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
     }
+  }
+}
 </style>

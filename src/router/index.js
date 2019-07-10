@@ -29,36 +29,14 @@ export default new Router({
       component:() => import('@/view/userinfo/userinfo')
     },
     {
-      path:'/assessAll',
-      name:'assessAll',
-      component:() => import('@/view/assess/assessAll'),
+      path:'/cart',
+      name:'cart',
+      component:() => import('@/view/cart/index'),
     },
     {
-      path:'/assess',
+      path:'/cart',
       name:'assess',
-      component:() => import('@/view/assess/assess')
-    },
-    {
-      path:'/evaluation',
-      name:'evaluation',
-      component:() => import('@/view/evaluation/evaluation'),
-      children:[
-        {
-          path:'/selectEvaluation',
-          name:'selectEvaluation',
-          component:() => import('@/view/evaluation/selectEvaluation')
-        }
-      ]
-    },
-    {
-      path:'/evaluationIndex',
-      name:'evaluationIndex',
-      component:() => import('@/view/evaluation/index')
-    },
-    {
-      path:'/evaluationDetail',
-      name:'evaluationDetail',
-      component:() => import('@/view/evaluation/evalationDetail')
+      component:() => import('@/view/cart/assess')
     },
     {
       path:'/actively',
@@ -93,36 +71,24 @@ export default new Router({
     {
       path:'/exercise',
       name:'exercise',
-      redirect:'/exercise/exerciseCoach',
-      component:() => import('@/view/exercise/index'),
-      children:[
-        {
-          path:'/exercise/exerciseCoach',
-          name:'exerciseCoach',
-          component:() => import('@/view/exercise/coach'),
-        },
-        //
-        // {
-        //   path:'/exercise/exerciseGrade',
-        //   name:'exerciseGrade',
-        //   component:() => import('@/view/exercise/grade'),
-        // },
-      ]
+      component:() => import('@/view/exercise/index')
+    },
+    //订单管理
+    {
+      path:'/orderForm',
+      name: 'orderForm',
+      component:() => import('@/view/orderForm/index')
     },
     {
-      path:'/audition',
-      name:'audition',
-      component:() => import('@/view/audition/index'),
+      path:'/ballPack',
+      name:'ballPack',
+      component:() => import('@/view/ballPack/index')
     },
     {
       path:'/shopping',
       name:'shopping',
       component:() => import('@/view/shopping/index'),
     },
-
-    //   component:() => import('@/view/exercise/index')
-    // },
-    //订单管理
     {
       path:'/orderForm',
       name: 'orderForm',
@@ -132,7 +98,17 @@ export default new Router({
       path:'/puy',
       name: 'puy',
       component:() => import('@/components/puy')
-    }
+    },
+    {
+      path:'/course',
+      name:'course',
+      component:() => import('@/view/course/timetable'),
+    },
+    {
+      path:'/audition',
+      name:'audition',
+      component:() => import('@/view/audition/index'),
+    },
   ]
 })
 Router.prototype.routerBack = function () {
