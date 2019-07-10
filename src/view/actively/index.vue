@@ -89,8 +89,8 @@ export default {
     }
   },
   mounted() {
-    this.$loading("");
-    this.getActivityList();
+    // this.$loading("");
+    // this.getActivityList();
   }
 };
 </script>

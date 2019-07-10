@@ -34,10 +34,10 @@
          </div>
         <div>
           <ul>
-            <li><img src="http://img4.duitang.com/uploads/item/201412/01/20141201183854_TRArc.thumb.700_0.png" alt=""><div></div></li>
-            <li><img src="http://img4.duitang.com/uploads/item/201412/01/20141201183854_TRArc.thumb.700_0.png" alt=""><div></div></li>
-            <li><img src="http://img4.duitang.com/uploads/item/201412/01/20141201183854_TRArc.thumb.700_0.png" alt=""><div></div></li>
-            <li><img src="http://img4.duitang.com/uploads/item/201412/01/20141201183854_TRArc.thumb.700_0.png" alt=""><div></div></li>
+            <li><img src="http://img3.imgtn.bdimg.com/it/u=2017451364,1155593535&fm=15&gp=0.jpg" alt=""><div></div></li>
+            <li><img src="http://img3.imgtn.bdimg.com/it/u=2017451364,1155593535&fm=15&gp=0.jpg" alt=""><div></div></li>
+            <li><img src="http://img3.imgtn.bdimg.com/it/u=2017451364,1155593535&fm=15&gp=0.jpg" alt=""><div></div></li>
+            <li><img src="http://img3.imgtn.bdimg.com/it/u=2017451364,1155593535&fm=15&gp=0.jpg" alt=""><div></div></li>
           </ul>
         </div>
       </div>

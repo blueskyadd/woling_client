@@ -46,7 +46,7 @@
               <x-button>8:00-10:00</x-button>
 
             </li>
-          </ul>
+          </ul> 
         </div>
         <div class="PerNum">
           <div>
@@ -78,20 +78,52 @@
         </div>
         <div class="Puy">
           <div class="Money">金额:<span>￥240.00</span></div>
-          <div class="But">预定</div>
+          <div class="But" @click="getOrderDetail">预定</div>
         </div>
       </div>
     </div>
+    <pop-up ref="popUpDetail" class="orderDetail" :detailData='detailDataObj'>
+            <template slot="second" >
+              <ul>
+                <li>
+                    <span>预定时间:</span>
+                    <p>3242342342433</p>
+                </li>
+                 <li>
+                    <span>姓名:</span>
+                    <p>张磊</p>
+                </li>
+                <li>
+                    <span>联系方式:</span>
+                    <p>32423423423423</p>
+                </li>
+                <li>
+                    <span>预定小时:</span>
+                    <p>32423423423423</p>
+                </li>
+                <li>
+                    <span>预订人数:</span>
+                    <p>423423423423423423423</p>
+                </li>
+                <li>
+                    <span>包场用途:</span>
+                    <p>423423423423423423423</p>
+                </li>
+            </ul>
+            
+        </template>
+    </pop-up>
   </div>
 </template>
 <script>
   import headerTitle from "../../components/header";
-  import sideBar from "../../components/sidebar"
-  import mianList from '../../components/mainList'
+  import sideBar from "../../components/sidebar";
+  import mianList from '../../components/mainList';
+  import popUp from "../../components/popUp";
   import { XSwitch,Group,XButton,XNumber,XInput} from 'vux'
   export default {
     name:'ballPack',
-    components:{headerTitle, sideBar, mianList,XSwitch,Group,XButton,XNumber,XInput},
+    components:{headerTitle, sideBar, mianList,XSwitch,Group,XButton,XNumber,XInput, popUp},
     data(){
       return{
         headerTitle: '球场',
@@ -111,7 +143,11 @@
         valNum:0,
         userName:"习近平",
         Iphone:13520154310,
-        introduce:''
+        introduce:'',
+        detailDataObj:{
+            'title':'订单详情',
+            'buttonText':'去支付'
+        }
       }
     },
     methods: {
@@ -119,14 +155,19 @@
       getStudentList(data){
         this.headerTitle = data.item.name + '学员'
         this.setIndex = data.index
-      }
+      },
+      getOrderDetail(data){
+          // this.detailDataObj = data
+          this.$refs.popUpDetail.isDetail = !this.$refs.popUpDetail.isDetail
+
+      },
 
     },
     mounted(){
     }
   }
 </script>
-<style lang="scss">
+<style lang="scss" >
   @import '../../assets/style/AllStyle';
   .student_Detail{
     background: url(../../assets/img/bj1.png)  0 0 / 100% 100% ;
@@ -433,6 +474,52 @@
       .selete_main::-webkit-scrollbar {
         display: none;
       }
+    }
+    .vux-popup-dialog{
+        top: 1.01rem!important;
+      }
+    .orderDetail{
+      
+      .detail_box{
+        width: 60%!important;
+        height: 5.89rem!important;
+        .detail_main{
+          height: auto !important;
+        }
+        .detail_main>div{
+          height: auto!important;
+          margin-top: .88rem!important;
+          ul{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            height: 100%;
+            width: 100%;
+            margin-bottom: .4rem;
+            li{
+                height: .28rem;
+                font-family: SimHei;
+                display: flex;
+                margin-bottom: .27rem;
+
+                img{
+                    height: .28rem;
+                    margin-right: .1rem;
+                }
+                span{
+                    color: #acc2e2;
+                    font-size: 0.2rem;
+                    margin-right: .15rem;
+                }
+                p{
+                    color: #7599cf;
+                }
+            }
+        }
+        }
+      }
+      
+        
     }
   }
 </style>

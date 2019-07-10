@@ -81,7 +81,6 @@ export default {
 </script>
 
 <style lang="scss" >
-@import "../../assets/style/AllStyle";
 .grade_index {
   background: url(../../assets/img/bj1.png) 0 0 / 100% 100%;
   width: 100%;

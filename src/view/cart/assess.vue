@@ -244,8 +244,8 @@ import headerTitle from "../../components/header";
         },
         
         mounted() {
-          console.log(this.$route.params.data)
-          this.$route.params.data.status ? this.getCoachassess(): ''
+          // console.log(this.$route.params.data)
+          // this.$route.params.data.status ? this.getCoachassess(): ''
         },
         watch:{
           plan(newData, oldData){

@@ -39,28 +39,6 @@ export default new Router({
       component:() => import('@/view/cart/assess')
     },
     {
-      path:'/evaluation',
-      name:'evaluation',
-      component:() => import('@/view/evaluation/evaluation'),
-      children:[
-        {
-          path:'/selectEvaluation',
-          name:'selectEvaluation',
-          component:() => import('@/view/evaluation/selectEvaluation')
-        }
-      ]
-    },
-    {
-      path:'/evaluationIndex',
-      name:'evaluationIndex',
-      component:() => import('@/view/evaluation/index')
-    },
-    {
-      path:'/evaluationDetail',
-      name:'evaluationDetail',
-      component:() => import('@/view/evaluation/evalationDetail')
-    },
-    {
       path:'/actively',
       name:'actively',
       component:() => import('@/view/actively/index')
@@ -115,6 +93,11 @@ export default new Router({
       path:'/course',
       name:'course',
       component:() => import('@/view/course/timetable'),
+    },
+    {
+      path:'/audition',
+      name:'audition',
+      component:() => import('@/view/audition/index'),
     },
   ]
 })

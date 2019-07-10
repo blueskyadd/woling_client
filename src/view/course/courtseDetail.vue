@@ -78,8 +78,8 @@ export default {
         },
     },
     mounted(){
-        this.$loading('');
-        this.getClassTimeList()
+        // this.$loading('');
+        // this.getClassTimeList()
     }
 }
 </script>
@@ -96,26 +96,6 @@ export default {
         border-radius: .05rem;
         padding: .13rem .05rem .13rem .19rem;
         overflow-y: scroll;
-        @media (min-width: 1200px){
-            .container {
-                max-width: initial;
-            }
-        }
-        @media (min-width:  992px){
-            .container {
-                max-width: initial;
-            }
-        }
-        @media (min-width:  768px){
-            .container {
-                max-width: initial;
-            }
-        }
-        @media (min-width: 576px){
-            .container {
-                max-width: initial;
-            }
-        }
          .container {
             margin: 0;
             padding: 0;

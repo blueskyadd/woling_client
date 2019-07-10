@@ -5,78 +5,20 @@
           <div class="ShoopingCart">
             <div class="BigBox">
               <ul>
-                <li>
-                  <div class="CheckBox"></div>
+                <li v-for="(item,index) in shoppoingList" :key="item.id">
+                    <label :for=index :class="{ checkBox:true, checkBox_posi: wantCheck }">
+                      <input :id=index type="checkbox" :value="item" v-model="checkList">
+                    </label>
                   <div class="ShoppImg">
                     <img src="../../assets/img/sg.jpg" alt="">
                   </div>
                   <div class="ShoppNamme">
-                    <p>水果拼盘</p>
-                    <p>20元</p>
+                    <p>{{item.name}}</p>
+                    <p>{{item.price}}元</p>
                   </div>
                   <div class="ChangeNum">
                     <group>
-                      <x-number title="" v-model="valNum"></x-number>
-                    </group>
-                  </div>
-                </li>
-                <li>
-                  <div class="CheckBox"></div>
-                  <div class="ShoppImg">
-                    <img src="../../assets/img/sg.jpg" alt="">
-                  </div>
-                  <div class="ShoppNamme">
-                    <p>水果拼盘</p>
-                    <p>20元</p>
-                  </div>
-                  <div class="ChangeNum">
-                    <group>
-                      <x-number title="" v-model="valNum"></x-number>
-                    </group>
-                  </div>
-                </li>
-                <li>
-                  <div class="CheckBox"></div>
-                  <div class="ShoppImg">
-                    <img src="../../assets/img/sg.jpg" alt="">
-                  </div>
-                  <div class="ShoppNamme">
-                    <p>水果拼盘</p>
-                    <p>20元</p>
-                  </div>
-                  <div class="ChangeNum">
-                    <group>
-                      <x-number title="" v-model="valNum"></x-number>
-                    </group>
-                  </div>
-                </li>
-                <li>
-                  <div class="CheckBox"></div>
-                  <div class="ShoppImg">
-                    <img src="../../assets/img/sg.jpg" alt="">
-                  </div>
-                  <div class="ShoppNamme">
-                    <p>水果拼盘</p>
-                    <p>20元</p>
-                  </div>
-                  <div class="ChangeNum">
-                    <group>
-                      <x-number title="" v-model="valNum"></x-number>
-                    </group>
-                  </div>
-                </li>
-                <li>
-                  <div class="CheckBox"></div>
-                  <div class="ShoppImg">
-                    <img src="../../assets/img/sg.jpg" alt="">
-                  </div>
-                  <div class="ShoppNamme">
-                    <p>水果拼盘</p>
-                    <p>20元</p>
-                  </div>
-                  <div class="ChangeNum">
-                    <group>
-                      <x-number title="" v-model="valNum"></x-number>
+                      <x-number title="" v-model="item.num"></x-number>
                     </group>
                   </div>
                 </li>
@@ -85,13 +27,13 @@
           </div>
           <div class="PuyShopp">
             <div class="CheckBox">
-              <div class="CheckAll"></div>
+              <input type="checkbox" v-model="checkAll" value="1">
               <span>全选</span>
 
-              <p>删除</p>
+              <p @click="deleteCheckList">删除</p>
             </div>
             <div class="PuyBox">
-              <p>合计: <span>￥0.00</span></p>
+              <p>合计: <span>￥{{TotalPrice}}</span></p>
               <div class="PuyBut">支付</div>
             </div>
           </div>
@@ -109,18 +51,101 @@
       components: {mianList, sideBar, headerTitle,XNumber,Group},
       data(){
           return{
-            classList:{},
+            wantCheck: false,
             headerTitle:'购物车',
-            valNum:0
+            valNum:0,
+            shoppoingList:[{
+              id:1,
+              name:'水果拼盘',
+              price:20,
+              num:1
+            },
+            {
+              id:12,
+              name:'水果拼盘',
+              price:30,
+              num:2
+            }],
+            checkList:[],//已选商品
+            checkAll: false,//全选
+            TotalPrice:0,//总价
           }
       },
       methods:{
         qwer(){
           console.log(this.inlineDescListValue)
-        }
+        },
+
       },
       mounted() {
+        
       },
+      methods:{
+        deleteCheckList(){
+          if(this.shoppoingList && this.shoppoingList.length>0){
+            this.shoppoingList = [];
+            this.TotalPrice = 0;
+            this.checkAll = false;
+            this.checkList = [];
+          }else{
+            this.$toast.center('购物车是空的呢');
+          }
+          
+        }
+      },
+      watch: {
+      checkList(val) {
+        console.log(val)
+        if(val.length > 0){
+          var TotalPrice = 0
+          val.forEach(item =>{
+            TotalPrice +=item.num*item.price
+          })
+          this.TotalPrice = TotalPrice
+          console.log(TotalPrice)
+        }
+        if (val.length === this.shoppoingList.length && val.length !== 0) {
+          this.checkAll = true;
+        } else {
+          this.checkAll = false;
+        }
+      },
+      checkAll(newData, oldData){
+        if (newData) {
+          let arr = [];
+          this.shoppoingList.forEach(item => {
+            arr.push(item);
+          });
+          this.checkList = arr;
+        } else {
+          if (
+            this.checkList.length === this.shoppoingList.length &&
+            newData.length !== 0
+          ) {
+            this.checkList = [];
+            this.TotalPrice = 0
+          }
+        }
+      },
+      shoppoingList:{
+        handler(newName, oldName) {
+          console.log(newName);
+          var TotalPrice = 0
+          newName.forEach((item,index) =>{
+            if(item.num == 0){
+              newName.splice(index,1)
+            }
+            this.checkList.forEach( value =>{
+              if(item.id == value.id){
+                TotalPrice +=value.num*value.price
+              }
+            })
+          })
+          this.TotalPrice = TotalPrice
+        },
+        deep: true
+      }
+    },
 
     }
 </script>
@@ -130,8 +155,6 @@
   .web-assessAll-box{
     width: 100%;
     height:100%;
-
-
       .web-assessAll-menu{
         width: 100%;
         background: url(../../assets/img/bj1.png)  0 0 / 100% 100% ;
@@ -160,10 +183,29 @@
                 align-items: center;
                 border-bottom: 1px solid #254260;
                 position: relative;
-                .CheckBox{
+                
+                .attention_all .checkBox {
                   width: .34rem;
                   height: .34rem;
                   border:1px solid rgba(76,197,242,1);
+                  background: #ffffff;
+                  margin: 0.266667rem 0;
+                  position: absolute;
+                  left: -1rem;
+                  display: flex;
+                  flex-direction: row;
+                  flex-wrap: wrap;
+                  align-items: center;
+                  /* justify-content: center; */
+                  padding-left: 0.46rem;
+                }
+                .attention_all .checkBox_posi {
+                  left: 0;
+                }
+                .CheckBox{
+                  width: .34rem;
+                  height: .34rem;
+                  
                   border-radius:50%;
                   margin-right: .48rem;
 
@@ -292,7 +334,21 @@
             }
           }
         }
-
+        //多选框样式
+        input[type="checkbox"] {
+          -webkit-appearance: none; /*清除复选框默认样式*/
+          /* border: 1px solid #cccccc; */
+          background: url("../../assets/img/uncheck.png");
+          background-size: .32rem .32rem;
+          border-radius: 50%;
+          width: .34rem;
+          height: .34rem;
+          margin-right: .48rem;
+        }
+        input[type="checkbox"]:checked {
+          background: url("../../assets/img/check.png");
+          background-size: .34rem .34rem;
+        }
         .web-assessAll-cont::-webkit-scrollbar {
             display: none;
         }

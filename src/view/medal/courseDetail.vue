@@ -37,9 +37,9 @@ export default {
       }
   },
   mounted(){
-       this.$loading('');
-      console.log(this.$route.params)
-   this.GetList(this.$route.params.id,1)
+  //      this.$loading('');
+  //     console.log(this.$route.params)
+  //  this.GetList(this.$route.params.id,1)
   },
   methods:{
     GetList(id,num){
