@@ -45,12 +45,18 @@
         <div class="singIn"  @click="setSingIn"><img src="../../assets/img/singIn.png" alt /></div>
         <div class="web-index-rightList">
           <ul>
-            <li><img src="../../assets/img/audition.png" alt=""></li>
-            <li><img src="../../assets/img/store.png" alt=""></li>
-            <li><img src="../../assets/img/activelyLogo.png" alt=""></li>
-            <li><img src="../../assets/img/class.png" alt=""></li>
+            <!-- 试听 -->
+            <li ><img src="../../assets/img/audition.png" alt=""></li>
+            <!-- 商城 -->
+            <li ><img src="../../assets/img/store.png" alt=""></li>
+            <!-- 活动 -->
+            <li @click="goActively"><img src="../../assets/img/activelyLogo.png" alt=""></li>
+            <!-- 课程 -->
+            <li ><img src="../../assets/img/class.png" alt=""></li>
+            <!-- 课表 -->
             <li><img src="../../assets/img/course.png" alt=""></li>
-            <li><img src="../../assets/img/Competition.png" alt=""></li>
+            <!-- 赛事 -->
+            <li ><img src="../../assets/img/Competition.png" alt=""></li>
           </ul>
         </div>
       </div>
@@ -60,7 +66,7 @@
       <div class="web-index-footer">
         <ul>
           <li>
-            <router-link to="/actively">
+            <router-link to="/ballPack">
               <div class="web-footer-image"> <img src="../../assets/img/FIELD.png" alt /></div>
               <div class="web-footer-words"><p>球场</p> <span>FIELD</span></div>
             </router-link>
@@ -254,6 +260,10 @@ export default {
     },
     getcounselor() {
       this.isDetail = !this.isDetail
+    },
+    /**@name侧边栏页面跳转 */
+    goActively(){
+      this.$router.push({name:'actively'})
     }
   },
   mounted() {

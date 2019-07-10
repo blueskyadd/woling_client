@@ -39,16 +39,19 @@ export default new Router({
       component:() => import('@/view/assess/assess')
     },
     {
+      path:'/actively',
+      name:'actively',
+      component:() => import('@/view/actively/index')
+    },
+    {
+      path:'/activelyDetail',
+      name:'activelyDetail',
+      component:() => import('@/view/actively/activelyDetail')
+    },
+    {
       path:'/evaluation',
       name:'evaluation',
-      component:() => import('@/view/evaluation/evaluation'),
-      children:[
-        {
-          path:'/selectEvaluation',
-          name:'selectEvaluation',
-          component:() => import('@/view/evaluation/selectEvaluation')
-        }
-      ]
+      component:() => import('@/view/evaluation/evaluation')
     },
     {
       path:'/evaluationIndex',
@@ -61,14 +64,9 @@ export default new Router({
       component:() => import('@/view/evaluation/evalationDetail')
     },
     {
-      path:'/actively',
-      name:'actively',
-      component:() => import('@/view/actively/index')
-    },
-    {
-      path:'/activelyDetail',
-      name:'activelyDetail',
-      component:() => import('@/view/actively/activelyDetail')
+      path:'/ballPack',
+      name:'ballPack',
+      component:() => import('@/view/ballPack/index')
     },
     {
       path:'/coach',
