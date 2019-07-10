@@ -91,8 +91,35 @@ export default new Router({
     {
       path:'/exercise',
       name:'exercise',
-      component:() => import('@/view/exercise/index')
+      redirect:'/exercise/exerciseCoach',
+      component:() => import('@/view/exercise/index'),
+      children:[
+        {
+          path:'/exercise/exerciseCoach',
+          name:'exerciseCoach',
+          component:() => import('@/view/exercise/coach'),
+        },
+        //
+        {
+          path:'/exercise/exerciseGrade',
+          name:'exerciseGrade',
+          component:() => import('@/view/exercise/grade'),
+        },
+      ]
     },
+    {
+      path:'/audition',
+      name:'audition',
+      component:() => import('@/view/audition/index'),
+    },
+    {
+      path:'/shopping',
+      name:'shopping',
+      component:() => import('@/view/shopping/index'),
+    },
+
+    //   component:() => import('@/view/exercise/index')
+    // },
     //订单管理
     {
       path:'/orderForm',
