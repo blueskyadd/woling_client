@@ -42,7 +42,7 @@
         </div>
       </div>
       <div class="web-index-content content_right">
-        <div class="singIn"  @click="setSingIn"><img src="../../assets/img/singIn.png" alt /></div>
+        <div class="singIn" v-if="isSign" @click="setSingIn"><img src="../../assets/img/singIn.png" alt /></div>
         <div class="web-index-rightList">
           <ul>
             <!-- 试听 -->
@@ -147,7 +147,7 @@ export default {
   components: { Popup },
   data() {
     return {
-      isSign: false,
+      isSign: true,
       username: "",
       picture: "",
       getelectricity: 100, //电量
@@ -218,7 +218,7 @@ export default {
       this.$http
         .get(this.$conf.env.isSingIn)
         .then(res => {
-          this.isSign = res.data.sign;
+          this.isSign = res.data.can_sign;
           console.log(res);
         })
         .catch(err => {});
@@ -226,8 +226,7 @@ export default {
     //签到
     setSingIn() {
       this.$loading("");
-      this.$http
-        .post(this.$conf.env.singIn)
+      this.$http.post(this.$conf.env.singIn)
         .then(res => {
           this.$loading.close();
           if (res.status == "201") {
@@ -264,7 +263,7 @@ export default {
   },
   mounted() {
     // this.$loading('');
-    // this.getsingIn()
+    this.getsingIn()
     // this.getUserInfo()
     // var vm = this
     // setTimeout(() => {

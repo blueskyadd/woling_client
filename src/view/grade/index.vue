@@ -33,7 +33,7 @@ export default {
     };
   },
   methods: {
-    
+
   },
   mounted() {
       GM.Global.pixelRatio =2;
@@ -75,125 +75,78 @@ export default {
       // x和y轴同时缩放的动画
       chart.animate().scalexy();
       chart.render();
-    
+
       }
 
 }
 </script>
 
 <style lang="scss" >
-.grade_index {
-  background: url(../../assets/img/bj1.png) 0 0 / 100% 100%;
-  width: 100%;
-  height: 100%;
-  .main {
+  @import "../../assets/style/AllStyle";
+  .grade_index{
+    background: url(../../assets/img/bj1.png)  0 0 / 100% 100% ;
     width: 100%;
-    height: calc(100% - 0.64rem);
-    overflow: hidden;
-    aside {
-      width: 3.54rem;
-      height: 100%;
-      background: linear-gradient(
-        0deg,
-        rgba(16, 32, 57, 1) 0%,
-        rgba(27, 46, 78, 1) 100%
-      );
-      .TabSel {
-        width: 100%;
+    height:100%;
+    .main{
+      width: 100%;
+      height: calc(100% - .64rem);
+      overflow: hidden;
+      aside{
+        width:3.54rem;
         height:100%;
-        .main{
+        background:linear-gradient(0deg,rgba(16,32,57,1) 0%,rgba(27,46,78,1) 100%);
+        .TabSel{
           width: 100%;
-          height: calc(100% - .64rem);
-          overflow: hidden;
-          aside{
-            width:3.54rem;
-            height:100%;
-            background:linear-gradient(0deg,rgba(16,32,57,1) 0%,rgba(27,46,78,1) 100%);
-            .TabSel{
-              width: 100%;
-              height: .53rem;
-              margin-top: .06rem;
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              .News,.history{
-                width: 50%;
-                height: 100%;
-                text-align: center;
-                line-height: .53rem;
-                font-size:.2rem;
-                font-family:SimHei;
-                font-weight:bold;
-                color:rgba(135,175,211,1);
-                &.active{
-                  background:linear-gradient(0deg,rgba(50,104,148,1) 0%,rgba(22,38,63,1) 100%);
-                  color: #FFFFFF;
-                }
-              }
-            }
-            .NewsBox,.historyBox{
-              width: 100%;
-              height: calc(100% -  .53rem);
-              &.active{
-                display: none;
-              }
-            }
-            .NewsBox{
-              .imageBoxTit {
-                width: 2.85rem;
-                height: .76rem;
-                margin: .26rem auto .2rem;
-                background: url("../../assets/img/tuceng.png") no-repeat;
-                background-size:100%;
-                font-size:.25rem;
-                font-family:SimHei;
-                color:rgba(0,228,255,1);
-                line-height:.76rem;
-                text-indent: .7rem;
-              }
-              .MyCharts{
-                width: 3.35rem;
-                height: 2.88rem;
-                #cl{
-                  width: 100%;
-                  height: 100%;
-                }
-              }
+          height: .53rem;
+          margin-top: .06rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .News,.history{
+            width: 50%;
+            height: 100%;
+            text-align: center;
+            line-height: .53rem;
+            font-size:.2rem;
+            font-family:SimHei;
+            font-weight:bold;
+            color:rgba(135,175,211,1);
+            &.active{
+              background:linear-gradient(0deg,rgba(50,104,148,1) 0%,rgba(22,38,63,1) 100%);
+              color: #FFFFFF;
             }
           }
         }
-      }
-      .NewsBox,
-      .historyBox {
-        width: 100%;
-        height: calc(100% - 0.53rem);
-        &.active {
-          display: none;
+        .NewsBox,.historyBox{
+          width: 100%;
+          height: calc(100% -  .53rem);
+          &.active{
+            display: none;
+          }
         }
-      }
-      .NewsBox {
-        .imageBoxTit {
-          width: 2.85rem;
-          height: 0.76rem;
-          margin: 0.26rem auto 0.2rem;
-          background: url("../../assets/img/tuceng.png") no-repeat;
-          background-size: 100%;
-          font-size: 0.25rem;
-          font-family: SimHei;
-          color: rgba(0, 228, 255, 1);
-          line-height: 0.76rem;
-          text-indent: 0.7rem;
-        }
-        .ayCharts {
-          width: 3.35rem;
-          height: 2.88rem;
-          #cl {
-            width: 100%;
-            height: 100%;
+        .NewsBox{
+          .imageBoxTit {
+            width: 2.85rem;
+            height: .76rem;
+            margin: .26rem auto .2rem;
+            background: url("../../assets/img/tuceng.png") no-repeat;
+            background-size:100%;
+            font-size:.25rem;
+            font-family:SimHei;
+            color:rgba(0,228,255,1);
+            line-height:.76rem;
+            text-indent: .7rem;
+          }
+          .MyCharts{
+            width: 3.35rem;
+            height: 2.88rem;
+            #cl{
+              width: 100%;
+              height: 100%;
+            }
           }
         }
       }
     }
   }
-}
 </style>

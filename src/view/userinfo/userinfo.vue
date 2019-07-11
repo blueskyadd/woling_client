@@ -23,7 +23,7 @@
                   <span>{{user.name}}</span>
                 </div>
                 <div class="userinfo-iphone-box">
-                 <span class="iphone-tit">陈译豪</span>
+                 <span class="iphone-tit"></span>
                 </div>
               </div>
             </div>
@@ -34,19 +34,19 @@
                 <div class="UserS">
                   <ul>
                     <li>
-                      <p>1086</p>
+                      <p>{{user.see_minutes}}</p>
                       <p>看赛事时长</p>
                     </li>
                     <li>
-                      <p>2</p>
+                      <p>{{user.threat_num}}</p>
                       <p>挑战</p>
                     </li>
                     <li>
-                      <p>2</p>
+                      <p>{{user.class_num}}</p>
                       <p>课程</p>
                     </li>
                     <li>
-                      <p>2</p>
+                      <p>{{user.video_num}}</p>
                       <p>上传视频</p>
                     </li>
                   </ul>
@@ -97,14 +97,27 @@ import headerTitle from "../../components/header";
          return{
            userIphont:16625487452,
            headerTitle: '个人主页',
-           user:{
-             name: '',
-             picture: '',
-             sign: 0,
-           }
+           user:{}
          }
       },
       methods: {
+
+
+          GetUserInfo(){
+            this.$http.get(this.$conf.env.userinfo)
+              .then(res => {
+                this.$loading.close();
+                  this.user = res.data
+              })
+              .catch(err => {
+                this.$loading.close();
+                this.$toast.center('网络错误');
+              });
+          }
+      },
+      created(){
+        this.$loading("");
+          this.GetUserInfo()
       },
       mounted() {
       },

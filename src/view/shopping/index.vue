@@ -10,15 +10,15 @@
                 <img class="projectImg" :src="scope.dataItem.front_image" alt="">
                 <div class="project_main">
                   <span class="projectName">{{scope.dataItem.name}}</span>
-                  <span class="projectPrice"><img class="projectPriceLeft" src="../../assets/img/projectPriceLeft.png" alt="">{{scope.dataItem.name}}<img class="projectPriceRight" src="../../assets/img/projectPriceRight.png" alt=""></span>
-                  <span class="project">购买</span>
+                  <span class="projectPrice"><img class="projectPriceLeft" src="../../assets/img/projectPriceLeft.png" alt="">{{scope.dataItem.price}}<img class="projectPriceRight" src="../../assets/img/projectPriceRight.png" alt=""></span>
+                  <span class="project" @click.stop="AddShoppCart(scope.dataItem.id)">购买</span>
                 </div>
             </template>
         </mian-list>
       </div>
     </div>
     <shopDetail ref="coachDetail" :detailData='detailData' :detaiilTitle='detaiilTitle'/>
-    
+
     <img @click="goCart" class="shopCart" src="../../assets/img/shopCart.png" alt="">
     <badge :text="setcartNumber"></badge>
   </div>
@@ -39,28 +39,30 @@
           leftList:[
             {
               id:0,
-              name:'射门课程'
+              name:'餐饮'
             },
             {
               id:1,
               name:'运动课程'
-            }
+            },
+            {
+              id:2,
+              name:'豪门球衣'
+            },
+            {
+              id:3,
+              name:'足球'
+            },
+            {
+              id:4,
+              name:'配件'
+            },
+            {
+              id:5,
+              name:'门票'
+            },
           ],
-          tableList: [
-              {
-                  'id':1,
-                  'front_image':'http://img3.imgtn.bdimg.com/it/u=2017451364,1155593535&fm=15&gp=0.jpg',
-                  'good_details':[{
-                    img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vvsr72j20p00gogo2.jpg',
-                  }, {
-                    img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vw1k2wj20p00goq7n.jpg',
-                  }, {
-                    img: 'http://img3.imgtn.bdimg.com/it/u=2017451364,1155593535&fm=15&gp=0.jpg', 
-                  }],
-                  'name':'张三',
-                  'coach':"而开发后尔瓦佛尔积分日光金额偶然间g"
-              }
-          ],//数据列表
+          tableList: [],//数据列表
           setIndex:0,
           isLoaded:false,
           refreshing:false,
@@ -82,12 +84,41 @@
       methods: {
         /**@name获取班级名称列表 */
         getStudentList(data){
-          this.headerTitle = data.item.name + '学员'
           this.setIndex = data.index
+
+
+          this.$http.get(this.$conf.env.ShoppIngList + (this.setIndex+1))
+            .then(res => {
+              // this.$loading.close();
+              console.log(res.data)
+              this.tableList = res.data.results
+            })
+            .catch(err => {
+              // this.$loading.close();
+              this.$toast.center('网络错误');
+            });
+          //
+
         },
         getshopDetail(data){
-           this.detailData = data
-          this.$refs.coachDetail.isDetail = !this.$refs.coachDetail.isDetail
+          this.$http.get(this.$conf.env.ShppingDetail + data.id + "/")
+            .then(res => {
+              // this.$loading.close();
+              this.detailData = res.data;
+              this.detailData.name = data.name
+              for(var j in res.data.good_details){
+                res.data.good_details[j].img = res.data.good_details[j].image
+              }
+              this.$refs.coachDetail.isDetail = !this.$refs.coachDetail.isDetail
+              console.log(res.data)
+            })
+            .catch(err => {
+              // this.$loading.close();
+              this.$toast.center('网络错误');
+            });
+
+        },
+        AddShoppCart(ID){
         },
         getShopList(){
 
@@ -97,6 +128,9 @@
         }
 
       },
+      created() {
+        this.getStudentList({index:0})
+      }
     }
 </script>
 
@@ -161,7 +195,7 @@
               .projectPrice{
                 height: .6rem;
                 align-items: center;
-                
+
                 img{
                   width: .3rem;
                   height: .31rem;
@@ -172,11 +206,11 @@
                 .projectPriceRight{
                   margin-left: .56rem;
                 }
-                
+
               }
             }
         }
-        
+
       }
     }
     .shopCart{
@@ -185,7 +219,7 @@
       position: absolute;
       right: .11rem;
       top: .84rem;
-      
+
     }
     .vux-badge{
       position: absolute;
