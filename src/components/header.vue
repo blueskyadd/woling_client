@@ -4,6 +4,7 @@
             <div class="goBack"  @click="goback()"></div>
             <div class="titleName">{{title}}</div>
             <div v-if="isUpload ? true : false" class="rightButton" @click="showUpdata">上传</div>
+            <div v-if="editForm? true :false" class="rightButton" @click="editFormdata">编辑</div>
             <div class="changeCity" v-if="isLocation ? true : false" >
                 <div class="rightButton city" @click="setShowAddress">{{location[2]}}</div>
                 <div class="rightButton city" @click="setShowAddress">{{location[1]}}</div>
@@ -26,14 +27,9 @@ export default {
             type: String,
             required: true
         },
-        isUpload:{
-            type: Boolean,
-            required: true
-        },
-        isLocation:{
-            type:Boolean,
-            required: true
-        }
+        isUpload: Boolean,//上传按钮
+        isLocation:Boolean,//地区选择按钮
+        editForm:Boolean,//编辑按钮
     },
     data(){
         return{
@@ -50,8 +46,6 @@ export default {
         uploadVideo(){
             var dataparams =''
             var decideparams = ''
-            // photo.galleryVideo(this, dataparams, decideparams)
-
         },
         showUpdata(data){
             this.$emit('showUpdata')
@@ -60,9 +54,10 @@ export default {
             this.showAddress = true
         },
         changeCity(data){
-
             this.location = this.$refs.cityData.nameValue.split(' ')
-             console.log(this.location,this.$refs.cityData)
+        },
+        editFormdata(){
+            this.$emit('editFormdata')
         }
     },
 }

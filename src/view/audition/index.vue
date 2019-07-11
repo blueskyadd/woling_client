@@ -17,7 +17,7 @@
             </div>
             <div class="priceBOx">
               <p>￥3000.00</p>
-              <div class="Py">{{buttonText}}</div>
+              <div class="Py" @click="getOrderDetail">{{buttonText}}</div>
             </div>
             <div class="AllImgBox">
               <div class="Scll">
@@ -26,14 +26,31 @@
           </section>
         </div>
       </div>
+      <pop-up ref="popUpDetail" class="orderDetail" :detailData='detailDataObj'>
+          <template slot="second" >
+                <ul>
+                  <li><p>2019-05-23-12</p></li>
+                  <li><p>2019-05-23-12</p></li>
+                  <li><p>2019-05-23-12</p></li>
+                  <li><p>2019-05-23-12</p></li>
+                  <li><p>2019-05-23-12</p></li>
+                  <li><p>2019-05-23-12</p></li>
+                  <li><p>2019-05-23-12</p></li>
+                  <li><p>2019-05-23-12</p></li>
+                  <li><p>2019-05-23-12</p></li>
+              </ul>
+              
+          </template>
+      </pop-up>
     </div>
 </template>
 <script>
   import headerTitle from "../../components/header";
   import sideBar from "../../components/sidebar";
+  import popUp from "../../components/popUp"
   import { querystring } from 'vux'
     export default {
-      components:{headerTitle,sideBar},
+      components:{headerTitle,sideBar, popUp},
         name: "index",
       data(){
         return{
@@ -49,7 +66,11 @@
             }
           ],
           setIndex:0,
-          buttonText: this.$route.query.flag == 1 ?"试听": "购买"
+          buttonText: this.$route.query.flag == 1 ?"试听": "购买",
+          detailDataObj:{
+              'title':'订单详情',
+              'buttonText':'确定'
+          }
         }
       },
       methods: {
@@ -57,7 +78,12 @@
         getStudentList(data){
           this.headerTitle = data.item.name + '学员'
           this.setIndex = data.index
-        }
+        },
+        getOrderDetail(data){
+            // this.detailDataObj = data
+            this.$refs.popUpDetail.isDetail = !this.$refs.popUpDetail.isDetail
+
+        },
 
       },
       mounted(){
@@ -66,7 +92,7 @@
     }
 </script>
 
-<style scoped lang="scss">
+<style  lang="scss">
 @import "../../assets/style/AllStyle";
   .auditionBig{
     width: 100%;
@@ -163,6 +189,53 @@
                 @include ImgStyle;
               }
             }
+          }
+        }
+      }
+      
+      
+    }
+    .detail_box{
+      height: 4.02rem!important;
+      position: relative;
+      .close{
+        position: absolute!important;
+        
+        right: 0;
+        top: 0;
+      }
+      .detail_main{
+        width: 100%;
+        padding-top: 0.07rem!important;
+        header{
+          margin: 0 .25rem 0 0!important;
+        }
+        div{
+          width:100%!important;
+          padding: 0 .27rem;
+          ul{
+            height: 2.4rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            width: 100%;
+            li{
+              width: 2.22rem;
+              height: .42rem;
+              border: 1px solid #c1d8f7;
+              color: #c1d8f7;
+              font-size: .18rem;
+              text-align: center;
+              line-height: .42rem;
+              border-radius: .05rem;
+            }
+            .actively{
+              border-color: #90ffbd;
+              color: #90ffbd;
+            }
+          }
+          .submitButton{
+            margin: 0 auto !important;
           }
         }
       }

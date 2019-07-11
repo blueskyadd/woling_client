@@ -122,9 +122,7 @@
 <script>
 import headerTitle from "../../components/header";
 import exerciseCoach from './coach'
-// import photo from "../../components/photo.js";
 import store from "../../store/index";
-// import html2canvas from "html2canvas";
 import { formatDate } from "../../assets/js/date.js";
 
 export default {

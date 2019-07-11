@@ -86,7 +86,7 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/gradeIndex">
+            <router-link to="/achievement">
               <div class="web-footer-image"><img src="../../assets/img/ACHIEVEMENT.png" alt /></div>
               <div class="web-footer-words"><p>成就</p><span>ACHIEVEMENT</span></div>
             </router-link>
