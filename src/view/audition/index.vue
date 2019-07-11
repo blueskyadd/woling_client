@@ -17,11 +17,11 @@
             </div>
             <div class="priceBOx">
               <p>￥{{ClassDetal.price}}</p>
-              <div class="Py">购买</div>
+              <div class="Py">{{buttonText}}</div>
             </div>
             <div class="AllImgBox">
               <div class="Scll">
-                <img :src="item.image" alt="" v-for="item in ClassDetal.good_details">
+                <img :src="item.image" alt="" :key="item" v-for="item in ClassDetal.good_details">
               </div>
             </div>
           </section>
@@ -31,13 +31,14 @@
 </template>
 <script>
   import headerTitle from "../../components/header";
-  import sideBar from "../../components/sidebar"
+  import sideBar from "../../components/sidebar";
+  import { querystring } from 'vux'
     export default {
       components:{headerTitle,sideBar},
         name: "index",
       data(){
         return{
-          headerTitle:"课程",
+          headerTitle:this.$route.query.flag == 1 ?"试听": "课程",
           leftList:[
             {
               id:0,
@@ -57,7 +58,8 @@
             //上海&area=杨浦&age_type=&course_type=
           },
           setIndex:0,
-          ClassDetal:{}
+          ClassDetal:{},
+          buttonText: this.$route.query.flag == 1 ?"试听": "购买"
         }
       },
     methods: {

@@ -25,7 +25,8 @@
         </div>
       </div>
     </div>
-    <!--    页面主题-->
+   
+    <!--    页面主题--> 
     <div class="web-index-menu">
       <div class="web-index-content content_left">
          <div class="title">
@@ -46,13 +47,13 @@
         <div class="web-index-rightList">
           <ul>
             <!-- 试听 -->
-            <router-link to="/audition" tag="li"><img src="../../assets/img/audition.png" alt=""></router-link>
+            <router-link to="/audition?flag=1" tag="li"><img src="../../assets/img/audition.png" alt=""></router-link>
             <!-- 商城 -->
             <router-link to="/shopping" tag="li"><img src="../../assets/img/store.png" alt=""></router-link>
             <!-- 活动 -->
             <router-link to="/actively" tag="li"><img src="../../assets/img/activelyLogo.png" alt=""></router-link>
             <!-- 课程 -->
-            <router-link to="/audition" tag="li"><img src="../../assets/img/class.png" alt=""></router-link>
+            <router-link to="/audition?flag=2" tag="li"><img src="../../assets/img/class.png" alt=""></router-link>
             <!-- 课表 -->
             <router-link to="/course" tag="li"><img src="../../assets/img/course.png" alt=""></router-link>
             <!-- 赛事 -->
