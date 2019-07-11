@@ -10,7 +10,7 @@
                 </div>
                 <div>
                     <span>{{detaiilTitle}}</span>
-                    <div>{{detailData.coach}}</div>
+                    <div>{{detailData.desc}}</div>
                 </div>
             </div>
         </div>
@@ -74,7 +74,7 @@ export default {
                 display: flex;
                 padding: .18rem .2rem;
                 height: calc(100% - .64rem);
-                
+
                 div:first-child{
                     width: 2.72rem;
                     margin-right: .39rem;
@@ -99,7 +99,7 @@ export default {
                         display: flex;
                         justify-content: center;
                     }
-                    
+
                 }
                 div:last-child{
                     span{

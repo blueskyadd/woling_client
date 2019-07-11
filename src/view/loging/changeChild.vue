@@ -2,7 +2,7 @@
   <div class="chenge_child">
     <div class="swiper-container">
       <div class="swiper-wrapper">
-        <div class="swiper-slide" v-for="item in childData" :key="item.id">
+        <div class="swiper-slide" ref="DOMS" v-for="item in childData" :id="item.id" :key="item.id">
           <p>{{item.name}}</p>
           <img src="../../assets/img/football-star.png" alt />
         </div>
@@ -12,7 +12,7 @@
     </div>
     <div class="swiper-button-prev"></div>
     <div class="swiper-button-next"></div>
-    <div class="goOut_woling"><img src="../../assets/img/exit.png" alt=""></div>
+    <div class="goOut_woling" v-on:click="CoBack"><img src="../../assets/img/exit.png" alt=""></div>
   </div>
 </template>
 <script>
@@ -43,25 +43,57 @@ export default {
           name: "名字"
         }
       ],
-      activeIndex: 1
+      activeIndex: 0
     };
   },
+  created(){
+      this.getStatent()
+  },
   mounted() {
+      var that = this
     new Swiper(".swiper-container", {
-      initialSlide: 1,
+      initialSlide: 0,
       slidesPerView: 3,
       spaceBetween: -10, //mange
       centeredSlides: true,
       navigation: {
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev"
+      },
+      on: {
+
+        slideChangeTransitionStart: function () {
+          console.log(this.activeIndex)
+          that.activeIndex = this.activeIndex
+        },
       }
     });
+
   },
   methods:{
       goIndex(){
-          this.$router.push({name:'index'})
-      }
+        this.$http.get(this.$conf.env.SelectSon + this.$refs.DOMS[this.activeIndex].id)
+          .then(res => {
+            sessionStorage.setItem('jp_token', res.data.token)
+            console.log(res.data)
+            this.$router.push({
+              name:"index"
+            })
+          })
+          .catch(err => {
+            // this.$loading.close();
+            this.$toast.center('网络错误');
+          });
+      },
+    getStatent(){
+        this.childData = this.$route.params.data
+    },
+    CoBack(){
+      sessionStorage.removeItem("jp_token");
+      this.$router.push({
+        name:"loging"
+      })
+    },
   }
 };
 </script>
@@ -113,7 +145,7 @@ export default {
     background: #041424 url(../../assets/img/childactive.png) 49% 7%/320% 85% !important;
     img {
         margin-left: .39rem;
-        width: 100%;    
+        width: 100%;
         margin-bottom: -.6rem;
     }
     p{

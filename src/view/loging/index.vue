@@ -39,7 +39,7 @@ export default {
             this.isLogin = flag
             this.password = ''
         },
-        
+
         //获取验证码
         getVerification(){
             if(!this.VerificationData(3)) return
@@ -58,7 +58,7 @@ export default {
                  if(err.response.status == '400'){
                     this.$toast.center(err.response.data.username[0]);
                 }else{
-                    this.$toast.center('网络错误');                    
+                    this.$toast.center('网络错误');
                 }
              })
         },
@@ -76,26 +76,37 @@ export default {
         },
         //登录
         login(){
-            // if(!this.VerificationData(1)) return
-            // this.$loading('');
-            // var params={
-            //     username: this.userName.replace(/(^\s*)|(\s*$)/g, ""),
-            //     password: this.password,
-            // }
-            // this.$http.post(this.$conf.env.login, params).then(res =>{
-            //     this.$loading.close()
-            //     sessionStorage.setItem('jp_token', res.data.token)
-                this.$router.push({name:"index"})
-            // }).catch(err =>{
-            //     this.$loading.close()
-            //     if(err.response.status == '401'){
-            //         this.$toast.center('账号或密码错误');
-            //     }
-            // })
+            if(!this.VerificationData(1)) return
+            this.$loading('');
+            var params={
+                mobile: this.userName.replace(/(^\s*)|(\s*$)/g, ""),
+                password: this.password,
+            }
+            this.$http.post(this.$conf.env.login, params).then(res =>{
+              this.$loading.close()
+              sessionStorage.setItem('jp_token', res.data.token)
+                  if(res.data.student.length > 0){
+                    this.$router.push({
+                      name:"changeChild",
+                      params:{data:res.data.student}
+                    })
+                  }else{
+                    this.$router.push({
+                      name:"index"
+                    })
+                  }
+
+
+            }).catch(err =>{
+                this.$loading.close()
+                if(err.response.status == '401'){
+                    this.$toast.center('账号或密码错误');
+                }
+            })
         },
         //修改密码
         change_pwd(){
-            if(!this.VerificationData(2)) return 
+            if(!this.VerificationData(2)) return
             this.$loading('');
             var params ={
                 username: this.userName,//手机号
@@ -214,7 +225,7 @@ export default {
             input:focus{
               outline:none;box-shadow: none;
             }
-           
+
         }
         .yzm{
             padding-bottom: .03rem;
@@ -238,7 +249,7 @@ export default {
             label{
                 width: .2rem;
             }
-            
+
         }
         .submit{
             margin-top: .46rem;

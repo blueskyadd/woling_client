@@ -77,8 +77,7 @@ export default {
     },
     /**@name获取主推列表 */
     getActivityList() {
-      this.$http
-        .get(this.$conf.env.getActivityList)
+      this.$http.get(this.$conf.env.getActivityList)
         .then(res => {
           this.$loading.close();
           this.activelyList = res.data;
@@ -89,8 +88,8 @@ export default {
     }
   },
   mounted() {
-    // this.$loading("");
-    // this.getActivityList();
+    this.$loading("");
+    this.getActivityList();
   }
 };
 </script>

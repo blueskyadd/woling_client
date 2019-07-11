@@ -4,8 +4,11 @@
             <div class="goBack"  @click="goback()"></div>
             <div class="titleName">{{title}}</div>
             <div v-if="isUpload ? true : false" class="rightButton" @click="showUpdata">上传</div>
-            <div v-if="editForm? true :false" class="rightButton" @click="editFormdata">编辑</div>
-            <div class="changeCity" v-if="isLocation ? true : false" >
+             <div v-if="editForm? true :false" class="rightButton" @click="editFormdata">编辑</div>
+            <!-- <div class="rightButton" style="float: right">
+                <div class="rightButton city" @click="setShowAddress" >{{location[2]}}</div>
+            </div> -->
+            <div class="changeCity" v-if="isLocation ? true : false" style="overflow: hidden;float:right;">
                 <div class="rightButton city" @click="setShowAddress">{{location[2]}}</div>
                 <div class="rightButton city" @click="setShowAddress">{{location[1]}}</div>
                 <div class="rightButton city" @click="setShowAddress">{{location[0]}}</div>

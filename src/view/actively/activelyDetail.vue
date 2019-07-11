@@ -31,8 +31,8 @@ export default {
         }
     },
     mounted(){
-        // this.$loading('');
-        // this.getActivelyDetail()
+        this.$loading('');
+        this.getActivelyDetail()
     }
 }
 </script>
