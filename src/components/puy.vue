@@ -4,7 +4,7 @@
     <div class="menu">
       <section>
         <div class="conTent">
-          <h2>￥800.00</h2>
+          <h2>￥{{TotalPrice}}</h2>
           <p>选择支付方式</p>
           <div class="ZWY">
             <ul>
@@ -13,11 +13,18 @@
                   <img src="../assets/img/wx.png" alt="">
                   <span>微信支付</span>
                 </div>
-                <div class="xuan" :class="puyF === 0 ? 'active':''"></div>
+                <div class="xuan" @click="isPayment = 0" :class="isPayment === 0 ? 'active':''"></div>
+              </li>
+              <li>
+                <div>
+                  <img src="../assets/img/wx.png" alt="">
+                  <span>支付宝支付</span>
+                </div>
+                <div class="xuan" @click="isPayment = 1" :class="isPayment === 1 ? 'active':''"></div>
               </li>
             </ul>
           </div>
-          <div class="PuyBut">确认支付</div>
+          <div class="PuyBut" @click="goPayment">确认支付</div>
         </div>
       </section>
     </div>
@@ -32,10 +39,75 @@
       data(){
         return{
           headerTitle: '支付',
-          puyF:0,    //0微信
+          isPayment: -1,    //支付方式选择 /0微信 1支付宝
+          TotalPrice: this.$store.state.cart.TotalPrice ? this.$store.state.cart.TotalPrice : 0 ,
+          pays:{}
         }
-      }
+      },
+      mounted(){
+
+        console.log(this.$store.state.cart.orderId)
+      },
+      methods:{
+        /**@name 支付(获取支付通道) */
+        goPayment(){
+          var vm = this
+           plus.payment.getChannels(function(channels) {
+             alert("获取成功")
+             console.log(channels)
+              vm.pays = channels[1];  
+              vm.WxPayment();//自定义方法
+            }, function(e) {
+              alert('获取支付通道失败：' + e.message);
+              return false;
+            });
+          // switch(this.isPayment){
+          //   case -1:
+          //   this.$toast.center('请选择支付方式');
+          //   break;
+          //   case 0:
+          //   this.WxPayment();
+          //   break;
+          //   case 1:
+          //   this.Alipay();
+          //   break;
+          // }
+        },
+        /**@name 去支付(微信) */
+        WxPayment(){
+          var params = {order: this.$store.state.cart.orderId}
+          this.$http.post(this.$conf.env.WxPayment, params).then(res =>{
+            console.log(res.data)
+            var param = {
+              appid: res.data.appid,//应用ID
+              noncestr: res.data.nonce_str,//随机字符串
+              package:  'Sign=WXPay',//扩展字段
+              partnerid: res.data.mch_id,//商户号
+              prepayid: res.data.prepay_id,//预支付交易会话ID
+              timestamp: Date.parse(new Date()),//时间戳
+              sign: res.data.sign//签名
+            }
+            console.log('this.pays------------', this.pays)
+            console.log(param)
+            var vm = this
+            plus.payment.request(vm.pays, param, function(result){
+              alert("支付成功")
+              wxpayResultDeal(result);//微信支付成功后的结果处理自定义方法
+            },function(error){
+              console.log(JSON.stringify(error))
+                alert("支付失败")
+            })
+          }).catch(err =>{
+            console.log(err,'----------------------------------------')
+            this.$toast.center('支付失败');
+          })
+        },
+        /**@name 支付宝支付 */
+        Alipay(){
+
+        }
     }
+}
 </script>
 
 <style scoped lang="scss">

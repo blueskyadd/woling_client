@@ -97,8 +97,7 @@
               // this.$loading.close();
               this.$toast.center('网络错误');
             });
-          //
-
+        
         },
         getshopDetail(data){
           this.$http.get(this.$conf.env.ShppingDetail + data.id + "/")
@@ -118,9 +117,8 @@
             });
 
         },
+
         AddShoppCart(ID){
-
-
           let params ={
             goods:ID
           }

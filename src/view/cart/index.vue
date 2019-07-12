@@ -34,7 +34,7 @@
             </div>
             <div class="PuyBox">
               <p>合计: <span>￥{{TotalPrice}}</span></p>
-              <div class="PuyBut" v-on:click="Puysssssss">支付</div>
+              <div class="PuyBut" @click="goPuy">支付</div>
             </div>
           </div>
       </div>
@@ -45,10 +45,10 @@
     import sideBar from "../../components/sidebar"
     import mianList from '../../components/mainList'
     import headerTitle from "../../components/header";
+    // import store from "../../store/index";
     import { XNumber,Group} from 'vux'
-    
     export default {
-        name: "cart",
+      name: "cart",
       components: {mianList, sideBar, headerTitle,XNumber,Group},
       data(){
           return{
@@ -61,13 +61,10 @@
           }
       },
       mounted() {
-
+        this.GetShoppCartList()
       },
       methods:{
-
-        qwer(){
-          console.log(this.inlineDescListValue)
-        },
+        /**@name购物车删除 */
         deleteCheckList(){
           if(this.shoppoingList && this.shoppoingList.length>0){
             this.shoppoingList = [];
@@ -77,65 +74,46 @@
           }else{
             this.$toast.center('购物车是空的呢');
           }
-
         },
+        /**@name获取购物车列表 */
         GetShoppCartList(){
           this.$http.get(this.$conf.env.ShoppCartList)
             .then(res => {
-              // this.$loading.close();
               console.log(res.data)
               this.shoppoingList = res.data.results
             })
             .catch(err => {
-              // this.$loading.close();
               this.$toast.center('网络错误');
             });
         },
-
-        Puysssssss(){
+        /**@name获取订单编号 */
+        goPuy(){
           console.log(this.checkList[0].id)
-
           let params = {
-            pitch:2
+            pitch: 2
           }
           this.$http.post(this.$conf.env.ShoppPuy, params).then(res =>{
             console.log(res.data.order)
-
-
-
-
-            var params = {
-              order:res.data.order
-            }
-            this.$http.post(this.$conf.env.ShoppPuyZhi, params).then(res =>{
-              console.log(res.data)
-
-              this.$toast.center('hh');
-
-            }).catch(err =>{
-              this.$toast.center('账号或密码错误');
-            })
-            this.$toast.center('hh');
-
+            this.$store.commit('setOrder',{orderID: res.data.order, orderPrice: this.TotalPrice } )
+            this.$router.push({'name':'puy'})
+              // this.payment()
           }).catch(err =>{
               this.$toast.center('账号或密码错误');
           })
         },
+        
       },
-      watch: {
+    watch: {
       checkList(val) {
-        console.log(val)
         if(val.length > 0){
           var TotalPrice = 0
           val.forEach(item =>{
             TotalPrice +=item.nums*item.good.price
           })
           this.TotalPrice = TotalPrice
-          console.log(TotalPrice)
         }else{
           this.TotalPrice = 0
         }
-
         if (val.length === this.shoppoingList.length && val.length !== 0) {
           this.checkAll = true;
         } else {
@@ -179,11 +157,7 @@
         deep: true
       }
     },
-      created() {
-          this.GetShoppCartList()
-      }
-
-    }
+  }
 </script>
 
 <style lang="scss">

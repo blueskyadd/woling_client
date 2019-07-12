@@ -34,5 +34,5 @@ module.exports = {
       //购物车
     ShoppCartList:winchaingroupApi + 'order/apps/cart/',   //购物车列表
     ShoppPuy:winchaingroupApi + 'order/apps/goods/',   //购物车购买
-    ShoppPuyZhi:winchaingroupApi + 'order/apps/pay/',   //购物车支付
+    WxPayment:winchaingroupApi + 'order/apps/pay/',   //购物车支付--微信支付
 }
