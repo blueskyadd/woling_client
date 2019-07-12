@@ -10,15 +10,15 @@
                       <input :id=index type="checkbox" :value="item" v-model="checkList">
                     </label>
                   <div class="ShoppImg">
-                    <img src="../../assets/img/sg.jpg" alt="">
+                    <img :src="item.good.front_image" alt="">
                   </div>
                   <div class="ShoppNamme">
-                    <p>{{item.name}}</p>
-                    <p>{{item.price}}元</p>
+                    <p>{{item.good.name}}</p>
+                    <p>{{item.good.price}}元</p>
                   </div>
                   <div class="ChangeNum">
                     <group>
-                      <x-number title="" v-model="item.num"></x-number>
+                      <x-number title="" v-model="item.nums"></x-number>
                     </group>
                   </div>
                 </li>
@@ -34,7 +34,7 @@
             </div>
             <div class="PuyBox">
               <p>合计: <span>￥{{TotalPrice}}</span></p>
-              <div class="PuyBut">支付</div>
+              <div class="PuyBut" v-on:click="Puysssssss">支付</div>
             </div>
           </div>
       </div>
@@ -53,34 +53,20 @@
           return{
             wantCheck: false,
             headerTitle:'购物车',
-            valNum:0,
-            shoppoingList:[{
-              id:1,
-              name:'水果拼盘',
-              price:20,
-              num:1
-            },
-            {
-              id:12,
-              name:'水果拼盘',
-              price:30,
-              num:2
-            }],
+            shoppoingList:[],
             checkList:[],//已选商品
             checkAll: false,//全选
             TotalPrice:0,//总价
           }
       },
+      mounted() {
+
+      },
       methods:{
+
         qwer(){
           console.log(this.inlineDescListValue)
         },
-
-      },
-      mounted() {
-        
-      },
-      methods:{
         deleteCheckList(){
           if(this.shoppoingList && this.shoppoingList.length>0){
             this.shoppoingList = [];
@@ -90,8 +76,62 @@
           }else{
             this.$toast.center('购物车是空的呢');
           }
-          
-        }
+
+        },
+        GetShoppCartList(){
+          this.$http.get(this.$conf.env.ShoppCartList)
+            .then(res => {
+              // this.$loading.close();
+              console.log(res.data)
+              this.shoppoingList = res.data.results
+            })
+            .catch(err => {
+              // this.$loading.close();
+              this.$toast.center('网络错误');
+            });
+        },
+
+        Puysssssss(){
+          console.log(this.checkList[0].id)
+
+          let params = {
+            pitch:2
+          }
+          this.$http.post(this.$conf.env.ShoppPuy, params).then(res =>{
+            console.log(res.data.order)
+
+
+
+
+            var params = {
+              order:res.data.order
+            }
+            this.$http.post(this.$conf.env.ShoppPuyZhi, params).then(res =>{
+              console.log(res.data)
+
+              this.$toast.center('hh');
+
+            }).catch(err =>{
+              this.$toast.center('账号或密码错误');
+            })
+
+
+
+
+
+
+
+
+
+
+
+
+            this.$toast.center('hh');
+
+          }).catch(err =>{
+              this.$toast.center('账号或密码错误');
+          })
+        },
       },
       watch: {
       checkList(val) {
@@ -99,16 +139,20 @@
         if(val.length > 0){
           var TotalPrice = 0
           val.forEach(item =>{
-            TotalPrice +=item.num*item.price
+            TotalPrice +=item.nums*item.good.price
           })
           this.TotalPrice = TotalPrice
           console.log(TotalPrice)
+        }else{
+          this.TotalPrice = 0
         }
+
         if (val.length === this.shoppoingList.length && val.length !== 0) {
           this.checkAll = true;
         } else {
           this.checkAll = false;
         }
+
       },
       checkAll(newData, oldData){
         if (newData) {
@@ -132,12 +176,12 @@
           console.log(newName);
           var TotalPrice = 0
           newName.forEach((item,index) =>{
-            if(item.num == 0){
-              newName.splice(index,1)
+            if(item.nums == 0){
+              return false
             }
             this.checkList.forEach( value =>{
               if(item.id == value.id){
-                TotalPrice +=value.num*value.price
+                TotalPrice +=value.nums*value.good.price
               }
             })
           })
@@ -146,6 +190,9 @@
         deep: true
       }
     },
+      created() {
+          this.GetShoppCartList()
+      }
 
     }
 </script>
@@ -183,7 +230,7 @@
                 align-items: center;
                 border-bottom: 1px solid #254260;
                 position: relative;
-                
+
                 .attention_all .checkBox {
                   width: .34rem;
                   height: .34rem;
@@ -205,7 +252,7 @@
                 .CheckBox{
                   width: .34rem;
                   height: .34rem;
-                  
+
                   border-radius:50%;
                   margin-right: .48rem;
 
