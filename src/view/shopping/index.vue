@@ -119,6 +119,21 @@
 
         },
         AddShoppCart(ID){
+
+
+          let params ={
+            goods:ID
+          }
+          this.$http.post(this.$conf.env.AddShoppCart, params).then(res =>{
+            // this.$loading.close()
+            console.log(res.data)
+            this.$toast.center('加入成功');
+          }).catch(err =>{
+            // this.$loading.close()
+            this.$toast.center('网络错误');
+          })
+
+
         },
         getShopList(){
 
@@ -130,6 +145,7 @@
       },
       created() {
         this.getStudentList({index:0})
+
       }
     }
 </script>

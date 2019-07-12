@@ -29,6 +29,9 @@ module.exports = {
     ShppingDetail: winchaingroupApi + 'good/apps/goods/',   //商品详情
 
     //购物车
+    AddShoppCart:winchaingroupApi + 'order/apps/cart/',  //商品加入购物车
+
+      //购物车
     ShoppCartList:winchaingroupApi + 'order/apps/cart/',   //购物车列表
     ShoppPuy:winchaingroupApi + 'order/apps/goods/',   //购物车购买
     ShoppPuyZhi:winchaingroupApi + 'order/apps/pay/',   //购物车支付

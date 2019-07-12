@@ -34,7 +34,7 @@
             </div>
             <div class="PuyBox">
               <p>合计: <span>￥{{TotalPrice}}</span></p>
-              <div class="PuyBut" @click="Puy" id="weixin">支付</div>
+              <div class="PuyBut" v-on:click="Puysssssss">支付</div>
             </div>
           </div>
       </div>
@@ -91,94 +91,36 @@
               this.$toast.center('网络错误');
             });
         },
-        Puy(){
+
+        Puysssssss(){
           console.log(this.checkList[0].id)
+
           let params = {
             pitch:2
           }
           this.$http.post(this.$conf.env.ShoppPuy, params).then(res =>{
             console.log(res.data.order)
-            this.$toast.center('hh');
-          var params = {
-            order:res.data.order
-          }
+
+
+
+
+            var params = {
+              order:res.data.order
+            }
             this.$http.post(this.$conf.env.ShoppPuyZhi, params).then(res =>{
               console.log(res.data)
-              this.a(res.data)
+
+              this.$toast.center('hh');
 
             }).catch(err =>{
               this.$toast.center('账号或密码错误');
             })
+            this.$toast.center('hh');
+
           }).catch(err =>{
               this.$toast.center('账号或密码错误');
           })
         },
-        a(data){
-          var channels=null;
-          // 监听plusready事件  
-          document.addEventListener("plusready", function(){
-            // 扩展API加载完毕，现在可以正常调用扩展API
-            plus.payment.getChannels(function(s){
-              channels = s;
-              alert('获取成功')
-            }, function(e){
-              alert("获取支付通道列表失败："+e.message);
-            });
-          }, false );
-          document.getElementById('weixin').addEventListener('tap',function() { 
-              console.log("微信"); 
-              pay('wxpay'); 
-          })
-          var ALIPAYSERVER='http://demo.dcloud.net.cn/helloh5/payment/alipay.php?total='; 
-          var WXPAYSERVER='http://demo.dcloud.net.cn/helloh5/payment/wxpay.php?total=';
-          // 请求支付操作
-          function requestPay(c){
-            // 必须从业务服务器获取支付信息
-            var statement = "";
-            plus.payment.request(c, statement, function(){
-              alert("支付操作成功！");
-            }, function(e){
-              alert("支付失败："+e.message);
-            } );
-          }
-        },
-          pay(id){ 
-                // 从服务器请求支付订单 
-                var PAYSERVER=''; 
-                if(id=='alipay'){ 
-                PAYSERVER=ALIPAYSERVER; 
-                channel = aliChannel; 
-            }else if(id=='wxpay'){ 
-                    PAYSERVER=WXPAYSERVER; 
-                      channel = wxChannel; 
-                  }else{ 
-                      plus.nativeUI.alert("不支持此支付通道！",null,"充值"); 
-                      return; 
-              } 
-                  var xhr=new XMLHttpRequest(); 
-                  xhr.onreadystatechange=function(){ 
-                      switch(xhr.readyState){ 
-                          case 4: 
-                          if(xhr.status==200){ 
-                              plus.payment.request(channel,xhr.responseText,function(result){ 
-                                  plus.nativeUI.alert("支付成功！",function(){ 
-                                  back(); 
-                              }); 
-                              },function(error){ 
-                                  plus.nativeUI.alert("支付失败：" + error.code); 
-                              }); 
-                          }else{ 
-                              alert("获取订单信息失败！"); 
-                          } 
-                          break; 
-                      default: 
-                      break; 
-                  } 
-          } 
-              xhr.open('GET',PAYSERVER); 
-              xhr.send(); 
-      
-        }
       },
       watch: {
       checkList(val) {
