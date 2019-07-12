@@ -1,6 +1,6 @@
 <template>
   <div class="web-userinfo-bigbox">
-    <headerTitle :title="headerTitle" :isUpload = 'false' :isLocation='false'/>
+    <headerTitle :title="headerTitle" :editForm='true' @editFormdata='editForm'/>
     <div class="web-userinfo-menu">
       <div class="web-userinfo-left">
         <div class="userinfo">
@@ -101,19 +101,20 @@ import headerTitle from "../../components/header";
          }
       },
       methods: {
-
-
-          GetUserInfo(){
-            this.$http.get(this.$conf.env.userinfo)
-              .then(res => {
-                this.$loading.close();
-                  this.user = res.data
-              })
-              .catch(err => {
-                this.$loading.close();
-                this.$toast.center('网络错误');
-              });
-          }
+        editForm(){
+          console.log('aaa')
+        },
+      GetUserInfo(){
+        this.$http.get(this.$conf.env.userinfo)
+          .then(res => {
+            this.$loading.close();
+              this.user = res.data
+          })
+          .catch(err => {
+            this.$loading.close();
+            this.$toast.center('网络错误');
+          });
+      }
       },
       created(){
         this.$loading("");

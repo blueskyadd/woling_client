@@ -59,14 +59,9 @@ export default new Router({
       component:() => import('@/view/medal/index')
     },
     {
-      path:'/gradeIndex',
-      name:'gradeIndex',
-      component:() => import('@/view/grade/index')
-    },
-    {
-      path:'/gradeDetail',
-      name:'gradeDetail',
-      component:() => import('@/view/grade/greadeDetail')
+      path:'/achievement',
+      name:'achievement',
+      component:() => import('@/view/achievement/index')
     },
     {
       path:'/exercise',

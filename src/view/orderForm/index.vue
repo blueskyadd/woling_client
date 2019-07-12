@@ -52,7 +52,7 @@
             </template>
         </pop-up>
     </div>
-</template>
+</template> 
 <script>
 import headerTitle from "../../components/header";
 import sideBar from "../../components/sidebar";
