@@ -2,3 +2,18 @@
 .vux-popup-mask{
     // background: rgba(0, 0, 0, 0.1)!important;
 }
+//提交按钮
+.submitButton{
+    font-family: SimHei;
+    display: block;
+    float: none;
+    width: 3.11rem;
+    height: 0.73rem;
+    background: url(../img/ok.png) 0 0 / 100% 100%;
+    font-size: 0.27rem !important;
+    color: #ffffff !important;
+    text-align: center;
+    line-height: 0.73rem;
+    border-radius: 0.08rem;
+    margin: 0 auto;
+}

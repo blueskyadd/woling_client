@@ -14,7 +14,7 @@
 </template>
 <script>
 import { Popup } from 'vux';
-export default {
+export default { 
     name:'orderDetail',
     components: { Popup },
     props:{

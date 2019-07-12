@@ -10,6 +10,7 @@ import '../src/assets/style/public.scss';//初始化样式
 import "../src/assets/style/AllStyle.scss";
 import '../src/assets/style/comment.scss';//vux公共样式
 import './components/Toast/toast.css';//弹框样式
+
 import Toast from './components/Toast/index';//弹框
 import {ProgressBar} from 'vue-ydui/dist/lib.rem/progressbar';//加载环形图
 

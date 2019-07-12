@@ -17,7 +17,7 @@
             </div>
             <div class="priceBOx">
               <p>￥{{ClassDetal.price}}</p>
-              <div class="Py">{{buttonText}}</div>
+              <div class="Py" @click="getOrderDetail">{{buttonText}}</div>
             </div>
             <div class="AllImgBox">
               <div class="Scll">
