@@ -6,7 +6,7 @@
                 <header>{{detailData.title}}</header>
                 <div>
                     <slot name="second" :dataItem='detailData'></slot>
-                    <span class="submitButton" >{{detailData.buttonText}}</span>
+                    <span class="submitButton"  @click="isDetail = false">{{detailData.buttonText}}</span>
                 </div>
             </div>
         </div>

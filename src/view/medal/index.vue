@@ -13,15 +13,15 @@
                 <div class="list">
                      <span>最新获得</span>
                      <div>
-                         <img src="../../assets/img/medalLogoBottom.png" alt="">
+                         <img :src="newAcquisition" alt="">
                     </div>
                 </div>
              </div>
-            <mian-list class="medal_main_list" @goDetail='gomedalDetail' :loading='loading' :tableList='tableList' :refreshing='refreshing'  @getClassList = 'getClassList' :isLoaded='isLoaded'>
+            <mian-list class="medal_main_list" @goDetail='gomedalDetail' :loading='loading' :tableList='tableList' :refreshing='refreshing'  @getClassList = 'getMedalList' :isLoaded='isLoaded'>
                 <template slot="second" slot-scope="scope">
-                    <img src="../../assets/img/medalLogoBottom.png" alt="">
+                    <img :src="scope.dataItem.image" alt="">
                     <span class="list_name">{{scope.dataItem.name}}</span>
-                    <span class="list_time">{{scope.dataItem.coach}}</span>
+                    <span class="list_time">{{scope.dataItem.update_time}}</span>
                 </template>
             </mian-list>
         </div>
@@ -36,17 +36,8 @@ export default {
     data(){
         return{
             headerTitle: '勋章',//标题名称
-            tableList: [ {
-                    'id':1,
-                    'front_image':'http://img4.duitang.com/uploads/item/201412/01/20141201183854_TRArc.thumb.700_0.png',
-                    'name':'张三',
-                    'coach':"12315646"
-                },{
-                    'id':2,
-                    'front_image':'http://img4.duitang.com/uploads/item/201412/01/20141201183854_TRArc.thumb.700_0.png',
-                    'name':'张三',
-                    'coach':"6568331"
-                }],//数据列表
+            tableList: [],//数据列表
+            newAcquisition: '',//最新获得勋章
             loading: false,//全屏Loading
             isLoaded: false,//下拉加载
             refreshing: false,//上拉刷新
@@ -57,10 +48,10 @@ export default {
             this.$router.push({name:'medalDetail',params:{id:data.id}})
         },
         /**@name获取课程列表 */
-        getClassList(num){
+        getMedalList(num){
             console.log(num)
-            var url = this.$conf.env.getClassList + num 
-            this.$http.get(num == 1 ? this.$conf.env.getClassList : url ).then( res =>{
+            var url = this.$conf.env.getMedalList + num 
+            this.$http.get(num == 1 ? this.$conf.env.getMedalList : url ).then( res =>{
                 this.$loading.close()
                 this.refreshing = false;
                 if(!res.data.results){
@@ -69,6 +60,7 @@ export default {
                     this.$toast.center(text);
                     return
                 }else{
+                    this.newAcquisition = res.data.results[0].image
                     num == 1 ?  this.tableList = res.data.results : this.tableList = this.tableList.concat(res.data.results)
                     this.loading = false
                     console.log(this.tableList)
@@ -83,8 +75,8 @@ export default {
         }
     },
     mounted(){
-        // this.$loading('');
-        // this.getClassList(1)
+        this.$loading('');
+        this.getMedalList(1)
        
     }
 }
@@ -161,7 +153,7 @@ export default {
                     flex-direction: column;
                     align-items: center;
                     img{
-                        width: 40%;
+                        width: 70%;
                         height: auto;
                         position: absolute;
                         top: .8rem;left: 0;right: 0;

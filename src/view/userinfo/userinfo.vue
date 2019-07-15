@@ -60,15 +60,15 @@
     <popup-detail ref="userDetail"  :detailName='detailName'>
       <template >
         <div class="userDetail">
-          <div><label for="">姓名:</label><input  placeholder="点击输入您的姓名" type="text"></div>
-          <div><label for="">手机号:</label><input placeholder="点击输入您的手机号" type="text"></div>
-          <div><label for="">监护人:</label><input placeholder="点击输入监护人姓名" type="text"></div>
-          <div><label for="">手机号:</label><input placeholder="点击输入监护人手机号" type="text"></div>
-          <div><label for="">学籍号:</label><input placeholder="点击输入您的学籍号" type="text"></div>
-          <div><label for="">学校:</label><input placeholder="点击输入所在学校" type="text"></div>
-          <div><label for="">家庭住址:</label><input placeholder="点击输入家庭住址" type="text"></div>
+          <div><label for="">姓名:</label><input v-model="userInfo.name" disabled  placeholder="点击输入您的姓名" type="text"></div>
+          <div><label for="">手机号:</label><input v-model="userInfo.mobile" disabled placeholder="点击输入您的手机号" type="text"></div>
+          <div><label for="">监护人:</label><input v-model="userInfo.guardian_one" placeholder="点击输入监护人姓名" type="text"></div>
+          <div><label for="">手机号:</label><input v-model="userInfo.guardian_one_phone" placeholder="点击输入监护人手机号" type="text"></div>
+          <div><label for="">学籍号:</label><input v-model="userInfo.school_cart" placeholder="点击输入您的学籍号" type="text"></div>
+          <div><label for="">学校:</label><input v-model="userInfo.school" placeholder="点击输入所在学校" type="text"></div>
+          <div><label for="">家庭住址:</label><input v-model="userInfo.address" placeholder="点击输入家庭住址" type="text"></div>
         </div>
-        <span class="submitButton">确定</span>
+        <span class="submitButton" @click="updataUserInfo">确定</span>
       </template>
     </popup-detail>
   </div>
@@ -76,6 +76,7 @@
 <script>
 import headerTitle from "../../components/header";
 import popupDetail from "../../components/popUpDetail"
+import { get } from 'https';
 export default {
   name: "userinfo",
   components: { headerTitle, popupDetail },
@@ -84,12 +85,14 @@ export default {
       userIphont: 16625487452,
       headerTitle: "个人主页",
       detailName: '更改个人信息',
-      user: {}
+      user: {},
+      userInfo:{}
     };
   },
   methods: {
     editForm() {
-      this.$refs.userDetail.isDetail = !this.$refs.userDetail.isDetail
+      this.$refs.userDetail.isDetail = true
+      this.getUserinfoFoem()
     },
     GetUserInfo() {
       this.$http.get(this.$conf.env.userinfo).then(res => {
@@ -100,6 +103,49 @@ export default {
           this.$loading.close();
           this.$toast.center("网络错误");
         });
+    },
+    getUserinfoFoem(){
+      this.$http.get(this.$conf.env.getUserinfo).then( res =>{
+        this.userInfo = res.data
+      console.log(res)
+      }).catch(err =>{
+      this.$toast.center('服务器错误');
+      })
+    },
+    updataUserInfo(){
+      if(!this.VerificationData()) return
+      this.$loading("");
+      var params={
+        'guardian_one': this.userInfo.guardian_one,//监护人
+        'guardian_one_phone': this.userInfo.guardian_one_phone,//监护人手机
+        'school_cart': this.userInfo.school_cart,//学籍号
+        'address': this.userInfo.address,//地址
+        'school': this.userInfo.school,//学校
+      }
+      this.$http.put(this.$conf.env.getUserinfo, params).then( res =>{
+        this.$loading.close();
+        this.$toast.center("修改成功");
+        this.$refs.userDetail.isDetail = false
+      }).catch(err =>{
+        this.$loading.close();
+      this.toast.center('服务器错误')
+      })
+    },
+    VerificationData(){
+      for(var i in this.userInfo){
+        console.log(this.userInfo[i])
+        if(!this.userInfo[i]){
+          this.$toast.center('请完善您的信息');
+          return false
+        }
+      }
+      var myreg = /^0?(13[0-9]|14[5-9]|15[012356789]|166|17[0-8]|18[0-9]|19[8-9])[0-9]{8}$/;
+       if (!this.userInfo.guardian_one_phone && !myreg.test(this.userInfo.guardian_one_phone.replace(/(^\s*)|(\s*$)/g, ""))) {
+          this.$toast.center('请填写正确的手机号');
+          return false
+        }else{
+          return true
+        }
     }
   },
   created() {

@@ -5,9 +5,9 @@
           <div class="ShoopingCart">
             <div class="BigBox">
               <ul>
-                <li v-for="(item,index) in shoppoingList" :key="item.id">
-                    <label :for=index :class="{ checkBox:true, checkBox_posi: wantCheck }">
-                      <input :id=index type="checkbox" :value="item" v-model="checkList">
+                <li v-for="(item,index) in shoppoingList" :key="item.id" >
+                    <label :for=index :class="{ checkBox:true, checkBox_posi: wantCheck }" >
+                      <input  type="checkbox"  @click="setCart(item)" :value="item" v-model="checkList">
                     </label>
                   <div class="ShoppImg">
                     <img :src="item.good.front_image" alt="">
@@ -67,10 +67,25 @@
         /**@name购物车删除 */
         deleteCheckList(){
           if(this.shoppoingList && this.shoppoingList.length>0){
-            this.shoppoingList = [];
-            this.TotalPrice = 0;
-            this.checkAll = false;
-            this.checkList = [];
+             if(this.checkList.length>0){ 
+               var arr = []
+               this.checkList.forEach(value =>{ arr.push(value.id.toString())})
+               var params = {
+                 'choice':arr
+               }
+               this.$http.delete(this.$conf.env.deleteCartData, params).then( res =>{
+                  console.log(res)
+               }).catch(err =>{
+               this.toast.center('服务器错误')
+               })
+             }else{
+              this.$toast.center('您还未选择商品');
+             }
+            // this.shoppoingList = [];
+            // this.TotalPrice = 0;
+            // this.checkAll = false;
+            // this.checkList = [];
+
           }else{
             this.$toast.center('购物车是空的呢');
           }
@@ -80,6 +95,11 @@
           this.$http.get(this.$conf.env.ShoppCartList)
             .then(res => {
               console.log(res.data)
+              res.data.results.forEach(value =>{
+                if(value.choice){
+                  this.checkList.push(value)
+                }
+              })
               this.shoppoingList = res.data.results
             })
             .catch(err => {
@@ -101,6 +121,23 @@
               this.$toast.center('账号或密码错误');
           })
         },
+        setCart(item){
+          console.log(item, item.choice)
+          item.choice = !item.choice
+          this.addCart(item)
+          
+        },
+        addCart(item){
+          console.log(item.choice ? '添加':'删除')
+          var params ={
+            'choice': item.choice
+          }
+          this.$http.put(this.$conf.env.AddShoppCart + item.id + '/', params).then( res =>{
+          console.log(res)
+          }).catch(err =>{
+          this.toast.center('服务器错误')
+          })
+        },
         
       },
     watch: {
@@ -108,7 +145,7 @@
         if(val.length > 0){
           var TotalPrice = 0
           val.forEach(item =>{
-            TotalPrice +=item.nums*item.good.price
+            TotalPrice += item.nums*item.good.price
           })
           this.TotalPrice = TotalPrice
         }else{
@@ -140,12 +177,12 @@
       },
       shoppoingList:{
         handler(newName, oldName) {
-          console.log(newName);
           var TotalPrice = 0
           newName.forEach((item,index) =>{
             if(item.nums == 0){
               return false
             }
+            
             this.checkList.forEach( value =>{
               if(item.id == value.id){
                 TotalPrice +=value.nums*value.good.price

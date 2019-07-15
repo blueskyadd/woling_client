@@ -56,9 +56,7 @@ export default {
             }
         }
         return new Promise((resolve, reject) => {
-            axios.delete(url, headers, {
-                params: request
-            }).then((response) => {
+            axios.delete(url, headers, request).then((response) => {
                 resolve(response)
             }, (error) => {
                 reject(error)

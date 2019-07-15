@@ -13,8 +13,12 @@ import './components/Toast/toast.css';//弹框样式
 
 import Toast from './components/Toast/index';//弹框
 import {ProgressBar} from 'vue-ydui/dist/lib.rem/progressbar';//加载环形图
+import {CountUp} from 'vue-ydui/dist/lib.rem/countup';
+Vue.component(ProgressBar.name, ProgressBar);
+Vue.component(CountUp.name, CountUp);
 
-import VConsole from "vconsole";//vconsole
+
+
 
 import RouteTransition from 'vue-route-transition'
 import 'vue-ydui/dist/ydui.base.css';
@@ -32,7 +36,7 @@ import http from "./track/http.js";
 
 
 //vconsole
-Vue.component(ProgressBar.name, ProgressBar);
+import VConsole from "vconsole";//vconsole
 if (process.env.NODE_ENV === 'production') {
   new VConsole()
 }

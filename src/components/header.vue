@@ -58,6 +58,7 @@ export default {
         },
         changeCity(data){
             this.location = this.$refs.cityData.nameValue.split(' ')
+            this.$emit('changeCity', this.location)
         },
         editFormdata(){
             this.$emit('editFormdata')

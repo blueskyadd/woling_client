@@ -1,11 +1,11 @@
 
 <template>
     <div class="coach_Detail">
-        <headerTitle :title="headerTitle" :isUpload = 'false' :isLocation='true'/>
+        <headerTitle :title="headerTitle" :isUpload = 'false' :isLocation='true' @changeCity='changeCity'/>
         <div class="main">
-            <sideBar :leftList='leftList' @change="getcoachList" :setIndex='setIndex'/>
+            <sideBar :leftList='leftList' @change="getcoachTitle" :setIndex='setIndex'/>
             <div class="selete_main" >
-                <mian-list  :loading='loading' :tableList='tableList' :refreshing='refreshing' @goDetail = 'getCoachDetail'  @getClassList ='getSclassList' :isLoaded='isLoaded'>
+                <mian-list  :loading='loading' :tableList='tableList' :refreshing='refreshing' @goDetail = 'getCoachDetail'  @getClassList ='getCoachList' :isLoaded='isLoaded'>
                     <template slot="second" slot-scope="scope">
                         <img :src="scope.dataItem.front_image" alt="">
                         <span>{{scope.dataItem.name}}</span>
@@ -48,7 +48,10 @@ export default {
             setIndex:0,
             isDetail:false,
             detailData:{},
-            detaiilTitle:'教练简介'
+            detaiilTitle:'教练简介',
+            area:'',
+            city:'',
+
         }
     },
     methods: {
@@ -57,23 +60,26 @@ export default {
             this.setIndex = data.index
         },
         getCoachDetail(data){
+            data.desc = data.intro
             this.detailData = data
             this.$refs.coachDetail.isDetail = !this.$refs.coachDetail.isDetail
 
         },
         /**@name获取班级名称列表 */
-        getSclassList(num){
-            this.$http.get(this.$conf.env.getSclassList).then( res =>{
+        getCoachList(){
+            this.$http.get(this.$conf.env.getCoachList +'?area=' + this.area+ '&city=' + this.city).then( res =>{
+                this.$loading.close()
                 if(!res.data || res.data.length == 0) {
-                 this.$toast.center('暂时没有数据呢'); 
-                 this.$loading.close()
+                 this.$toast.center('暂时没有数据呢');
+                 this.leftList = res.data
+                 this.getcoachTitle({'item': {coaches:[]}, 'index':0})
+
                 }else{
                    res.data.forEach( (Element, index) =>{
                         Element.index = index
                     })
-
-                    this.getcoachList({'item': res.data[0], 'index': res.data[0].index})
-                    this.leftList = res.data 
+                    this.getcoachTitle({'item': res.data[0], 'index': res.data[0].index})
+                    this.leftList = res.data
                 }
             }).catch(err =>{
                 console.log(err)
@@ -81,30 +87,29 @@ export default {
                 this.$toast.center('服务器错误');
             })
         },
-        getcoachList(data){
-            this.$loading('');
-            this.headerTitle = data.item.name + '学员'
-            this.setIndex = data.index
-            this.$http.get(this.$conf.env.getcoachList + data.item.id).then( res =>{
-            this.$loading.close()
-            console.log(res)
-
-            res.data.forEach(element =>{
-                element.front_image = element.image
-                element.id = element.user_id
-                delete element.image
-                delete element.user_id
-            })
-            this.tableList = res.data
-            }).catch(err =>{
-                this.$loading.close()
-            })
-        }
+        getcoachTitle(data){
+            console.log(data)
+            this.setIndex = data.index? data.index : 0
+            if(!data.item.coaches.length){
+                this.$toast.center('暂无数据');
+                this.tableList = []
+            }else{
+                data.item.coaches.forEach(element =>{
+                    element.front_image = element.picture
+                })
+                this.tableList = data.item.coaches
+            }
+        },
+        changeCity(data){
+            console.log(data)
+            this.area = data[2];this.city = data[1]
+            this.getCoachList()
+        }, 
 
     },
     mounted(){
-        // this.$loading('');
-        // this.getSclassList(1)
+        this.$loading('');
+        this.getCoachList()
     }
 }
 </script>

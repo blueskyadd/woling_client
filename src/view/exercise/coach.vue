@@ -54,10 +54,10 @@ export default {
         console.log('开始播放...')
     },
     /**@name获取视频列表 */
-    getuploadvideoList(number){
+    getuploadvideoList(number, flag){
       this.$loading('');
-      this.$http.get(this.$conf.env.uploadvideo+ '?p='+number ).then( res =>{
-        console.log(res)
+      var urlData = flag  ? this.$conf.env.getVideolist + '?p='+number : this.$conf.env.getSeleVideoList
+      this.$http.get( urlData ).then( res =>{
         if(res.data && res.data.results){
           
            var Obj = {}; var arr = [] 
@@ -76,7 +76,7 @@ export default {
             number == 1? this.getVideoListData(res.data.results[this.setVideoIndex]) : ''
             this.$loading.close()
             if(!res.data.next){
-              this.$toast.center('已加载全部数据');
+              number==1?this.$toast.center('暂无数据') :this.$toast.center('已加载全部数据')
               this.$emit('setVideoNameList', {data:this.videoDetail,flag: false})
             }else{
               this.$emit('setVideoNameList', {data:this.videoDetail,flag: true})
@@ -127,12 +127,7 @@ export default {
     }
   },
   mounted() {
-    // if(this.$route.params.data){
-    //    this.$loading('');
-    //   this.getVideoListData(this.$route.params.data[0])
-    // }else{
-    //   this.getuploadvideoList(1);
-    // }
+    this.getuploadvideoList(1, true);
     
   }
 };

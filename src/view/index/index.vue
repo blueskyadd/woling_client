@@ -34,11 +34,8 @@
            <div>同学榜</div>
          </div>
         <div>
-          <ul>
-            <li><img src="http://img3.imgtn.bdimg.com/it/u=2017451364,1155593535&fm=15&gp=0.jpg" alt=""><div></div></li>
-            <li><img src="http://img3.imgtn.bdimg.com/it/u=2017451364,1155593535&fm=15&gp=0.jpg" alt=""><div></div></li>
-            <li><img src="http://img3.imgtn.bdimg.com/it/u=2017451364,1155593535&fm=15&gp=0.jpg" alt=""><div></div></li>
-            <li><img src="http://img3.imgtn.bdimg.com/it/u=2017451364,1155593535&fm=15&gp=0.jpg" alt=""><div></div></li>
+          <ul  ref="rankingDataScroll">
+            <li v-for="item in rankingData" :key="item.id"><img :src="item.picture || imgPhoto" alt=""><div></div></li>
           </ul>
         </div>
       </div>
@@ -62,7 +59,7 @@
         </div>
       </div>
     </div>
-    <!--    底部-->
+    <!-- 底部-->
     <div class="web-index-footerBox">
       <div class="web-index-footer">
         <ul>
@@ -117,6 +114,7 @@
         </ul>
       </div>
     </div>
+    <!-- 顾问 -->
     <popup v-model="isDetail" height="270px" is-transparent >
       <div class="detail_box">
           <img class="indexcounselorImg" src="../../assets/img/indexcounselorImg.png" alt="">
@@ -125,15 +123,15 @@
           <div class="main_text">
             <div>
               <span>销售顾问:</span>
-              <p>李老师</p>
+              <p>{{Counselor.name}}</p>
             </div>
             <div>
               <span>联系电话:</span>
-              <p>186-4526-5684</p>
+              <p>{{Counselor.mobile}}</p>
             </div>
             <div>
               <span>工作地址:</span>
-              <p>黄浦区外马路1353号世博黄浦体育园一号楼三楼</p>
+              <p>{{Counselor.address}}</p>
             </div>
           </div>
       </div>
@@ -155,10 +153,13 @@ export default {
       isElectricity: false, //充电状态
       networkStatus: "", //网络状态
       ISnetworkStatus: false,
-      isDetail: false
+      isDetail: false,
+      rankingData: [],//同学排行榜
+      imgPhoto:'http://img4.duitang.com/uploads/item/201412/01/20141201183854_TRArc.thumb.700_0.png',
+      Counselor: {}
     };
   },
-  computed: {
+  computed: { 
     //电量--andriod
     setelectricity() {
       if (this.getelectricity > 70) {
@@ -246,7 +247,7 @@ export default {
     },
     getUserInfo() {
       this.$http
-        .get(this.$conf.env.getUserInfo)
+        .get(this.$conf.env.userinfo)
         .then(res => {
           console.log(res);
           this.username = res.data.name;
@@ -259,14 +260,34 @@ export default {
         });
     },
     getcounselor() {
-      this.isDetail = !this.isDetail
+      this.isDetail = true
+      this.getCounselorData()
     },
+    getCounselorData(){
+      this.$http.get(this.$conf.env.getCounselor).then( res =>{
+        this.Counselor = res.data
+      }).catch(err =>{
+      this.$toast.center('服务器错误');
+      })
+    },
+    rankingList(){
+      this.$http.get(this.$conf.env.rankingList).then( res =>{
+      console.log(res)
+        this.rankingData = res.data.results
+      }).catch(err =>{
+      this.$toast.center('服务器错误');
+      })
+    },
+    addEventScroll(){
+      
+    }
   },
   mounted() {
     console.log(this.$msg); 
     // this.$loading('');
-    // this.getsingIn()
-    // this.getUserInfo()
+    this.getsingIn()
+    this.getUserInfo()
+    this.rankingList();//获取同学排行榜列表
     // var vm = this
     // setTimeout(() => {
     //   console.log("网络状态：" + window.navigator.onLine);
@@ -645,10 +666,10 @@ export default {
         width: 100%;
         height: calc(100% - .73rem);
         background: rgba(9,26,57,.9);
+        overflow-y: scroll;
         ul{
           display: flex;
           flex-direction: column;
-          height: 100%;
           justify-content: space-around;
           width: 100%;
           align-items: center;
@@ -676,6 +697,9 @@ export default {
             }
           }
         }
+      }
+      div::-webkit-scrollbar{
+        display: none;
       }
     }
   }
@@ -789,9 +813,15 @@ export default {
             span{
               float: left;
               height: .45rem;
+              line-height: .45rem;
             }
             p{
               line-height: .44rem;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              display: -webkit-box;
+              -webkit-line-clamp: 2;
+              word-wrap: break-word;
             }
         }
         img{

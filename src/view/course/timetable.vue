@@ -37,7 +37,7 @@ export default {
             this.setIndex = data.index
         },
         goCourseDetail(){
-            this.$router.push({name:''})
+            this.$router.push({name:'courseDetail'})
         },
         /**@name获取课程列表 */
         getCourseList(num){

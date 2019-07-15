@@ -34,11 +34,6 @@ export default new Router({
       component:() => import('@/view/cart/index'),
     },
     {
-      path:'/cart',
-      name:'assess',
-      component:() => import('@/view/cart/assess')
-    },
-    {
       path:'/actively',
       name:'actively',
       component:() => import('@/view/actively/index')

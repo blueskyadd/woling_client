@@ -7,7 +7,7 @@
           <aside>
             <div class="TabSel" v-if="setTabtitle">
                 <div class="News" @click="SelectNes = 0" :class="SelectNes === 0 ? 'active':''">最新</div>
-                <div class="history" @click="SelectNes = 1" :class="SelectNes === 1 ? 'active':''">历史</div>
+                <div class="history" @click="SelectNes = 1, getAbilityTime()" :class="SelectNes === 1 ? 'active':''">历史</div>
             </div>
             <div class="TabSel" v-else>
               <div class="News active detailTime" > <span @click="gobackAchievementIndex"></span>{{detailTime}}</div>
@@ -21,7 +21,7 @@
               </div>
               <div>
                 <div class="imageBoxTit">综合评价</div>
-                <div class="textarea">呢地方饿哦违法呢地方饿哦违法和柔佛规划共啊如果啊个好人荣光火热哦和柔佛规划共啊如果啊个好人荣光火热哦</div>
+                <div class="textarea">{{achievementDetail.comment}}</div>
                 <div class="bottomImg" >
                   <img src="../../assets/img/achievementBottomImg.png" alt="">
                 </div>
@@ -30,7 +30,7 @@
             <div class="historyBox" v-show ="SelectNes == 1 ">
               <ul>
                 <li v-for="(item, index) in historyLeftList" @click="changeHistoryData(item,index)" :class="{activly: index == setIndex}" :key="item.id">
-                  <p>{{item.name}}</p>
+                  <p>{{item.create_time}}</p>
                 </li>
               </ul>
             </div>
@@ -125,24 +125,7 @@ export default {
       "headerTitle": "成就",
       "SelectNes": 0,
       "Charts": [],
-      "historyLeftList":[
-        {
-          'name':'2019.03.25',
-          'id':1
-        },
-        {
-          'name':'2049.03.25',
-          'id':2
-        },
-        {
-          'name':'2349.03.25',
-          'id':23
-        },
-        {
-          'name':'5049.03.25',
-          'id':25
-        },
-      ],
+      "historyLeftList":[],
       "setIndex": -1,
       "data":4,
       "achievementDetail":{
@@ -213,6 +196,17 @@ export default {
       this.detailTime = item.name;
       this.setTabtitle = false;
       this.SelectNes = 0
+      
+    },
+    getAbilityTime(){
+      console.log('aaa')
+      this.$http.get(this.$conf.env.getAbilityTime).then( res =>{
+        console.log(res)
+        if(!res.data || res.data.length == 0){this.$toast.center('暂无历史数据');}
+        this.historyLeftList = res.data
+      }).catch(err =>{
+        this.$toast.center('服务器错误');
+      })
     },
     gobackAchievementIndex(){
       this.SelectNes = 1
@@ -262,10 +256,19 @@ export default {
       // x和y轴同时缩放的动画
       chart.animate().scalexy();
       chart.render();
+    },
+    getAchievement(){
+      this.$http.get(this.$conf.env.getAchievement).then( res =>{
+        console.log(res)
+        this.achievementDetail = res.data
+      }).catch(err =>{
+        this.toast.center('服务器错误');
+      })
     }
   },
   mounted() {
     this.setConvas()
+    this.getAchievement()
   }
 
 }

@@ -5,19 +5,19 @@
             <sideBar :leftList='leftList' @change="getorderForm" :setIndex='setIndex'/>
             <div class="selete_main" >
                 <ul> 
-                    <li v-for="(val,index) in orderFormList" :key="index" @click="getOrderDetail">
+                    <li v-for="(val,index) in orderFormList" :key="index" @click="getOrderDetail(val)">
                         <div>
-                            <div><img :src="val.day_weather_pic" alt=""></div>
+                            <div><img :src="'http://94.191.15.122/'+val.image" alt=""></div>
                             <div>
-                                <h3>{{val.coach}}</h3>
-                                <p>{{val.assistant_coach}}</p>
-                                <button>{{val.province}}</button>
+                                <h3>{{val. name}}</h3>
+                                <p>{{val.assistant_coach || val.create_time}}</p>
+                                <button :style="{'background': val.classify == '其他' ? '#5A75D8' : val.classify == '课程' ? '#5AD8A4' : '' }">{{val.classify}}</button>
                             </div>
                         </div>
                         <div>
-                            <span>￥321</span>
-                            <span>选择商品1</span>
-                            <button :style="{'background': val.status ? 'red' :'#D8CB5A'}">{{val.province}}</button>
+                            <span>￥{{val.money}}</span>
+                            <span>选择商品{{val.nums}}</span>
+                            <button  :style="{'background': val.pay_status == '已取消' ? '#6F6F6F'  :val.pay_status  ==''||  '支付'? 'transparent': '#FF3737' , 'color' :val.pay_status  == ''|| '支付'? 'transparent' :'#D8CB5A'}">{{val.pay_status}}</button>
                             <span>3254653513143</span>
                         </div>
                     </li>
@@ -30,22 +30,22 @@
                     <li>
                         <img src="../../assets/img/orderDetailFooter.png" alt="">
                         <span>订单编号:</span>
-                        <p>3242342342433</p>
+                        <p>{{orderDetail.order_sn}}</p>
                     </li>
                     <li>
                         <img src="../../assets/img/orderDetailFooter.png" alt="">
                         <span>订单商品:</span>
-                        <p>32423423423423</p>
+                        <p>{{orderDetail.pitch}}</p>
                     </li>
                     <li>
                         <img src="../../assets/img/orderDetailFooter.png" alt="">
                         <span>使用时间:</span>
-                        <p>32423423423423</p>
+                        <p>{{orderDetail.times[0]}}</p>
                     </li>
                     <li>
                         <img src="../../assets/img/orderDetailFooter.png" alt="">
                         <span>付款时间:</span>
-                        <p>423423423423423423423</p>
+                        <p>{{orderDetail.pay_time}}</p>
                     </li>
                 </ul>
                 
@@ -66,52 +66,71 @@ export default {
             headerTitle: '订单',
             leftList:[
                 {
-                    'id':1,
-                    'name':'熊猫球场',
-                    'coach':"而开发后尔瓦佛尔积分日光金额偶然间g"
-                },
-                 {
-                    'id':21,
-                    'name':'熊猫球场',
-                    'coach':"而开发后尔瓦佛尔积分日光金额偶然间g"
-                },
-                 {
-                    'id':14,
-                    'name':'熊猫球场',
-                    'coach':"而开发后尔瓦佛尔积分日光金额偶然间g"
+                    'id': '',
+                    'name':'全部'
+                },{
+                    'id': 4,
+                    'name':'课程'
+                },{
+                    'id': 6,
+                    'name':'球场'
+                },{
+                    'id': 6,
+                    'name':'其他'
                 }
             ],
             setIndex: 0,
             
-            orderFormList:[
-                {
-                    coach:'花式足球',
-                    assistant_coach:'阿尔法我去饿请问',
-                    start_time:'2028-04-02',
-                    province:'为违',
-                    city:'士大夫',
-                    area:'阿尔法',
-                    address:'阿尔法',
-                    status: false,
-                    day_weather_pic:'http://pic18.nipic.com/20111129/4155754_234055006000_2.jpg'
-                }
-            ],
+            orderFormList:[],
             detailDataObj:{
                 'title':'订单详情',
                 'buttonText':'确定'
-            }
+            },
+            orderDetail:{pay_time:'',times:[],order_sn:'',pitch:''}
 
         }
     },
     methods:{
         getorderForm(data){
             this.setIndex = data.index
+            console.log(data)
+            this.$loading('');
+            this.getClassifyList(data.item.id)
         },
          getOrderDetail(data){
+             this.$loading('');
             // this.detailDataObj = data
-            this.$refs.popUpDetail.isDetail = !this.$refs.popUpDetail.isDetail
-
+            this.$http.get(this.$conf.env.getPitchList + data.id +'/').then( res =>{
+                console.log(res)
+                 this.$loading.close()
+                this.orderDetail = res.data
+                this.$refs.popUpDetail.isDetail = !this.$refs.popUpDetail.isDetail
+            }).catch(err =>{
+                this.$loading.close()
+                if(err.request.status == '404'){
+                    this.$toast.center('暂无详情数据');
+                }else{
+                    this.$toast.center('服务器错误');
+                }
+                 
+                
+            })
+            
         },
+        getClassifyList(ID){
+            this.$http.get(this.$conf.env.getClassifyList + ID).then( res =>{
+                this.$loading.close()
+                this.orderFormList = res.data.results
+            }).catch(err =>{
+                this.$loading.close()
+                console.log(err)
+                this.$toast.center('服务器错误');
+            })
+        }
+    },
+    mounted(){
+        this.$loading('');
+        this.getClassifyList(0)
     }
 }
 </script>
@@ -131,6 +150,7 @@ export default {
             padding: .2rem .18rem;
                 ul{
                     display: flex;
+                    align-content: flex-start;
                     flex-wrap: wrap;
                     background:linear-gradient(0deg,rgba(22,37,68,.6) 0%,rgba(57,87,139,.8) 100%);
                     padding: .14rem .11rem;
@@ -226,6 +246,7 @@ export default {
             display: flex;
             flex-direction: column;
             justify-content: space-around;
+            
             height: 100%;
             width: 100%;
             margin-bottom: .49rem;

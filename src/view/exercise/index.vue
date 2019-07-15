@@ -24,7 +24,7 @@
                 </li>
               </ul>
               <ul class="routerIndexOne" v-else>
-                <li v-for="(item,index) in listSelf " :key="index">
+                <li v-for="(item,index) in listCoach " :key="index">
                   <div class="list-item" data-type="0">
                     <div @touchstart.capture="touchStart" @touchend.capture="touchEnd" @click="skip(item, index)" class="scrollButton">
                       <div class="footballImg"><img src="../../assets/img/足球.png" /></div>
@@ -58,51 +58,13 @@
       </div>
     </div>
     <div class="uploadVideo" v-if="isuploadVideo">
-      <header>
-        上传练习
-        <span>
-          <img src="../../assets/img/orderDetailClose.png" @click="isuploadVideo = false" />
-        </span>
-      </header>
+      <header>上传练习<span><img src="../../assets/img/orderDetailClose.png" @click="isuploadVideo = false" /></span></header>
       <div class="upoloadMaian">
-        <div class="updata">
+        <div class="updata" v-for="(item, index) in classVideo" :key="item.video" ref="file">
           <span>练习上传:</span>
-          <img src="../../assets/img/上传拷贝.png" alt @click="changefile" />
-          <input
-            type="file"
-            accept="video/*"
-            @change="uploadfile"
-            name="fileTrans"
-            ref="file"
-            value
-            mutiple="mutiple"
-          />上传
-        </div>
-        <div class="updata">
-          <span>练习上传:</span>
-          <img src="../../assets/img/上传拷贝.png" alt @click="changefile" />
-          <input
-            type="file"
-            accept="video/*"
-            @change="uploadfile"
-            name="fileTrans"
-            ref="file"
-            value
-            mutiple="mutiple"
-          />上传
-        </div>
-        <div class="updata">
-          <span>练习上传:</span>
-          <img src="../../assets/img/上传拷贝.png" alt @click="changefile" />
-          <input
-            type="file"
-            accept="video/*"
-            @change="uploadfile"
-            name="fileTrans"
-            ref="file"
-            value
-            mutiple="mutiple"
-          />上传
+          <img src="../../assets/img/上传拷贝.png" alt @click="changefile(item, index)" />
+          <input type="file" accept="video/*" @change="uploadfile($event, item)" name="fileTrans" class="Updata"  value mutiple="mutiple"/>上传
+          <span style="margin-left:.05rem">{{item.name}}</span>
         </div>
       </div>
       <yd-progressbar
@@ -115,7 +77,7 @@
       >
         <yd-countup :endnum="progress3 * 100" :duration="1" suffix="%">{{progress3 * 100}}%</yd-countup>
       </yd-progressbar>
-      <span class="submitButton" @click="uploadvideo">确定上传</span>
+      <span class="submitButton" @click="uploadvideo(0)">确定上传</span>
     </div>
   </div>
 </template>
@@ -124,7 +86,7 @@ import headerTitle from "../../components/header";
 import exerciseCoach from './coach'
 import store from "../../store/index";
 import { formatDate } from "../../assets/js/date.js";
-
+  
 export default {
   name: "exercise",
   components: { headerTitle, exerciseCoach },
@@ -148,16 +110,7 @@ export default {
       setVideoIndex: 0,
       setstudentVideoIndex: 0,
       isuploadVideo: false,
-      listCoach: [
-        {
-          'time':'2018--11-01',
-          'name':'足球卡萨丁'
-        },
-        {
-          'time':'2018--11-01',
-          'name':'足球卡萨丁'
-        }
-      ],//教练
+      listCoach: [ ],//教练
       listSelf:[
         {
           'time':'2018--11-01',
@@ -184,7 +137,26 @@ export default {
       refreshing:false,
       number:1,
       isLoaded:false,
-      min_date:new Date()
+      min_date:new Date(),
+      classVideo: [{
+        "video": 1,
+        "name": "(06.28)课程01"
+    },
+    {
+        "video": 3,
+        "name": "(06.29)课程01"
+    },
+    {
+        "video": 23,
+        "name": "(06.29)课程01"
+    },
+    {
+        "video": 13,
+        "name": "(06.29)课程01"
+    }],//视频上传列表
+      classVideoList: [],
+      index: 0,
+      flag: true
     };
   },
   methods: {
@@ -193,12 +165,15 @@ export default {
     goexerciseCoach() {
       //     this.isLoaded = false
       this.routerIndex = 1;
+      this.$refs.childObj.getuploadvideoList(1, true);
       // this.isUpload = true;
     },
     goexerciseGrade() {
       // this.number = 1
       //     this.isLoaded = false
+      console.log("2222222222")
       this.routerIndex = 2;
+      this.$refs.childObj.getuploadvideoList(1, false);
       
       // this.isUpload = false;
     },
@@ -242,9 +217,7 @@ export default {
     //删除视频
     deleteVideo(item) {
       this.$loading("");
-      this.$http
-        .delete(this.$conf.env.uploadvideo + item.id + "/")
-        .then(res => {
+      this.$http.delete(this.$conf.env.getSeleVideoList + item.id + "/").then(res => {
           this.$loading.close();
           this.$toast.center("删除成功");
           this.number = 1
@@ -337,57 +310,75 @@ export default {
     },
 
     /**@name使用input上传视频 */
-    changefile() {
-      this.$refs.file.dispatchEvent(new MouseEvent("click"));
+    changefile(item, index) {
+      document.getElementsByClassName('Updata')[index].dispatchEvent(new MouseEvent("click"));
     },
-    uploadfile(ev) {
-      this.$toast.center("上传成功");
-      this.file = ev.target.files[0];
-    },
-    uploadvideo() {
-      this.progress3 = 0;
-      var vm = this;
-      setTimeout(() => {
-        if (vm.progress3 < 0.5) {
-          vm.progress3 += 0.3;
-        } else if (vm.progress3 > 0.5 && vm.progress3 < 1) {
-          vm.progress3 += 0.01;
+    uploadfile(ev, item) {
+      if(ev.target.files[0].size/1024/1024 > 20){
+        this.$toast.center("视频文件过大");
+      }else{
+       this.$toast.center("上传成功")
+        var Obj ={
+          'video':item.video,
+          'file': ev.target.files[0]
         }
-      }, 1);
-      this.isprogressbar = true;
-      let params = new FormData();
-      params.append("file", this.file);
-      params.append("course", this.courseId);
-      params.append("date", this.getformatDate(this.date));
-      this.$http
-        .post(this.$conf.env.uploadvideo, params, true)
-        .then(res => {
-          this.progress3 = 1;
-          var vm = this;
-          setTimeout(() => {
-            vm.$toast.center("提交成功");
-            vm.isuploadVideo = false;
-            vm.isprogressbar = false;
-            vm.progress3 = 0;
-            vm.courseId = "";
-            vm.courseName = "";
-            vm.file = "";
-            vm.date = "";
-          }, 2000);
-
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err.response.status == "400");
-          if (err.response.status == "400") {
-            this.$toast.center("课程ID无效");
-          } else {
-            this.$toast.center("服务器错误");
-          }
-        });
+        this.classVideoList.push(Obj)
+      }
+      
+    },
+    uploadvideo(index) {
+      if(this.classVideoList.length == 0){
+        this.$toast.center("您还没有选择上传文件")
+      }else{
+        this.progress3 = (1/this.classVideoList.length) * (index + 1);
+        var vm = this;
+        this.isprogressbar = true;
+        let params = new FormData();
+            params.append("file", this.classVideoList[index].file);
+            params.append("video", this.classVideoList[index].video);
+            this.$http.post(this.$conf.env.uploadvideo, params, true)
+            .then(res => {
+              if(this.classVideoList[index +1 ]){
+                this.progress3 += (1/this.classVideoList.length) * (index + 1);
+              return this.uploadvideo(index + 1)
+              }
+              if(this.progress3 == 1){
+                setTimeout(() => {
+                  vm.isprogressbar = false;
+                  vm.$toast.center("提交成功");
+              })
+              }
+            }).catch(err => {
+            console.log(err);
+            if (err.response.status == "400") {
+              vm.isprogressbar = false;
+              this.$toast.center(err.response.data[0]);
+            } else {
+              this.$toast.center("服务器错误");
+            }
+          });
+        }
+    },
+    upload(params){
+      debugger;
+      this.$http.post(this.$conf.env.uploadvideo, params, true).then(res => {
+        // this.uploadvideo()
+        this.uploadvideo()
+        debugger;
+      })
     },
     showUpdata(data) {
       this.isuploadVideo = true;
+      this.getclassVideo()
+    },
+    getclassVideo(){
+      this.$http.get(this.$conf.env.getClassVideo).then( res =>{
+        
+        // this.classVideo = res.data
+        // console.log(this.classVideo)
+      }).catch(err =>{
+        this.$toast.center('服务器错误');
+      })
     },
     getformatDate(time) {
       var date = new Date(time);
@@ -423,9 +414,9 @@ export default {
     setVideoNameList(data) {
       if(!data.flag){
         this.isLoaded = true
-         this.list = this.list
+         this.listCoach = this.list
       }
-         this.list = data.data;
+         this.listCoach = data.data;
       // }
       // this.courseId = data[0].id
       // this.courseName = data[0].name
@@ -733,6 +724,10 @@ export default {
         font-size: 0.18rem;
         line-height: 0.42rem;
         color: #2fe2cb;
+        display: flex;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
         span {
           line-height: 0.42rem;
           display: block;
