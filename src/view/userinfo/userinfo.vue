@@ -1,6 +1,6 @@
 <template>
   <div class="web-userinfo-bigbox">
-    <headerTitle :title="headerTitle" :editForm="true" @editFormdata="editForm" />
+    <headerTitle :title="headerTitle" :editForm="iseditForm" @editFormdata="editForm" />
     <div class="web-userinfo-menu">
       <div class="web-userinfo-left">
         <div class="userinfo">
@@ -43,7 +43,7 @@
           </div>
           <div class="FK">
             <span>最近访客></span>
-            <ul><li></li><li></li><li></li></ul>
+            <ul><li v-for="item in VistitList" :key="item.id"><img :src="item.picture" alt=""></li></ul>
           </div>
         </div>
         <!--球星展示-->
@@ -51,7 +51,7 @@
           <div class="footballStar-prohoto">
             <img src="../../assets/img/football-star.png" alt />
           </div>
-          <div class="change_footballStar">
+          <div class="change_footballStar" v-if="iseditForm" @click="GOchangeChild">
             <span>换球星</span>
           </div>
         </div>
@@ -71,22 +71,35 @@
         <span class="submitButton" @click="updataUserInfo">确定</span>
       </template>
     </popup-detail>
+    <div v-transfer-dom>
+      <confirm v-model="isShowout"
+      title=""
+      @on-confirm="onConfirm">
+        <p style="text-align:center;">当前只有您一个球星哦,是否直接退出</p>
+      </confirm>
+    </div>
   </div>
 </template>
 <script>
 import headerTitle from "../../components/header";
-import popupDetail from "../../components/popUpDetail"
-import { get } from 'https';
+import popupDetail from "../../components/popUpDetail";
+import { Confirm, TransferDomDirective as TransferDom } from 'vux'
 export default {
   name: "userinfo",
-  components: { headerTitle, popupDetail },
+  components: { headerTitle, popupDetail, Confirm },
+  directives: {
+    TransferDom
+  },
   data() {
     return {
       userIphont: 16625487452,
       headerTitle: "个人主页",
       detailName: '更改个人信息',
       user: {},
-      userInfo:{}
+      userInfo:{},
+      iseditForm: false,
+      isShowout: false,
+      VistitList: []
     };
   },
   methods: {
@@ -95,14 +108,25 @@ export default {
       this.getUserinfoFoem()
     },
     GetUserInfo() {
+      this.iseditForm = true
+      this.getVistitList();//获取访客列表
       this.$http.get(this.$conf.env.userinfo).then(res => {
           this.$loading.close();
           this.user = res.data;
-        })
-        .catch(err => {
+        }).catch(err => {
           this.$loading.close();
           this.$toast.center("网络错误");
         });
+    },
+    getrankingDetail(){
+      this.iseditForm = false
+      this.$http.get(this.$conf.env.getrankingDetail + this.$route.params.id  +'/' ).then( res =>{
+          this.$loading.close();
+          this.user = res.data;
+      }).catch(err =>{
+        this.$loading.close();
+        this.$toast.center('服务器错误');
+      })
     },
     getUserinfoFoem(){
       this.$http.get(this.$conf.env.getUserinfo).then( res =>{
@@ -146,13 +170,51 @@ export default {
         }else{
           return true
         }
+    },
+    GOchangeChild(){
+        this.$loading('');
+        var params={
+            mobile: localStorage.getItem('userName'),
+            password: localStorage.getItem('password'),
+        }
+        this.$http.post(this.$conf.env.login, params).then(res =>{
+          this.$loading.close()
+          sessionStorage.setItem('jp_token', res.data.token)
+              if(res.data.student && res.data.student.length > 0){
+                this.$router.push({
+                  name:"changeChild",
+                  params:{data:res.data.student}
+                })
+              }else{
+                this.isShowout = true
+              }
+
+
+        }).catch(err =>{
+            console.log(err)
+            this.$loading.close()
+            if(err.response.status == '401'){
+                this.$toast.center('账号或密码错误');
+            }
+        })
+    },
+    onConfirm(){
+      sessionStorage.removeItem("jp_token");
+      localStorage.clear();
+      this.$router.push({ name:"loging"})
+    },
+    getVistitList(){
+      this.$http.get(this.$conf.env.getVistitList).then( res =>{
+      console.log(res)
+      }).catch(err =>{
+      this.$toast.center('服务器错误');
+      })
     }
   },
-  created() {
+  mounted() {
     this.$loading("");
-    this.GetUserInfo();
+    this.$route.params.id ? this.getrankingDetail():this.GetUserInfo();
   },
-  mounted() {}
 };
 </script>
 
@@ -198,6 +260,7 @@ export default {
       }
     }
   }
+ 
   .web-userinfo-menu {
     flex: 1;
     display: flex;
@@ -462,16 +525,20 @@ export default {
             li {
               width: 0.36rem;
               height: 0.36rem;
-              background: red;
               border-radius: 50%;
               margin: 0 0.04rem;
+              overflow: hidden;
+              img{
+                width: 100%;
+                height: 100%;
+              }
             }
           }
         }
       }
       /*球星展示*/
       .football-prohoto-box {
-        width: 4.49rem;
+        width: 40%;
         height: 100%;
         .footballStar-prohoto {
           width: 100%;

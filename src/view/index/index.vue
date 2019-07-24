@@ -33,10 +33,19 @@
            <div><img src="../../assets/img/statusImg.png" alt=""></div>
            <div>同学榜</div>
          </div>
-        <div>
+        <div class="main">
+          <mu-paper :z-depth="1" class="demo-loadmore-wrap list"   ref="scroll">
+            <mu-load-more
+              @refresh="refresh()"
+              :refreshing="refreshing"
+              @load="load()"
+              :loaded-all="isLoaded"
+            >
           <ul  ref="rankingDataScroll">
-            <li v-for="item in rankingData" :key="item.id"><img :src="item.picture || imgPhoto" alt=""><div></div></li>
+            <li v-for="item in rankingData" @click="goStatusDetail(item)" :key="item.id"><img :src="item.picture || imgPhoto" alt=""><div></div></li>
           </ul>
+          </mu-load-more>
+          </mu-paper>
         </div>
       </div>
       <div class="web-index-content content_right">
@@ -54,7 +63,7 @@
             <!-- 课表 -->
             <router-link to="/course" tag="li"><img src="../../assets/img/course.png" alt=""></router-link>
             <!-- 赛事 -->
-            <li><img src="../../assets/img/Competition.png" alt=""></li>
+            <li @click="getStudent"><img src="../../assets/img/Competition.png" alt=""></li>
           </ul>
         </div>
       </div>
@@ -156,7 +165,10 @@ export default {
       isDetail: false,
       rankingData: [],//同学排行榜
       imgPhoto:'http://img4.duitang.com/uploads/item/201412/01/20141201183854_TRArc.thumb.700_0.png',
-      Counselor: {}
+      Counselor: {},
+      refreshing:  false,
+      number:1,
+      isLoaded:false,
     };
   },
   computed: { 
@@ -221,9 +233,10 @@ export default {
         .get(this.$conf.env.isSingIn)
         .then(res => {
           this.isSign = res.data.can_sign;
-          console.log(res);
         })
-        .catch(err => {});
+        .catch(err => {
+          this.$toast.center("网络错误，稍后再试");
+        });
     },
     //签到
     setSingIn() {
@@ -270,114 +283,147 @@ export default {
       this.$toast.center('服务器错误');
       })
     },
-    rankingList(){
-      this.$http.get(this.$conf.env.rankingList).then( res =>{
+    /**@name 同学榜上拉刷新 */
+    refresh(flag) {
+        this.refreshing = false;
+        this.number = 1
+        this.isLoaded = false
+        console.log("上拉刷新")
+        this.rankingList(1);
+    },
+    /**@name 同学榜下拉加载 */
+    load(flag) {
+      console.log('加载')
+      this.number += 1
+      // this.loading = true;
+      this.rankingList(this.number);
+    },
+    rankingList(number){
+      this.$http.get(this.$conf.env.rankingList + '/?p=' + number).then( res =>{
       console.log(res)
-        this.rankingData = res.data.results
+      if(!res.data.next){
+         this.isLoaded = true
+          if(res.data.results.length == 0 || res.data.results.length ==  res.data.count/number){
+            number ==1?this.$toast.center('暂无数据') :this.$toast.center('已加载全部数据')
+          }else if(res.data.results.length > 0 && res.data.results.length < res.data.count/number && number !=  1){
+            this.$toast.center('已加载全部数据')
+          }
+        }else{
+          this.isLoaded = false
+         
+        }
+         number==1 ? this.rankingData = res.data.results : this.rankingData = this.rankingData.concat(res.data.results)
       }).catch(err =>{
-      this.$toast.center('服务器错误');
+        if(err.request.status == '404'){
+          this.$toast.center('已加载全部数据')
+        }else{
+          this.$toast.center('服务器错误');
+        }
       })
     },
-    addEventScroll(){
-      
+    goStatusDetail(item){
+      this.$router.push({name: 'userinfo', params:{id: item.id}})
+    },
+    getStudent(){
+      this.$toast.center('此功能暂未开放')
     }
   },
   mounted() {
     console.log(this.$msg); 
-    // this.$loading('');
+    this.$loading('');
     this.getsingIn()
     this.getUserInfo()
-    this.rankingList();//获取同学排行榜列表
-    // var vm = this
-    // setTimeout(() => {
-    //   console.log("网络状态：" + window.navigator.onLine);
-    //   window.addEventListener("offline", function(e) {
-    //     console.log("offline");
-    //   });
+    this.rankingList(1);//获取同学排行榜列表
+    var vm = this
+    setTimeout(() => {
+      console.log("网络状态：" + window.navigator.onLine);
+      window.addEventListener("offline", function(e) {
+        console.log("offline");
+      });
 
-    //   window.addEventListener("online", function(e) {
-    //     console.log("online");
-    //   });
-    //   var u = navigator.userAgent,
-    //     app = navigator.appVersion;
-    //   var isAndroid = u.indexOf("Android") > -1 || u.indexOf("Linux") > -1; //g
-    //   var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-    //   if (isAndroid) {
-    //     //判断电量  充电状态   IOS不支持
-    //     navigator.getBattery().then(function(battery) {
-    //       vm.getelectricity = battery.level * 100 - 1; //电量 --首次赋值
-    //       vm.isElectricity = battery.charging; // 是否正在充电/true-充电 --首次赋值
-    //       //充电状态发生变化时触发
-    //       battery.addEventListener("chargingchange", function() {
-    //         vm.isElectricity = battery.charging;
-    //       });
-    //       //电池电量发生变化时触发
-    //       battery.addEventListener("levelchange", function() {
-    //         vm.getelectricity = battery.level * 100 - 1;
-    //       });
-    //     });
-    //   }
-    //   if (isIOS) {
-    //     var UIDevice = plus.ios.import("UIDevice"); //ios设备电量信息
-    //     var dev = UIDevice.currentDevice();
-    //     if (!dev.isBatteryMonitoringEnabled()) {
-    //       dev.setBatteryMonitoringEnabled(true);
-    //     }
-    //     dev.batteryMonitoringEnabled = true;
-    //     console.log("dev:", dev);
-    //     console.log("dev.batteryState:", dev.batteryState());
-    //     vm.isElectricity = dev.batteryState() == "2" ? true : false;
-    //     var level = dev.batteryLevel();
-    //     vm.getelectricity = level * 100; //电量 --首次赋值
-    //     console.log("level", level);
-    //     dev.addEventListener(
-    //       "UIDeviceBatteryLevelDidChangeNotification",
-    //       () => {
-    //         vm.getelectricity = dev.batteryLevel() * 100;
-    //         console.log("-----监听");
-    //       }
-    //     );
-    //     dev.addObserver("batteryStateChanged", () => {
-    //       console.log("电池状态发生变化-----监听");
-    //     });
-    //   }
+      window.addEventListener("online", function(e) {
+        console.log("online");
+      });
+      var u = navigator.userAgent,
+        app = navigator.appVersion;
+      var isAndroid = u.indexOf("Android") > -1 || u.indexOf("Linux") > -1; //g
+      var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+      if (isAndroid) {
+        //判断电量  充电状态   IOS不支持
+        navigator.getBattery().then(function(battery) {
+          vm.getelectricity = battery.level * 100 - 1; //电量 --首次赋值
+          vm.isElectricity = battery.charging; // 是否正在充电/true-充电 --首次赋值
+          //充电状态发生变化时触发
+          battery.addEventListener("chargingchange", function() {
+            vm.isElectricity = battery.charging;
+          });
+          //电池电量发生变化时触发
+          battery.addEventListener("levelchange", function() {
+            vm.getelectricity = battery.level * 100 - 1;
+          });
+        });
+      }
+      if (isIOS) {
+        var UIDevice = plus.ios.import("UIDevice"); //ios设备电量信息
+        var dev = UIDevice.currentDevice();
+        if (!dev.isBatteryMonitoringEnabled()) {
+          dev.setBatteryMonitoringEnabled(true);
+        }
+        dev.batteryMonitoringEnabled = true;
+        console.log("dev:", dev);
+        console.log("dev.batteryState:", dev.batteryState());
+        vm.isElectricity = dev.batteryState() == "2" ? true : false;
+        var level = dev.batteryLevel();
+        vm.getelectricity = level * 100; //电量 --首次赋值
+        console.log("level", level);
+        dev.addEventListener(
+          "UIDeviceBatteryLevelDidChangeNotification",
+          () => {
+            vm.getelectricity = dev.batteryLevel() * 100;
+            console.log("-----监听");
+          }
+        );
+        dev.addObserver("batteryStateChanged", () => {
+          console.log("电池状态发生变化-----监听");
+        });
+      }
 
-    //   var types = {};
-    //   types[plus.networkinfo.CONNECTION_UNKNOW] = "CONNECTION_UNKNOW";
-    //   types[plus.networkinfo.CONNECTION_NONE] = "CONNECTION_NONE";
-    //   types[plus.networkinfo.CONNECTION_ETHERNET] = "CONNECTION_ETHERNET";
-    //   types[plus.networkinfo.CONNECTION_WIFI] = "CONNECTION_WIFI";
-    //   types[plus.networkinfo.CONNECTION_CELL2G] = "CONNECTION_CELL2G";
-    //   types[plus.networkinfo.CONNECTION_CELL3G] = "CONNECTION_CELL3G";
-    //   types[plus.networkinfo.CONNECTION_CELL4G] = "CONNECTION_CELL4G";
-    //   vm.networkStatus = types[plus.networkinfo.getCurrentType()];
-    //   switch (this.networkStatus) {
-    //     case "CONNECTION_UNKNOW":
-    //       this.ISnetworkStatus = true;
-    //       // '网络连接状态未知'
-    //       break;
-    //     case "CONNECTION_NONE":
-    //       this.ISnetworkStatus = true;
-    //       // '未连接网络'
-    //       break;
-    //     case "CONNECTION_WIFI":
-    //       this.ISnetworkStatus = true;
-    //       // '无线WIFI网络'
-    //       break;
-    //     case "CONNECTION_CELL2G":
-    //       this.ISnetworkStatus = false;
-    //       // '蜂窝移动2G网络'
-    //       break;
-    //     case "CONNECTION_CELL3G":
-    //       this.ISnetworkStatus = false;
-    //       // '蜂窝移动3G网络'
-    //       break;
-    //     case "CONNECTION_CELL4G":
-    //       this.ISnetworkStatus = false;
-    //       // '蜂窝移动4G网络'
-    //       break;
-    //   }
-    // }, 100);
+      var types = {};
+      types[plus.networkinfo.CONNECTION_UNKNOW] = "CONNECTION_UNKNOW";
+      types[plus.networkinfo.CONNECTION_NONE] = "CONNECTION_NONE";
+      types[plus.networkinfo.CONNECTION_ETHERNET] = "CONNECTION_ETHERNET";
+      types[plus.networkinfo.CONNECTION_WIFI] = "CONNECTION_WIFI";
+      types[plus.networkinfo.CONNECTION_CELL2G] = "CONNECTION_CELL2G";
+      types[plus.networkinfo.CONNECTION_CELL3G] = "CONNECTION_CELL3G";
+      types[plus.networkinfo.CONNECTION_CELL4G] = "CONNECTION_CELL4G";
+      vm.networkStatus = types[plus.networkinfo.getCurrentType()];
+      switch (this.networkStatus) {
+        case "CONNECTION_UNKNOW":
+          this.ISnetworkStatus = true;
+          // '网络连接状态未知'
+          break;
+        case "CONNECTION_NONE":
+          this.ISnetworkStatus = true;
+          // '未连接网络'
+          break;
+        case "CONNECTION_WIFI":
+          this.ISnetworkStatus = true;
+          // '无线WIFI网络'
+          break;
+        case "CONNECTION_CELL2G":
+          this.ISnetworkStatus = false;
+          // '蜂窝移动2G网络'
+          break;
+        case "CONNECTION_CELL3G":
+          this.ISnetworkStatus = false;
+          // '蜂窝移动3G网络'
+          break;
+        case "CONNECTION_CELL4G":
+          this.ISnetworkStatus = false;
+          // '蜂窝移动4G网络'
+          break;
+      }
+    }, 100);
   }
 };
 </script>
@@ -662,11 +708,14 @@ export default {
           text-align: center;
         }
       }
-      div{
+      .main{
         width: 100%;
         height: calc(100% - .73rem);
         background: rgba(9,26,57,.9);
         overflow-y: scroll;
+        .mu-paper{
+          background: transparent !important;
+        }
         ul{
           display: flex;
           flex-direction: column;
@@ -677,6 +726,7 @@ export default {
             width: .87rem;
             height: .84rem;
             position: relative;
+            margin-bottom: .22rem;
             div{
               width: 100%;
               height: 100%;

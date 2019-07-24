@@ -2,10 +2,10 @@
     <div class="course_timetable">
         <headerTitle :title="headerTitle" :isUpload = 'false' :isLocation='false'/>
         <div class="main">
-            <mian-list @goDetail='goCourseDetail' :loading='loading' :tableList='tableList' :refreshing='refreshing'  @getClassList = 'getCourseList' :isLoaded='isLoaded' class="main_list">
+            <mian-list @goDetail='goCourseDetail' :loading='loading' :tableList='tableList' :refreshing='refreshing'  @getClassList = 'getCourselist' :isLoaded='isLoaded' class="main_list">
                 <template slot="second" slot-scope="scope">
-                    <img :src="scope.dataItem.front_image" alt="">
-                    <span>{{scope.dataItem.name}}</span>
+                    <img :src="scope.dataItem.image" alt="">
+                    <span>{{scope.dataItem.classify}}</span>
                 </template>
             </mian-list>
         </div>
@@ -19,14 +19,7 @@ export default {
     data(){
         return{
             headerTitle: '课表',//标题名称
-            tableList: [
-                {
-                    'id':1,
-                    'front_image':'http://img4.duitang.com/uploads/item/201412/01/20141201183854_TRArc.thumb.700_0.png',
-                    'name':'张三',
-                    'coach':"而开发后尔瓦佛尔积分日光金额偶然间g"
-                }
-            ],//数据列表
+            tableList: [],//数据列表
             loading: false,//全屏Loading
             isLoaded: false,//下拉加载
             refreshing: false,//上拉刷新
@@ -36,28 +29,30 @@ export default {
         getcoachList(data){
             this.setIndex = data.index
         },
-        goCourseDetail(){
-            this.$router.push({name:'courseDetail'})
+        goCourseDetail(data){
+            console.log(data)
+            this.$router.push({name:'courtseDetail',params:{id:data.course_id, titleName: data.classify}})
         },
         /**@name获取课程列表 */
-        getCourseList(num){
+        getCourselist(num){
             console.log(num)
-            var url = this.$conf.env.getClassList + num
-            this.$http.get(num == 1 ? this.$conf.env.getClassList : url ).then( res =>{
+            var url = this.$conf.env.getCourselist + num
+            this.$http.get(num == 1 ? this.$conf.env.getCourselist : url ).then( res =>{
                 this.$loading.close()
                 this.refreshing = false;
-                if(!res.data.results){
+                if(!res.data){
                     this.isLoaded = true
                     var text = num == 1 ? '暂时没有数据呢':'已加载全部数据'
                     this.$toast.center(text);
                     return
                 }else{
-                    num == 1 ?  this.tableList = res.data.results : this.tableList = this.tableList.concat(res.data.results)
+                    num == 1 ?  this.tableList = res.data : this.tableList = this.tableList.concat(res.data)
                     this.loading = false
                     console.log(this.tableList)
                 }
 
             }).catch(err =>{
+                console.log(err)
                 this.isLoaded = true
                 this.refreshing = false;
                 this.$loading.close()
@@ -66,8 +61,8 @@ export default {
         },
     },
     mounted(){
-        // this.$loading('');
-        // this.getClassList(1)
+        this.$loading('');
+        this.getCourselist(1)
     }
 }
 </script>

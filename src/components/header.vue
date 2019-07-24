@@ -5,9 +5,10 @@
             <div class="titleName">{{title}}</div>
             <div v-if="isUpload ? true : false" class="rightButton" @click="showUpdata">上传</div>
              <div v-if="editForm? true :false" class="rightButton" @click="editFormdata">编辑</div>
-            <!-- <div class="rightButton" style="float: right">
-                <div class="rightButton city" @click="setShowAddress" >{{location[2]}}</div>
-            </div> -->
+            <div class="isAgeList" style="float: right" v-if="isAgeList">
+                <div class="rightButton classCategory" @click="setShowCategory" >{{headersetCategory}}</div>
+                <div class="rightButton age " @click="setShowAge" >{{headersetAge}}</div>
+            </div>
             <div class="changeCity" v-if="isLocation ? true : false" style="overflow: hidden;float:right;">
                 <div class="rightButton city" @click="setShowAddress">{{location[2]}}</div>
                 <div class="rightButton city" @click="setShowAddress">{{location[1]}}</div>
@@ -33,6 +34,9 @@ export default {
         isUpload: Boolean,//上传按钮
         isLocation:Boolean,//地区选择按钮
         editForm:Boolean,//编辑按钮
+        isAgeList:Boolean,//年龄段选择按钮
+        headersetAge:String,
+        headersetCategory:String,
     },
     data(){
         return{
@@ -62,7 +66,14 @@ export default {
         },
         editFormdata(){
             this.$emit('editFormdata')
+        },
+        setShowCategory(){
+            this.$emit('setShowCategory')
+        },
+        setShowAge(){
+            this.$emit('setShowAge')
         }
+
     },
 }
 </script>
@@ -72,6 +83,7 @@ header{
     height: .64rem;
     background:linear-gradient(0deg,rgba(45,73,121,1) 0%,rgba(35,51,84,1) 100%);
     box-shadow:0px -1px 7px 1px rgba(0, 0, 0, 0.55);
+    padding-right: .28rem;
     .goBack{
         width: 2.07rem;
         height: 100%;
@@ -106,12 +118,18 @@ header{
             display:none;
         }
     }
-    .changeCity{
-        margin-right: .28rem;
-        .city{
-            width: 1.48rem;
-            margin-right: .15rem;
-        }
+    .city{
+        width: 1.48rem;
+        margin-right: .15rem;
+    }
+    .age{
+       margin-right: .15rem;
+        width: 1.48rem;
+    }
+     .classCategory{
+        width: 1.48rem;
+        margin-right:0;
+        
     }
 
 }

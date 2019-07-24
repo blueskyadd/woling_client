@@ -10,14 +10,14 @@
                          <img src="../../assets/img/medalLogo.png" alt="">
                      </div>
                 </div>
-                <div class="list">
+                <div class="list" v-if="newAcquisition">
                      <span>最新获得</span>
-                     <div>
+                     <div >
                          <img :src="newAcquisition" alt="">
                     </div>
                 </div>
              </div>
-            <mian-list class="medal_main_list" @goDetail='gomedalDetail' :loading='loading' :tableList='tableList' :refreshing='refreshing'  @getClassList = 'getMedalList' :isLoaded='isLoaded'>
+            <mian-list class="medal_main_list" :loading='loading' :tableList='tableList' :refreshing='refreshing'  @getClassList = 'getMedalList' :isLoaded='isLoaded'>
                 <template slot="second" slot-scope="scope">
                     <img :src="scope.dataItem.image" alt="">
                     <span class="list_name">{{scope.dataItem.name}}</span>
@@ -44,9 +44,6 @@ export default {
         }
     },
     methods: {
-        gomedalDetail(data){ 
-            this.$router.push({name:'medalDetail',params:{id:data.id}})
-        },
         /**@name获取课程列表 */
         getMedalList(num){
             console.log(num)
@@ -54,18 +51,21 @@ export default {
             this.$http.get(num == 1 ? this.$conf.env.getMedalList : url ).then( res =>{
                 this.$loading.close()
                 this.refreshing = false;
-                if(!res.data.results){
-                    this.isLoaded = true
-                    var text = num == 1 ? '暂时没有数据呢':'已加载全部数据'
-                    this.$toast.center(text);
-                    return
+                if(!res.data.next ){
+                    if(res.data.results.length == 0 || res.data.results.length ==  res.data.count/num){
+                        num ==1?this.$toast.center('暂时没有获得的勋章') :this.$toast.center('已加载全部勋章')
+                    }else if(res.data.results.length > 0 && res.data.results.length < res.data.count/num && num !=  1){
+                        this.$toast.center('已加载全部勋章')
+                    }
+                    this.isLoaded = true 
+                    
                 }else{
-                    this.newAcquisition = res.data.results[0].image
-                    num == 1 ?  this.tableList = res.data.results : this.tableList = this.tableList.concat(res.data.results)
-                    this.loading = false
-                    console.log(this.tableList)
+                    this.isLoaded = false
                 }
-                
+                if(res.data.results && res.data.results.length != 0 && num == 1){
+                    this.newAcquisition = res.data.results[0].image
+                }
+                num == 1 ?  this.tableList = res.data.results : this.tableList = this.tableList.concat(res.data.results)
             }).catch(err =>{
                 this.isLoaded = true
                 this.refreshing = false;

@@ -1,6 +1,6 @@
 <template>
   <div class="PuyBox">
-    <headerTitle :title="headerTitle" :isUpload = 'false' :isLocation='true'></headerTitle>
+    <headerTitle :title="headerTitle" :isUpload = 'false' ></headerTitle>
     <div class="menu">
       <section>
         <div class="conTent">
@@ -52,132 +52,55 @@
         /**@name 支付(获取支付通道) */
         goPayment(){
           var vm = this
-           plus.payment.getChannels(function(channels) {
-             alert("获取成功")
-             console.log(channels)
-              vm.pays = channels[1];  
-              vm.pay(channels[1].id);//自定义方法
-            }, function(e) {
-              alert('获取支付通道失败：' + e.message);
-              return false;
-            });
-          // switch(this.isPayment){
-          //   case -1:
-          //   this.$toast.center('请选择支付方式');
-          //   break;
-          //   case 0:
-          //   this.WxPayment();
-          //   break;
-          //   case 1:
-          //   this.Alipay();
-          //   break;
-          // }
+          
+          switch(this.isPayment){
+            case -1:
+            this.$toast.center('请选择支付方式');
+            break;
+            case 0:
+               plus.payment.getChannels(function(channels) {
+                vm.pays = channels[0]; 
+                vm.WxPayment()
+              }, function(e) {
+                alert('获取支付通道失败：' + e.message);
+                return false;
+              });
+            break;
+            case 1:
+            this.Alipay();
+            break;
+          }
         },
         /**@name 去支付(微信) */
         WxPayment(){
           var params = {order: this.$store.state.cart.orderId}
           this.$http.post(this.$conf.env.WxPayment, params).then(res =>{
             console.log(res.data)
-            var param = {
-              appid: res.data.appid,//应用ID
-              noncestr: res.data.nonce_str,//随机字符串
-              package:  'Sign=WXPay',//扩展字段
-              partnerid: res.data.mch_id,//商户号
-              prepayid: res.data.prepay_id,//预支付交易会话ID
-              timestamp: Date.parse(new Date()),//时间戳
-              sign: res.data.sign//签名
-            }
-            console.log('this.pays------------', this.pays)
-            console.log(param)
             var vm = this
-            plus.payment.request(vm.pays, param, function(result){
-              alert("支付成功")
-              wxpayResultDeal(result);//微信支付成功后的结果处理自定义方法
+            plus.payment.request(vm.pays, JSON.stringify(res.data), function(result){
+              this.$toast.center('支付成功');
+              this.$router.routerBack(-1);
+              
             },function(error){
               console.log(JSON.stringify(error))
-                alert("支付失败")
+              this.$toast.center('支付失败');
             })
           }).catch(err =>{
+            console.log(err)
             this.$toast.center('支付失败');
           })
         },
         /**@name 支付宝支付 */
         Alipay(){
-
+           plus.payment.getChannels(function(channels) {
+                vm.pays = channels[1]; 
+                vm.WxPayment()
+              }, function(e) {
+                alert('获取支付通道失败：' + e.message);
+                return false;
+              });
+          // this.$toast.center('暂不支持此支付方式哦');
         },
-        pay(id){
-          if(id==='appleiap'){
-            alert('应用内支付');
-            clicked('payment_iap.html');
-            return;
-          }
-          alert('----- 请求支付 -----');
-          // var PAYSERVER = this.$conf.env.WxPayment
-          var PAYSERVER='http://demo.dcloud.net.cn/payment/?payid='
-          var url=PAYSERVER;
-          if(id=='alipay'||id=='wxpay'){
-            url+=id;
-          }else{
-            plus.nativeUI.alert('当前环境不支持此支付通道！', null, '捐赠');
-            return;
-          }
-          var appid=plus.runtime.appid;
-          if(navigator.userAgent.indexOf('StreamApp')>=0){
-            appid='Stream';
-          }
-          url+='&appid='+appid+'&total=';
-          
-          // 请求支付订单
-          var amount = this.$store.state.cart.TotalPrice;
-          var xhr=new XMLHttpRequest();
-          
-          var vm =this
-          xhr.onreadystatechange=function(){
-            switch(xhr.readyState){
-              case 4:
-              if(xhr.status==200){
-                alert('----- 请求订单成功 -----');
-                alert(xhr.responseText);
-                var order=xhr.responseText;
-                //  var param = {
-                //   appid: order.appid,//应用ID
-                //   noncestr: order.nonce_str,//随机字符串
-                //   package:  'Sign=WXPay',//扩展字段
-                //   partnerid: order.mch_id,//商户号
-                //   prepayid: order.prepay_id,//预支付交易会话ID
-                //   timestamp: Date.parse(new Date()),//时间戳
-                //   sign: order.sign//签名
-                // }
-                plus.payment.request(vm.pays,order,function(result){
-                  alert('----- 支付成功 -----');
-                  alert(JSON.stringify(result));
-                  plus.nativeUI.alert('支付成功：感谢你的支持，我们会继续努力完善产品。',function(){
-                    back();
-                  },'捐赠');
-                },function(e){
-                  alert('----- 支付失败 -----');
-                });
-              }else{
-                alert('----- 请求订单失败 -----');
-                alert( xhr.status );
-                plus.nativeUI.alert('获取订单信息失败！', null, '捐赠');
-              }
-              break;
-              default:
-              break;
-            }
-          }
-          // xhr.open('GET',url);
-          // xhr.setRequestHeader('Authorization',sessionStorage.getItem('jp_token'));
-          // xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-          xhr.open('GET',url+amount);
-          alert('请求支付订单：'+url+amount);
-          xhr.send();
-         
-          alert('请求支付订单：'+url);
-          var params = {order: this.$store.state.cart.orderId}
-          xhr.send(params);
-        }
     }
 }
 </script>

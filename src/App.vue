@@ -22,7 +22,7 @@ export default {
   mounted() {
     var vm = this
     setTimeout(function() {
-      // // if(window.plus){
+      // if(window.plus){
       // plus.nativeUI.toast("该页面需要横屏查看"); // 友好的提示一下
       // plus.screen.lockOrientation("landscape"); // 把屏幕方向改变成横屏
       // vm.bindBack();//android物理返回键监听
@@ -36,7 +36,7 @@ export default {
                 dpr = 1,
                 scale = 1 / dpr,
                 resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
-              docEl.dataset.dpr = dpr;
+              docEl.dataset.dpr = dpr; 
               var metaEl = doc.createElement('meta');
               metaEl.name = 'viewport';
               metaEl.content = 'initial-scale=' + scale + ',maximum-scale=' + scale + ', minimum-scale=' + scale;
@@ -56,29 +56,21 @@ export default {
 
         })(document, window);
       // },1000)
+    // }
     }, 100);
       // }
   },
-  // created() {
-  //     // 获取当前可视区域的高度
-  //     const height = document.documentElement.clientHeight;
-  //     // 在页面整体加载完毕时
-  //     window.onload = function () {
-  //       // 把获取到的高度赋值给根div
-  //       document.getElementById('app').style.height = `${height}px`;
-  //     };
-  //   },
   watch: {
-    $route(to, from) {
-      let isBack = this.$store.state.routerState.isBack;
-      if (isBack) {
-        this.transitionName = "slide-right";
-        // this.$loading.close()
-      } else {
-        this.transitionName = "slide-left";
-      }
-      store.commit("changeIsBack",false)
-    }
+    // $route(to, from) {
+    //   let isBack = this.$store.state.routerState.isBack;
+    //   if (isBack) {
+    //     this.transitionName = "slide-right";
+    //     // this.$loading.close()
+    //   } else {
+    //     this.transitionName = "slide-left";
+    //   }
+    //   store.commit("changeIsBack",false)
+    // }
   },
   methods:{
       bindBack() {
@@ -117,9 +109,18 @@ export default {
 body,
 html,
 #app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(0deg, #051428 0%, #2e4f83 100%);
+  width: 100%;
   height: 100%;
+  /* max-width: 15rem; */
+  margin: auto;
+  position: relative;
 }
-.slide-right-enter-active,
+
+/* .slide-right-enter-active,
 .slide-right-leave-active,
 .slide-left-enter-active,
 .slide-left-leave-active {
@@ -131,18 +132,18 @@ html,
 }
 .slide-right-enter {
   opacity: 0;
-  transform: translate3d(-100%, 0, 0);
+  transform: translate3d(-70%, 0, 0);
 }
 .slide-right-leave-active {
   opacity: 0;
-  transform: translate3d(100%, 0, 0);
+  transform: translate3d(70%, 0, 0);
 }
 .slide-left-enter {
   opacity: 0;
-  transform: translate3d(100%, 0, 0);
+  transform: translate3d(70%, 0, 0);
 }
 .slide-left-leave-active {
   opacity: 0;
-  transform: translate3d(-100%, 0, 0);
-}
+  transform: translate3d(-70%, 0, 0);
+} */
 </style>

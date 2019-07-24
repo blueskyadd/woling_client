@@ -10,14 +10,18 @@ import '../src/assets/style/public.scss';//初始化样式
 import "../src/assets/style/AllStyle.scss";
 import '../src/assets/style/comment.scss';//vux公共样式
 import './components/Toast/toast.css';//弹框样式
+import 'muse-ui/lib/styles/base.less';
+import 'muse-ui/lib/styles/theme.less';
+import { LoadMore, Paper, Select } from 'muse-ui';
 
 import Toast from './components/Toast/index';//弹框
 import {ProgressBar} from 'vue-ydui/dist/lib.rem/progressbar';//加载环形图
 import {CountUp} from 'vue-ydui/dist/lib.rem/countup';
 Vue.component(ProgressBar.name, ProgressBar);
 Vue.component(CountUp.name, CountUp);
-
-
+Vue.use(LoadMore);
+Vue.use(Paper);
+Vue.use(Select);
 
 
 import RouteTransition from 'vue-route-transition'

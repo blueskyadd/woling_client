@@ -21,28 +21,7 @@ export default {
     name:'changeChild',
   data() {
     return {
-      childData: [
-        {
-          id: 1,
-          name: "张三"
-        },
-        {
-          id: 2,
-          name: "李四"
-        },
-        {
-          id: 3,
-          name: "王五"
-        },
-        {
-          id: 4,
-          name: "啊哈"
-        },
-        {
-          id: 5,
-          name: "名字"
-        }
-      ],
+      childData: [ ],
       activeIndex: 0
     };
   },
@@ -90,9 +69,8 @@ export default {
     },
     CoBack(){
       sessionStorage.removeItem("jp_token");
-      this.$router.push({
-        name:"loging"
-      })
+      localStorage.clear();
+      this.$router.push({ name:"loging"})
     },
   }
 };

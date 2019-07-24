@@ -4,7 +4,7 @@
     <div class="Menu">
       <sideBar :leftList='leftList' @change="getStudentList" :setIndex='setIndex'/>
       <div class="MenuRight">
-        <mian-list class="main_list" :loading='loading' :tableList='tableList' :refreshing='refreshing' @goDetail = 'getshopDetail'  @getClassList ='getShopList' :isLoaded='isLoaded'>
+        <mian-list class="main_list" :loading='loading' :tableList='tableList' :refreshing='refreshing' @goDetail = 'getshopDetail'  @getClassList ='getStudentListConcat' :isLoaded='isLoaded'>
             <template slot="second" slot-scope="scope">
                 <div class="mask_layer "></div>
                 <img class="projectImg" :src="scope.dataItem.front_image" alt="">
@@ -69,7 +69,7 @@
           loading:false,
           detailData:{},
           detaiilTitle: '商品简介',
-          cartNumber:100
+          cartNumber:0
         }
       },
       computed:{
@@ -84,17 +84,59 @@
       methods: {
         /**@name获取班级名称列表 */
         getStudentList(data){
+          this.$loading('');
           this.setIndex = data.index
-
-
           this.$http.get(this.$conf.env.ShoppIngList + (this.setIndex+1))
             .then(res => {
-              // this.$loading.close();
+              this.$loading.close();
               console.log(res.data)
-              this.tableList = res.data.results
+              
+               if(!res.data.results.length){
+                    this.isLoaded = true;
+                    var text = '暂时没有数据呢';
+                    this.$toast.center(text);
+                    this.tableList = []
+                    return
+                }else{
+                  if(!res.data.next){
+                    this.isLoaded = true;
+                  }
+                  this.tableList = res.data.results
+                }
             })
             .catch(err => {
-              // this.$loading.close();
+              console.log(err)
+              this.$loading.close();
+              this.$toast.center('网络错误');
+            });
+        
+        },
+        getStudentListConcat(num){
+          console.log('加载')
+          this.$loading('');
+          this.$http.get(this.$conf.env.ShoppIngList + (this.setIndex+1) + '&p=' + num)
+            .then(res => {
+              this.$loading.close();
+               if(!res.data.next){
+                    if(res.data.results.length == 0 || res.data.results.length ==  res.data.count/this.number){
+                      num ==1?this.$toast.center('暂无数据') :this.$toast.center('已加载全部数据')
+                    }else if(res.data.results.length > 0 && res.data.results.length < res.data.count/num && num !=  1){
+                      this.$toast.center('已加载全部数据')
+                    }
+                    this.isLoaded = true
+                    return
+                }else{
+                  this.isLoaded = false
+                    this.newAcquisition = res.data.results[0].image
+                    num == 1 ?  this.tableList = res.data.results : this.tableList = this.tableList.concat(res.data.results)
+                    this.loading = false
+                    console.log(this.tableList)
+                }
+            })
+            .catch(err => {
+              console.log(err)
+              this.$loading.close();
+               this.loading = false
               this.$toast.center('网络错误');
             });
         
@@ -112,7 +154,8 @@
               console.log(res.data)
             })
             .catch(err => {
-              // this.$loading.close();
+              this.$loading.close();
+               this.loading = false
               this.$toast.center('网络错误');
             });
 
@@ -126,6 +169,7 @@
             // this.$loading.close()
             console.log(res.data)
             this.$toast.center('加入成功');
+            this.getcart_nums()
           }).catch(err =>{
             // this.$loading.close()
             this.$toast.center('网络错误');
@@ -138,17 +182,27 @@
         },
         goCart(){
           this.$router.push({name:'cart'})
+        },
+        getcart_nums(){
+          this.$http.get(this.$conf.env.getcart_nums).then( res =>{
+            this.cartNumber = res.data.nums ? res.data.nums : 0
+          console.log(res)
+          }).catch(err =>{
+          this.$toast.center('服务器错误');
+          })
         }
 
       },
-      created() {
+      mounted() {
+        this.$loading('');
         this.getStudentList({index:0})
+        this.getcart_nums()
 
       }
     }
 </script>
 
-<style scoped lang="scss">
+<style  lang="scss">
 
   .shoping_list{
     width: 100%;
@@ -160,10 +214,18 @@
       overflow: hidden;
       display: inline-flex;
       .MenuRight{
-        flex: 1;
-        height: 100%;
         padding: .16rem 0 0 .46rem;
         box-sizing: border-box;
+        overflow: hidden;
+        width: 100%;
+        height: 98%;
+        .mu-paper{
+          height: 98%;
+          .mu-load-more{
+            overflow-y: scroll;
+          height: 100%;
+          }
+        }
         .main_list{
           position: relative;
           .mask_layer{

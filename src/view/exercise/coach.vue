@@ -56,7 +56,7 @@ export default {
     /**@name获取视频列表 */
     getuploadvideoList(number, flag){
       this.$loading('');
-      var urlData = flag  ? this.$conf.env.getVideolist + '?p='+number : this.$conf.env.getSeleVideoList
+      var urlData = flag  ? this.$conf.env.getVideolist + '?p='+number : this.$conf.env.getSeleVideoList + '?p='+number 
       this.$http.get( urlData ).then( res =>{
         if(res.data && res.data.results){
           
@@ -75,8 +75,12 @@ export default {
             this.videoDetail = number == 1 ? arr : this.videoDetail.concat(arr)
             number == 1? this.getVideoListData(res.data.results[this.setVideoIndex]) : ''
             this.$loading.close()
-            if(!res.data.next){
-              number==1?this.$toast.center('暂无数据') :this.$toast.center('已加载全部数据')
+            if(!res.data.next ){
+              if(res.data.results.length == 0 || res.data.results.length ==  res.data.count/number){
+                  number ==1?this.$toast.center('暂无数据') :this.$toast.center('已加载全部数据')
+                }else if(res.data.results.length > 0 && res.data.results.length < res.data.count/number && number !=  1){
+                  this.$toast.center('已加载全部数据')
+                }
               this.$emit('setVideoNameList', {data:this.videoDetail,flag: false})
             }else{
               this.$emit('setVideoNameList', {data:this.videoDetail,flag: true})

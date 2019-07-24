@@ -4,9 +4,8 @@
             <header class="close"><img @click="isDetail = false" src='../assets/img/orderDetailClose.png'/> </header>
             <div class="detail_main">
                 <header>{{detailData.title}}</header>
-                <div>
+                <div class="DETAIL">
                     <slot name="second" :dataItem='detailData'></slot>
-                    <span class="submitButton"  @click="isDetail = false">{{detailData.buttonText}}</span>
                 </div>
             </div>
         </div>

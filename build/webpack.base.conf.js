@@ -85,6 +85,9 @@ const webpackConfig = {
     tls: 'empty',
     child_process: 'empty'
   },
+  externals: {       //  新增的配置代码
+    'AMap': 'AMap'
+  },
   plugins: [
     new webpack.ProvidePlugin({
       $:"jquery",

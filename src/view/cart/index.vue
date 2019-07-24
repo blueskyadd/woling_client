@@ -2,32 +2,36 @@
     <div class="web-assessAll-box">
       <headerTitle :title="headerTitle" :isUpload = 'false' :isLocation='false'/>
         <div class="web-assessAll-menu">
-          <div class="ShoopingCart">
-            <div class="BigBox">
-              <ul>
-                <li v-for="(item,index) in shoppoingList" :key="item.id" >
-                    <label :for=index :class="{ checkBox:true, checkBox_posi: wantCheck }" >
-                      <input  type="checkbox"  @click="setCart(item)" :value="item" v-model="checkList">
-                    </label>
-                  <div class="ShoppImg">
-                    <img :src="item.good.front_image" alt="">
-                  </div>
-                  <div class="ShoppNamme">
-                    <p>{{item.good.name}}</p>
-                    <p>{{item.good.price}}元</p>
-                  </div>
-                  <div class="ChangeNum">
-                    <group>
-                      <x-number title="" :min="1" v-model="item.nums"></x-number>
-                    </group>
-                  </div>
-                </li>
-              </ul>
+          <div class="ShoopingCart" ref='scrollBox'>
+            <div class="BigBox" ref='scroll'>
+              <!-- <mu-paper :z-depth="1" class="demo-loadmore-wrap">
+                <mu-load-more @refresh="refresh" :refreshing="refreshing" @load="load" :loaded-all='isLoaded'> -->
+                  <ul>
+                    <li v-for="(item,index) in shoppoingList" :key="item.id" >
+                        <label :for=index :class="{ checkBox:true, checkBox_posi: wantCheck }" >
+                          <input  type="checkbox"  @click="setCart(item)" :value="item" v-model="checkList">
+                        </label>
+                      <div class="ShoppImg">
+                        <img :src="item.good.front_image" alt="">
+                      </div>
+                      <div class="ShoppNamme">
+                        <p>{{item.good.name}}</p>
+                        <p>{{item.good.price}}元</p>
+                      </div>
+                      <div class="ChangeNum">
+                        <group>
+                          <x-number title="" :min="1" v-model="item.nums"></x-number>
+                        </group>
+                      </div>
+                    </li>
+                  </ul>
+                <!-- </mu-load-more>
+              </mu-paper> -->
             </div>
           </div>
           <div class="PuyShopp">
             <div class="CheckBox">
-              <input type="checkbox" v-model="checkAll" value="1">
+              <input type="checkbox" v-model="checkAll"  value="1">
               <span>全选</span>
 
               <p @click="deleteCheckList">删除</p>
@@ -58,51 +62,86 @@
             checkList:[],//已选商品
             checkAll: false,//全选
             TotalPrice:0,//总价
+            refreshing: false,
+            isLoaded: true,
+            number: 1
           }
       },
       mounted() {
         this.GetShoppCartList()
+        this.$refs.scroll.addEventListener("scroll", this.addEventScroll);
+      },
+      destroyed () {
+        this.$refs.scroll.removeEventListener('scroll', this.addEventScroll); 
       },
       methods:{
         /**@name购物车删除 */
+        refresh(){
+          // this.refreshing = true;
+          this.GetShoppCartList()
+        },
+        addEventScroll(){
+          const offsetHeight = this.$refs.scroll.offsetHeight
+          const scrollHeight = this.$refs.scroll.scrollHeight
+          const scrollTop = this.$refs.scroll.scrollTop
+          console.log((offsetHeight + scrollTop) - scrollHeight >= -1)
+          if((offsetHeight + scrollTop) - scrollHeight >= -1 && this.isLoaded){
+             this.number += 1
+            this.GetShoppCartList()
+          }
+          
+
+        },
+        load(){
+          console.log('sssss')
+          console.log('加载')
+        },
         deleteCheckList(){
           if(this.shoppoingList && this.shoppoingList.length>0){
              if(this.checkList.length>0){ 
                var arr = []
-               this.checkList.forEach(value =>{ arr.push(value.id.toString())})
+               this.checkList.forEach(value =>{ arr.push(value.id)})
                var params = {
                  'choice':arr
                }
-               this.$http.delete(this.$conf.env.deleteCartData, params).then( res =>{
+               this.$http.put(this.$conf.env.deleteCartData + '1/', params).then( res =>{
                   console.log(res)
+                  this.$toast.center('删除成功')
+                  this.GetShoppCartList()
                }).catch(err =>{
-               this.toast.center('服务器错误')
+               this.$toast.center('服务器错误')
                })
              }else{
               this.$toast.center('您还未选择商品');
              }
-            // this.shoppoingList = [];
-            // this.TotalPrice = 0;
-            // this.checkAll = false;
-            // this.checkList = [];
-
           }else{
             this.$toast.center('购物车是空的呢');
           }
         },
+
         /**@name获取购物车列表 */
         GetShoppCartList(){
-          this.$http.get(this.$conf.env.ShoppCartList)
-            .then(res => {
+          this.$http.get(this.$conf.env.ShoppCartList + '?p=' + this.number).then(res => {
               console.log(res.data)
               res.data.results.forEach(value =>{
                 if(value.choice){
                   this.checkList.push(value)
                 }
               })
-              this.shoppoingList = res.data.results
+              if(!res.data.next ){
+                if(res.data.results.length == 0 || res.data.results.length ==  res.data.count/this.number){
+                  this.number ==1?this.$toast.center('暂无数据') :this.$toast.center('已加载全部数据')
+                }else if(res.data.results.length > 0 && res.data.results.length < res.data.count/this.number && this.number !=  1){
+                  this.$toast.center('已加载全部数据')
+                }
+                this.isLoaded = false 
+              }else{
+                this.isLoaded = true
+              }
+              this.number==1 ? this.shoppoingList = res.data.results : this.shoppoingList = this.shoppoingList.concat(res.data.results)
             })
             .catch(err => {
+              this.isLoaded = false
               this.$toast.center('网络错误');
             });
         },
@@ -138,6 +177,17 @@
           this.toast.center('服务器错误')
           })
         },
+        setcheckAll(flag){
+          var params = {
+            choice: flag
+          }
+          this.$http.post(this.$conf.env.deleteCartData, params).then( res =>{
+            console.log(res)
+            //  this.GetShoppCartList()
+          }).catch(err =>{
+            this.$toast.center('服务器错误')
+          })
+        }
         
       },
     watch: {
@@ -160,12 +210,14 @@
       },
       checkAll(newData, oldData){
         if (newData) {
+          this.setcheckAll(true)
           let arr = [];
           this.shoppoingList.forEach(item => {
             arr.push(item);
           });
           this.checkList = arr;
         } else {
+           this.setcheckAll(false)
           if (
             this.checkList.length === this.shoppoingList.length &&
             newData.length !== 0
@@ -203,14 +255,24 @@
     width: 100%;
     height:100%;
       .web-assessAll-menu{
+        overflow: hidden;
         width: 100%;
         background: url(../../assets/img/bj1.png)  0 0 / 100% 100% ;
         height: calc( 100% - .64rem);
+        
         .ShoopingCart{
           width: 100%;
           height: calc(100% - 1rem);
-          padding: .15rem .16rem 0 .2rem;
           box-sizing: border-box;
+          padding: .2rem .15rem 0;
+            .mu-paper{
+              height: 100%;
+              overflow: hidden;
+              .mu-load-more{
+                height: 100% !important;
+                overflow-y: scroll;
+              }
+            }
           .BigBox{
             width: 100%;
             height: 100%;
@@ -219,9 +281,12 @@
             border-radius:5px;
             padding: 0 .62rem 0 .57rem;
             box-sizing: border-box;
-            overflow: hidden;
+            overflow: scroll;
+            .mu-paper{
+              background: transparent;
+            }
             ul{
-              height: 100%;
+              // height: 100%;
               overflow-y: scroll;
               overflow-x: hidden;
               li{

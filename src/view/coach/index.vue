@@ -5,7 +5,7 @@
         <div class="main">
             <sideBar :leftList='leftList' @change="getcoachTitle" :setIndex='setIndex'/>
             <div class="selete_main" >
-                <mian-list  :loading='loading' :tableList='tableList' :refreshing='refreshing' @goDetail = 'getCoachDetail'  @getClassList ='getCoachList' :isLoaded='isLoaded'>
+                <mian-list  :loading='loading' :tableList='tableList' @refresh="refresh" :refreshing='refreshing' @goDetail = 'getCoachDetail'  @getClassList ='getCoachList' :isLoaded='isLoaded'>
                     <template slot="second" slot-scope="scope">
                         <img :src="scope.dataItem.front_image" alt="">
                         <span>{{scope.dataItem.name}}</span>
@@ -27,23 +27,10 @@ export default {
     data(){
         return{
             headerTitle: '教练',
-            leftList:[
-                {
-                    'id':1,
-                    'name':'熊猫球场',
-                    'coach':"而开发后尔瓦佛尔积分日光金额偶然间g"
-                }
-            ],
-            tableList: [
-                {
-                    'id':1,
-                    'front_image':'http://img3.imgtn.bdimg.com/it/u=2017451364,1155593535&fm=15&gp=0.jpg',
-                    'name':'张三',
-                    'coach':"而开发后尔瓦佛尔积分日光金额偶然间g"
-                }
-            ],//数据列表
+            leftList:[ ],
+            tableList: [],//数据列表
             loading: false,//全屏Loading
-            isLoaded: true,//加载完毕
+            isLoaded: false,//加载完毕
             refreshing: false,//上拉刷新
             setIndex:0,
             isDetail:false,
@@ -51,10 +38,9 @@ export default {
             detaiilTitle:'教练简介',
             area:'',
             city:'',
-
         }
     },
-    methods: {
+    methods: { 
         activeList(data){
             this.headerTitle = data.item.name
             this.setIndex = data.index
@@ -64,6 +50,9 @@ export default {
             this.detailData = data
             this.$refs.coachDetail.isDetail = !this.$refs.coachDetail.isDetail
 
+        },
+        refresh(){
+            this.getCoachList()
         },
         /**@name获取班级名称列表 */
         getCoachList(){

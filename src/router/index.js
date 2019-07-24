@@ -75,14 +75,14 @@ export default new Router({
       component:() => import('@/view/ballPack/index')
     },
     {
+      path:'/map',
+      name:'map',
+      component:() => import('@/view/ballPack/map')
+    },
+    {
       path:'/shopping',
       name:'shopping',
       component:() => import('@/view/shopping/index'),
-    },
-    {
-      path:'/orderForm',
-      name: 'orderForm',
-      component:() => import('@/view/orderForm/index')
     },
     {
       path:'/puy',
@@ -93,6 +93,12 @@ export default new Router({
       path:'/course',
       name:'course',
       component:() => import('@/view/course/timetable'),
+    },
+    {
+      path:'/courtseDetail',
+      name:'courtseDetail',
+      component:() => import('@/view/course/courtseDetail'),
+      
     },
     {
       path:'/audition',

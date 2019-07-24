@@ -2,17 +2,17 @@
     <div class="woling_cocalLoging">
         <div class="loging_Main" v-if="isLogin">
             <header class="logo"></header>
-            <div class="vue-1px-b"><label for=""><img src="../../assets/img/username.png" alt=""></label><input type="text" placeholder="账号" v-model="userName"></div>
-            <div class="vue-1px-b password"><label for=""><img src="../../assets/img/password.png" alt=""></label><input type="password" placeholder="密码" v-model="password"></div>
+            <div ><label for=""><img src="../../assets/img/username.png" alt=""></label><input type="text" placeholder="账号" v-model="userName"></div>
+            <div class="password"><label for=""><img src="../../assets/img/password.png" alt=""></label><input type="password" placeholder="密码" v-model="password"></div>
             <span class="submit" @click="login">登录</span>
             <p @click="setPassword(false)">忘记密码？</p>
         </div>
         <div class="loging_Main edit_password" v-else>
             <header class="back" @click="setPassword(true)"><img src="../../assets/img/loginback.png" alt=""><i>更改密码</i></header>
-            <div class="vue-1px-b"><label for=""><img src="../../assets/img/username.png" alt=""></label><input type="text" placeholder="账号" v-model="userName"></div>
-            <div class="vue-1px-b yzm"><label for=""><img src="../../assets/img/ygm.png" alt=""></label><input type="text" placeholder="验证码" v-model="verification"><span @click="getVerification()" v-if="isVerification">获取验证码</span><span v-else>{{timeDown}}</span></div>
-            <div class="vue-1px-b password"><label for=""><img src="../../assets/img/password.png" alt=""></label><input type="password" placeholder="新密码" v-model="NewPassword"></div>
-            <div class="vue-1px-b password"><label for=""><img src="../../assets/img/password.png" alt=""></label><input type="password" placeholder="确认密码" v-model="OKPassword"></div>
+            <div ><label for=""><img src="../../assets/img/username.png" alt=""></label><input type="text" placeholder="账号" v-model="userName"></div>
+            <div class="yzm"><label for=""><img src="../../assets/img/ygm.png" alt=""></label><input type="text" placeholder="验证码" v-model="verification"><span @click="getVerification()" v-if="isVerification">获取验证码</span><span v-else>{{timeDown}}</span></div>
+            <div class="password"><label for=""><img src="../../assets/img/password.png" alt=""></label><input type="password" placeholder="新密码" v-model="NewPassword"></div>
+            <div class="password"><label for=""><img src="../../assets/img/password.png" alt=""></label><input type="password" placeholder="确认密码" v-model="OKPassword"></div>
             <span class="submit"  @click="change_pwd">确定</span>
         </div>
     </div>
@@ -23,7 +23,7 @@ export default {
     data(){
         return{
             password: 'asd123456',//密码
-            userName: '17630718189',//账号
+            userName: '17630718188',//账号
             verification: '',//验证码
             NewPassword: '',//新密码
             OKPassword: '',//再次输入
@@ -82,10 +82,12 @@ export default {
                 mobile: this.userName.replace(/(^\s*)|(\s*$)/g, ""),
                 password: this.password,
             }
+            localStorage.setItem('userName', this.userName.replace(/(^\s*)|(\s*$)/g, ""));
+            localStorage.setItem('password', this.password)
             this.$http.post(this.$conf.env.login, params).then(res =>{
               this.$loading.close()
               sessionStorage.setItem('jp_token', res.data.token)
-                  if(res.data.student.length > 0){
+                  if(res.data.student && res.data.student.length > 0){
                     this.$router.push({
                       name:"changeChild",
                       params:{data:res.data.student}
@@ -98,6 +100,7 @@ export default {
 
 
             }).catch(err =>{
+                console.log(err)
                 this.$loading.close()
                 if(err.response.status == '401'){
                     this.$toast.center('账号或密码错误');
@@ -153,25 +156,10 @@ export default {
         },
     },
     mounted(){
-            // window.onresize =()  =>{
-            // return (()=>{
-            //     this.innerHeight = window.innerWidth
-            //     alert(window.innerWidth)
-            // })()
-        // }
-    },
-    watch:{
-        // innerHeight(newval,oldval){
-            // alert(newval)
-            // document.getElementsByTagName("html")[0].style.fontSize = 16*this.heightChange*6.25/1334 +'px'
-        //   if(this.heightChange != newval){
-        //       document.getElementsByTagName("html")[0].style.fontSize = 16*this.heightChange*6.25/1334 +'px'
-        //       alert("键盘弹起")
-
-        //     }else{
-        //        alert("键盘放下")
-        //     }
-        // },
+        if(localStorage.getItem('userName')){
+            this.userName = localStorage.getItem('userName');
+            this.password = localStorage.getItem('password');
+        }
     }
 }
 </script>
@@ -205,6 +193,7 @@ export default {
             margin-bottom: .23rem;
             height: .4rem;
             margin-right: .13rem;
+            border-bottom: 1px solid #545356;
             label{
                 width: .25rem;
                 display: block;
@@ -298,14 +287,14 @@ export default {
             margin-left: .53rem;
         }
     }
-    .vue-1px-b {
-        height: auto;
-        background-image: linear-gradient(top, transparent 50%, #545356 50%);
-        background-image: -webkit-linear-gradient(top, transparent 50%, #545356 50%);
-        background-position: bottom left;
-        background-repeat: no-repeat;
-        background-size: 100% 1px;
-    }
+    // .  {
+    //     height: auto;
+    //     background-image: linear-gradient(top, transparent 50%, #545356 50%);
+    //     background-image: -webkit-linear-gradient(top, transparent 50%, #545356 50%);
+    //     background-position: bottom left;
+    //     background-repeat: no-repeat;
+    //     background-size: 100% 1px;
+    // }
 
 }
 </style>

@@ -6,34 +6,37 @@
           <!-- 侧边栏 -->
           <aside>
             <div class="TabSel" v-if="setTabtitle">
-                <div class="News" @click="SelectNes = 0" :class="SelectNes === 0 ? 'active':''">最新</div>
+                <div class="News" @click="setNewConvas" :class="SelectNes === 0 ? 'active':''">最新</div>
                 <div class="history" @click="SelectNes = 1, getAbilityTime()" :class="SelectNes === 1 ? 'active':''">历史</div>
             </div>
             <div class="TabSel" v-else>
               <div class="News active detailTime" > <span @click="gobackAchievementIndex"></span>{{detailTime}}</div>
             </div>
             <div class="NewsBox" v-show ="SelectNes == 0 ">
-              <div>
-                <div class="imageBoxTit">位置与综合评价</div>
-                <div style="margin:0 auto">
-                  <canvas id="c1" style="width:170px;height:150px;"></canvas>
+              <div class="scroll_box">
+                <div>
+                  <div class="imageBoxTit">位置与综合评价</div>
+                    <div style="margin:0 auto" class="concas_box">
+                        <canvas id="c1" style="width:200px;height:190px;"></canvas>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="imageBoxTit">综合评价</div>
+                    <div class="textarea">{{achievementDetail.comment}}</div>
+                    <div class="bottomImg" >  
+                      <img src="../../assets/img/achievementBottomImg.png" alt="">
+                    </div>
+                  </div>
+                </div>
+                <div class="historyBox" v-if ="SelectNes == 1 ">
+                  <ul>
+                    <li v-for="(item, index) in historyLeftList" @click="changeHistoryData(item,index)" :class="{activly: index == setIndex}" :key="item.id">
+                      <p>{{item.create_time}}</p>
+                    </li>
+                  </ul>
                 </div>
               </div>
-              <div>
-                <div class="imageBoxTit">综合评价</div>
-                <div class="textarea">{{achievementDetail.comment}}</div>
-                <div class="bottomImg" >
-                  <img src="../../assets/img/achievementBottomImg.png" alt="">
-                </div>
-              </div>
-            </div>
-            <div class="historyBox" v-show ="SelectNes == 1 ">
-              <ul>
-                <li v-for="(item, index) in historyLeftList" @click="changeHistoryData(item,index)" :class="{activly: index == setIndex}" :key="item.id">
-                  <p>{{item.create_time}}</p>
-                </li>
-              </ul>
-            </div>
+            
           </aside>
           <!-- 主体 -->
           <section>
@@ -178,16 +181,7 @@ export default {
       },
       "setTabtitle": true,
       "detailTime":'',
-      "convasData":[
-        {name: '张飞',props: '力量', value: 4.5},
-        {name: '张飞',props: '速度', value: 4.5},
-        {name: '张飞',props: '传球', value: 3.5},
-        {name: '张飞',props: '盘带', value: 3.5},
-        {name: '张飞',props: '射门', value: 4.5},
-        {name: '张飞',props: '防守', value: 5},
-        {name: '张飞',props: '意识', value: 5},
-        {name: '张飞',props: '精神', value: 2}
-      ]
+      "convasData":[ ]
     };
   },
   methods: {
@@ -196,41 +190,49 @@ export default {
       this.detailTime = item.name;
       this.setTabtitle = false;
       this.SelectNes = 0
+      this.getAbilityTime(item.id)
       
+      this.setConvas()
     },
-    getAbilityTime(){
-      console.log('aaa')
+    setNewConvas(){
+      this.SelectNes = 0
+      this.getAchievement()
+    },
+    getAbilityTime(ID){
+
       this.$http.get(this.$conf.env.getAbilityTime).then( res =>{
         console.log(res)
         if(!res.data || res.data.length == 0){this.$toast.center('暂无历史数据');}
         this.historyLeftList = res.data
+        this.convasData=[
+          {name: '张飞',props: '力量', value: res.data.strength?res.data.strength:0},
+          {name: '张飞',props: '速度', value:res.data.speed2?res.data.speed2:0},
+          {name: '张飞',props: '传球', value: res.data.pass_boll?res.data.pass_boll:0},
+          {name: '张飞',props: '盘带', value: res.data.taping2?res.data.taping2:0},
+          {name: '张飞',props: '射门', value: res.data.shots?res.data.shots:0},
+          {name: '张飞',props: '防守', value: res.data.defend?res.data.defend:0},
+          {name: '张飞',props: '意识', value: res.data.awareness?res.data.awareness:0},
+          {name: '张飞',props: '精神', value: res.data.mind?res.data.mind:0.1}
+        ]
       }).catch(err =>{
         this.$toast.center('服务器错误');
       })
     },
     gobackAchievementIndex(){
-      this.SelectNes = 1
+      this.SelectNes = 0
       this.setTabtitle = true;
-      this.convasData=[
-        {name: '张飞',props: '力量', value: 0},
-        {name: '张飞',props: '速度', value:0},
-        {name: '张飞',props: '传球', value: 5},
-        {name: '张飞',props: '盘带', value: 5},
-        {name: '张飞',props: '射门', value: 5},
-        {name: '张飞',props: '防守', value: 5},
-        {name: '张飞',props: '意识', value: 5},
-        {name: '张飞',props: '精神', value: 5}
-      ]
+      
       console.log(this.SelectNes)
-      this.setConvas()
+      this.SelectNes = 1
     },
     setConvas(){
       GM.Global.pixelRatio =2;
       var chart = new GM.Chart({
-        id: 'c1'
+        id: 'c1',
+         width: '130%',
+         height: '130%',
       });
       var c = document.getElementById("c1");
-      c.strokeStyle ='red'
       chart.coord('polar');
       chart.source( this.convasData, {
         value: {
@@ -241,17 +243,20 @@ export default {
       //配置刻度文字大小，供PC端显示用(移动端可以使用默认值20px)
       chart.axis('props', {
         label: {
-          fontSize: 12
+          fontSize: 10,
+          fillStyle: '#00E4FF',
         },
         line: null
       });
+      // chart.geom().shape('shape');
       chart.axis('value', {
         label: {
-          fontSize:0.0001
-        }
+          fontSize:0.0003,
+          fillStyle: '#00E4FF',
+        },
       });
-      chart.area().position('props*value').color('name').style({
-        opacity: 0.6
+      chart.area().position('props*value').color('#00E4FF').style({
+        opacity: 0.5,
       });
       // x和y轴同时缩放的动画
       chart.animate().scalexy();
@@ -261,13 +266,23 @@ export default {
       this.$http.get(this.$conf.env.getAchievement).then( res =>{
         console.log(res)
         this.achievementDetail = res.data
+        this.convasData=[
+          {name: '张飞',props: '力量', value: res.data.strength?res.data.strength:0},
+          {name: '张飞',props: '速度', value:res.data.speed2?res.data.speed2:0},
+          {name: '张飞',props: '传球', value: res.data.pass_boll?res.data.pass_boll:0},
+          {name: '张飞',props: '盘带', value: res.data.taping2?res.data.taping2:0},
+          {name: '张飞',props: '射门', value: res.data.shots?res.data.shots:0},
+          {name: '张飞',props: '防守', value: res.data.defend?res.data.defend:0},
+          {name: '张飞',props: '意识', value: res.data.awareness?res.data.awareness:0},
+          {name: '张飞',props: '精神', value: res.data.mind?res.data.mind:0.1}
+        ]
+        this.setConvas()
       }).catch(err =>{
         this.toast.center('服务器错误');
       })
     }
   },
   mounted() {
-    this.setConvas()
     this.getAchievement()
   }
 
@@ -328,15 +343,23 @@ export default {
                 margin-right: .18rem;
               }
             }
-            .NewsBox,.historyBox{
+            .historyBox{
               width: 100%;
               height: calc(100% -  .53rem);
               display: flex;
               flex-direction: column;
               overflow-y: scroll;
+
               &.active{
                 display: none;
               }
+            }
+            .NewsBox{
+               width: 100%;
+              height: calc(100% -  .53rem);
+              display: flex;
+              flex-direction: column;
+              overflow: hidden;
             }
             .historyBox{
               ul{
@@ -392,6 +415,17 @@ export default {
                 .textarea::-webkit-scrollbar {
                     display: none;
                 }
+                .concas_box{
+                  margin: 0px auto;
+                  width: 3.4rem;
+                  height: 3rem;
+                  position: relative;
+                  #c1{
+                    position: absolute;
+                    top: -.4rem;
+                    left: -.3rem;
+                  }
+                }
               .MyCharts{
                 width: 3.35rem;
                 height: 2.88rem;
@@ -413,7 +447,13 @@ export default {
                 }
               }
             }
-            .NewsBox>div{
+            .scroll_box{
+              overflow-y: scroll;
+              height: 100%;
+              overflow-x: hidden;
+              width: 100%;
+            }
+            .NewsBox .scroll_box >div{
               display: flex;
               flex-direction: column;
               align-items: center;
@@ -455,7 +495,6 @@ export default {
                 flex-wrap: wrap;
                 margin-top: .26rem;
                 li{
-                  margin-right: 0.05rem;
                   margin-left: .05rem;
                   display: flex;
                   justify-content: flex-end;

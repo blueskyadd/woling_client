@@ -1,15 +1,17 @@
-<template>
-    <div class="demo-loadmore-wrap list">
-        <ul class="listMain">
-            <li v-for="item in tableList" :key="item.id"  @click="goDetail(item)">
-                
-                <slot name="second" :dataItem='item'></slot>
-            </li>
-        </ul>
-    </div>
+<template>  
+    <mu-paper :z-depth="1" class="demo-loadmore-wrap list">
+            <mu-load-more @refresh="refresh" :refreshing="refreshing" :loading="loading" @load="load" :loaded-all='isLoaded'>
+                <ul class="listMain" ref="container">
+                    <li v-for="item in tableList" :key="item.id"  @click="goDetail(item)">
+                        <slot name="second" :dataItem='item'></slot>
+                    </li>
+                </ul>
+            </mu-load-more>
+    </mu-paper>
 </template>
 <script>
 export default {
+    name:'mainlist',
     props:{
         tableList:{
             type: Array,
@@ -40,11 +42,13 @@ export default {
             this.$emit('goDetail',item)
         },
         refresh() {
-            this.refreshing = true;
+            console.log('刷新')
+            // this.refreshing = true;
             this.$refs.container.scrollTop = 0;
              this.$emit('getClassList', 1 )
             },
         load() {
+            console.log('加载')
             this.number += 1
             this.loading = true;
             this.$emit('getClassList', this.number )

@@ -1,6 +1,6 @@
 <template>
     <div class="auditionBig">
-      <headerTitle :title="headerTitle" :isUpload = 'false' :isLocation='true'/>
+      <headerTitle :title="headerTitle"  @changeCity='changeCity' :headersetCategory='headersetCategory' :headersetAge='headersetAge' :isAgeList='true' @setShowCategory='setShowCategory' @setShowAge='setShowAge' :isUpload = 'false' :isLocation='true'/>
       <div class="Menu">
         <sideBar :leftList='leftList' @change="getStudentList" :setIndex='setIndex'/>
         <div class="MenuRight">
@@ -21,58 +21,67 @@
             </div>
             <div class="AllImgBox">
               <div class="Scll">
-                <img :src="item.image" alt="" :key="item" v-for="item in ClassDetal.good_details">
+                <img :src="item.image" alt="" :key="item.id" v-for="item in ClassDetal.good_details">
               </div>
             </div>
           </section>
         </div>
       </div>
+      <!-- 详情 -->
       <pop-up ref="popUpDetail" class="orderDetail" :detailData='detailDataObj'>
           <template slot="second" >
+            <mu-paper :z-depth="1" class="demo-loadmore-wrap list"   ref="scroll">
+              <mu-load-more
+                @refresh="refresh()"
+                :refreshing="refreshing"
+                @load="load(true)"
+                :loaded-all="isLoaded"
+              >
                 <ul>
-                  <li><p>2019-05-23-12</p></li>
-                  <li><p>2019-05-23-12</p></li>
-                  <li><p>2019-05-23-12</p></li>
-                  <li><p>2019-05-23-12</p></li>
-                  <li><p>2019-05-23-12</p></li>
-                  <li><p>2019-05-23-12</p></li>
-                  <li><p>2019-05-23-12</p></li>
-                  <li><p>2019-05-23-12</p></li>
-                  <li><p>2019-05-23-12</p></li>
+                  <li v-for="(item, index) in AuditionTimeList" @click="setClassTime(item, index)" :class="{'actively': index == classTimeindex}" :key="item.id"><p>{{item.start_time}}-{{item.end_time}}</p></li>
               </ul>
-              
+              </mu-load-more>
+          </mu-paper>
+               <span class="submitButton"  @click="setappoint">{{detailDataObj.buttonText}}</span>
           </template>
       </pop-up>
+      <!-- 年龄 课程分类 -->
+      <popup v-model="ispopupList" position="bottom" max-height="50%">
+        <div class="popupList">
+          
+          <ul  v-if="isType">
+            <li v-for="(item, index) in popupList" :key="item.id" :class="index == setCategoryPopupIndex ? 'actively' : ''" @click="stePopupID(item, index)">
+              <div>{{item.name}}</div>
+            </li>
+          </ul>
+          <ul v-else>
+            <li v-for="(item, index) in popupList" :key="item.id" :class="index == setAgePopupIndex ? 'actively' : ''" @click="stePopupID(item, index)">
+              <div>{{item.name}}</div>
+            </li>
+          </ul>
+        </div>
+      </popup>
     </div>
 </template>
 <script>
   import headerTitle from "../../components/header";
   import sideBar from "../../components/sidebar";
   import popUp from "../../components/popUp"
-  import { querystring } from 'vux'
+  import { querystring, Popup } from 'vux'
+import { get } from 'http';
     export default {
-      components:{headerTitle,sideBar, popUp},
+      components:{headerTitle,sideBar, popUp, Popup},
         name: "index",
       data(){
         return{
           headerTitle:this.$route.query.flag == 1 ?"试听": "课程",
-          leftList:[
-            {
-              id:0,
-              name:'射门课程'
-            },
-            {
-              id:1,
-              name:'运动课程'
-            }
-          ],
-          City:{
-            province :"上海",
-            City:"上海",
-            area:"杨浦",
-            age:"0-3",   //  age_type 年龄段 (1,”5-6”), (2,”7-8”), (3,”8-10”),  (4,”10-12”)
-            course:1    //(1, “基础足球课”), (2, “进阶足球课”), (3, “成人足球课”), (4, “守门员课”)
-            //上海&area=杨浦&age_type=&course_type=
+          leftList:[],
+          Category:{
+            province :"",
+            City:"",
+            area:"",
+            age:'',   //  age_type 年龄段 (1,”5-6”), (2,”7-8”), (3,”8-10”),  (4,”10-12”)
+            course:''   //(1, “基础足球课”), (2, “进阶足球课”), (3, “成人足球课”), (4, “守门员课”)
           },
           setIndex:0,
           buttonText: this.$route.query.flag == 1 ?"试听": "购买",
@@ -81,38 +90,182 @@
               'buttonText':'确定'
           },
           ClassDetal:{},
+          age_typeList:[
+            {
+              id: 1,
+              name: '5-6岁'
+            },
+            {
+              id: 2,
+              name: '7-8岁'
+            },
+            {
+              id: 3,
+              name: '8-10岁'
+            },
+            {
+              id: 4,
+              name: '10-12岁'
+            }
+          ],
+          course_typeList:[
+            {
+              id: 1,
+              name: '基础足球课'
+            },
+            {
+              id: 2,
+              name: '进阶足球课'
+            },
+            {
+              id: 3,
+              name: '成人足球课'
+            },
+            {
+              id: 4,
+              name: '守门员课'
+            }
+          ],
+
+          popupList:[],
+          ispopupList: false,
+          setAgePopupIndex: -1,
+          setCategoryPopupIndex: -1,
+          isType: true,//年龄段与课程分类列表切换
+          getCourseId:'',//课程ID
+          headersetAge:'年龄段',
+          headersetCategory:'课程类别',
+          AuditionTimeList: [],//试听课程上课时间列表
+          refreshing:  false,//上拉刷新
+          number:1,//上拉加载页数
+          isLoaded:false,//数据是否加载完毕
+          classTimeId: '',//试听课程时间ID
+          classTimeindex: -1,//试听课程时间下标
         }
       },
     methods: {
         /**@name获取班级名称列表 */
         getStudentList(data){
-          this.headerTitle = data.item.name + '学员'
           this.setIndex = data.index
+          this.getCourseId = data.item.id
+          this.$loading('');
+           this.GetClassDetal(data.item.id)
         },
-        getOrderDetail(data){
-            // this.detailDataObj = data
-            this.$refs.popUpDetail.isDetail = !this.$refs.popUpDetail.isDetail
+        getOrderDetail(){
+           this.number = 1
+            this.$route.query.flag == 1 ? this.getAuditionTime(1)  : this.getCourseBuy()
+            this.$route.query.flag == 1 ? this.$refs.popUpDetail.isDetail = true : ''
         },
+        setappoint(){
+          if(!this.classTimeId){
+            this.$toast.center('请选择具体试听时间')
+          }else{
+            this.$loading('');
+            var params = {audition_time: this.classTimeId }
+            this.$http.post(this.$conf.env.setappoint, params).then( res =>{
+              this.$loading.close();
+              this.$toast.center('预定成功')
+              this.$refs.popUpDetail.isDetail = false
+              console.log(res)
+            }).catch(err =>{
+              this.$loading.close();
+              if(err.request.status == '400'){
+                this.$toast.center('你已试听或购买本课程')
+              }else{
+                this.$toast.center('服务器错误')
+              }
+              this.$refs.popUpDetail.isDetail = false
+              
+            })
+          }
+        },
+        refresh(flag) {
+            this.refreshing = false;
+            this.number = 1
+            this.isLoaded = false
+            console.log("上拉刷新")
+            this.getAuditionTime(1);
+        },
+        load(flag) {
+          console.log('加载')
+          this.number += 1
+          // this.loading = true;
+          this.getAuditionTime(this.number);
+        },
+        /**@name 试听课程上课时间 */
+        getAuditionTime(number){
+          
+          this.$http.get(this.$conf.env.getAuditionTime + this.getCourseId + '&p=' + number).then( res =>{
+             if(!res.data.next){
+                if(res.data.results.length == 0 || res.data.results.length ==  res.data.count/number){
+                    number ==1?this.$toast.center('暂无数据') :this.$toast.center('已加载全部数据')
+                  }else if(res.data.results.length > 0 && res.data.results.length < res.data.count/number && number !=  1){
+                    this.$toast.center('已加载全部数据')
+                  }
+                  this.isLoaded = true
+              this.isLoaded = true
+            }else{
+              this.isLoaded = false
+            }
+             number==1 ? this.AuditionTimeList = res.data.results : this.AuditionTimeList = this.AuditionTimeList.concat(res.data.results)
+            console.log(res)
+          }).catch(err =>{
+            this.isLoaded = true
+          this.$toast.center('服务器错误');
+          })
+        },
+        
+        /**@name 课程列表 */
         GetClassList(){
-          var url =this.City.province+"&area="+this.City.City+"&age_type"+this.City.age+"=&course_type="+this.City.course;
-          this.$http.get(this.$conf.env.getClassList + encodeURI(encodeURI(url)))
+          var url =this.Category.province+"&area="+this.Category.City+"&age_type="+this.Category.age+"&course_type="+this.Category.course;
+          this.$http.get(this.$conf.env.getClassList + url)
             .then(res => {
               this.$loading.close();
-              console.log(res.data)
+              if(!res.data.length){
+                this.$toast.center('暂无数据');
+                this.leftList = []
+                this.ClassDetal = {}
+              }else{
+                this.leftList = res.data
+                this.getCourseId = res.data[0].id
+                this.$loading('');
+                this.GetClassDetal(res.data[0].id)
+              }
             })
             .catch(err => {
+              console.log(err)
+              this.$loading.close();
+              this.$toast.center('网络错误');
+            });
+        },
+        /**@name 试听列表 */
+        getAuditionList(){
+          var url = this.Category.province+"&area="+this.Category.City+"&age_type="+this.Category.age+"&course_type="+this.Category.course;
+          this.$http.get(this.$conf.env.getAuditionList + url)
+            .then(res => {
+              this.$loading.close();
+              if(!res.data.length){
+                this.$toast.center('暂无数据');
+                this.leftList = []
+                this.ClassDetal = {}
+              }else{
+                this.leftList = res.data
+                this.getCourseId = res.data[0].id
+                this.$loading('');
+                this.GetClassDetal(res.data[0].id)
+              }
+            })
+            .catch(err => {
+              console.log(err)
               this.$loading.close();
               this.$toast.center('网络错误');
             });
         },
         GetClassDetal(id){
-
           this.$http.get(this.$conf.env.getClassDetail + id)
             .then(res => {
               this.$loading.close();
               this.ClassDetal = res.data
-              console.log(this.ClassDetal)
-              console.log(this.ClassDetal.age_type)
             })
             .catch(err => {
               this.$loading.close();
@@ -121,12 +274,59 @@
 
         },
 
-      },
-      created() {
-        this.GetClassList()
+        /**@name 课程购买 */
+        getCourseBuy(){
+          this.$loading('');
+          var params ={'course': this.getCourseId } 
+          this.$http.post(this.$conf.env.getCourseBuy, params).then( res =>{
+            this.$loading.close();
+            if(res.data.order){
+              this.$store.commit('setOrder',{orderID: res.data.order, orderPrice: this.ClassDetal.price} )
+              this.$router.push({'name':'puy'})
+            }else{
+              this.$toast.center(res.data.msg)
+            }
+          }).catch(err =>{
+            this.$toast.center('服务器错误')
+          })
+        },
+        changeCity(data){
+          this.Category.province = data [1];
+          this.Category.City = data [1];
+          this.Category.area = data [2];
+          this.$loading('');
+           this.$route.query.flag == 1 ? this.getAuditionList():this.GetClassList()
+        },
 
-        //暂时
-        this.GetClassDetal(3)
+        /**@name选择课程类别 */
+        setShowCategory(){
+          this.isType = true;
+          this.popupList = this.course_typeList;
+          this.ispopupList = true;
+        },
+        /**@name 选择年龄段 */
+        setShowAge(){
+          this.isType = false;
+          this.popupList = this.age_typeList;
+          this.ispopupList = true;
+        },
+        stePopupID(item, index){
+           this.isType ? this.setCategoryPopupIndex = index : this.setAgePopupIndex = index
+          this.isType ? this.Category.course = item.id : this.Category.age = item.id
+          this.$loading('');
+           this.$route.query.flag == 1 ? this.getAuditionList():this.GetClassList()
+          this.isType ? this.headersetCategory = item.name : this.headersetAge = item.name
+           this.ispopupList = false;
+        },
+        /**@name 选择预约课程的时间 */
+        setClassTime(item, index){
+          this.classTimeindex = index;
+          this.classTimeId = item.id
+        }
+      },
+      mounted() {
+        this.$loading('');
+        this.$route.query.flag == 1 ? this.getAuditionList():this.GetClassList()
       }
     }
 </script>
@@ -237,6 +437,7 @@
     .detail_box{
       height: 4.02rem!important;
       position: relative;
+      width: 57% !important;
       .close{
         position: absolute!important;
         
@@ -249,34 +450,64 @@
         header{
           margin: 0 .25rem 0 0!important;
         }
-        div{
+        .DETAIL{
           width:100%!important;
           padding: 0 .27rem;
           ul{
             height: 2.4rem;
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between;
+            justify-content: flex-start;
             width: 100%;
             li{
-              width: 2.22rem;
+              width: 29%;
               height: .42rem;
-              border: 1px solid #c1d8f7;
+              border: 1px solid #C1D8F8;
               color: #c1d8f7;
               font-size: .18rem;
               text-align: center;
               line-height: .42rem;
               border-radius: .05rem;
+              margin-right: 4%;
+              margin-bottom: .29rem;
             }
             .actively{
               border-color: #90ffbd;
               color: #90ffbd;
             }
+            
           }
+          .mu-paper-round{
+              background: transparent!important;
+              box-shadow: none!important;
+              .mu-load-more{
+                overflow-y: scroll;
+                height: 2.4rem;
+              }
+            }
           .submitButton{
             margin: 0 auto !important;
           }
         }
+      }
+    }
+    .popupList{
+      background: linear-gradient(0deg, #0b1b33 0%, #1e3d5d 100%);
+      li{
+        height: .7rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        font-size: .22rem;
+        font-family: SimHei;
+        border-bottom: 1px solid #5a677e;
+        padding: 0 .4rem;
+        
+      }
+      .actively{
+        background: #1e3d5d;
+        color: #10c1c8;
       }
     }
   }

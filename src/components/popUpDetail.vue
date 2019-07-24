@@ -3,16 +3,6 @@
       <popup v-model="isDetail" height="270px" is-transparent >
         <div class="detail_box">
             <header>{{detailName}} <img @click="isDetail = false" src='../assets/img/close.png'/> </header>
-            <!-- <div class="detail_main">
-                <div v-if="!detailData.good_details"><img :src="detailData.front_image" alt=""></div>
-                <div v-else>
-                    <swiper :list="detailData.good_details" height="4.93rem" :min-moving-distance="12" dots-position="center" :auto='true' :loop='true'></swiper>
-                </div>
-                <div>
-                    <span>{{detaiilTitle}}</span>
-                    <div>{{detailData.desc}}</div>
-                </div>
-            </div> -->
             <slot></slot>
         </div>
       </popup>
@@ -31,8 +21,6 @@ export default {
             isDetail:false
         }
     },
-    methods:{
-    }
 }
 </script>
 <style lang="scss">

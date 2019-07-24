@@ -7,23 +7,39 @@
           <span @click="goexerciseCoach" :class="{'activeButton': routerIndex == 1}">教练</span>
           <span @click="goexerciseGrade" :class="{'activeButton': routerIndex == 2}">个人</span>
         </div>
-        <div style="overflow:hidden;height:calc(100% + 0.6rem);">
-          <ul class="routerIndexOne"  v-if="routerIndex == 1"  >
-                <li v-for="(item,index) in listCoach " :key="index">
-                  <div>
-                    <div @click="changeStatusVideoTitle(item, index)" class="scrollButton">
-                      <div class="footballImg">
-                        <img src="../../assets/img/足球.png" />
+        <div style="overflow:hidden;height:calc(100% + 0.6rem);" >
+          <mu-paper :z-depth="1" class="demo-loadmore-wrap list" v-if="routerIndex == 1"   ref="scroll">
+              <mu-load-more
+                @refresh="refresh(true)"
+                :refreshing="refreshing"
+                @load="load(true)"
+                :loaded-all="isLoaded"
+              >
+              <ul class="routerIndexOne" >
+                    <li v-for="(item,index) in listCoach " :key="index">
+                      <div>
+                        <div @click="changeStatusVideoTitle(item, index)" class="scrollButton">
+                          <div class="footballImg">
+                            <img src="../../assets/img/足球.png" />
+                          </div>
+                          <div :class="{'active': index==setstudentVideoIndex}">
+                            <div><span>{{item.time}}</span></div>
+                            <div><span>{{item.name}}</span></div>
+                          </div>
+                        </div>
                       </div>
-                      <div :class="{'active': index==setstudentVideoIndex}">
-                        <div><span>{{item.time}}</span></div>
-                        <div><span>{{item.name}}</span></div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-              <ul class="routerIndexOne" v-else>
+                    </li>
+                  </ul>
+               </mu-load-more>
+          </mu-paper>
+          <mu-paper :z-depth="1" class="demo-loadmore-wrap list"  v-else  ref="scroll">
+              <mu-load-more
+                @refresh="refresh(false)"
+                :refreshing="refreshing"
+                @load="load(false)"
+                :loaded-all="isLoaded"
+              >
+              <ul class="routerIndexOne" >
                 <li v-for="(item,index) in listCoach " :key="index">
                   <div class="list-item" data-type="0">
                     <div @touchstart.capture="touchStart" @touchend.capture="touchEnd" @click="skip(item, index)" class="scrollButton">
@@ -39,7 +55,8 @@
                   </div>
                 </li>
               </ul>
-              
+              </mu-load-more>
+          </mu-paper> 
         </div>
       </div>
       <div class="exercise_rightVideo">
@@ -138,22 +155,7 @@ export default {
       number:1,
       isLoaded:false,
       min_date:new Date(),
-      classVideo: [{
-        "video": 1,
-        "name": "(06.28)课程01"
-    },
-    {
-        "video": 3,
-        "name": "(06.29)课程01"
-    },
-    {
-        "video": 23,
-        "name": "(06.29)课程01"
-    },
-    {
-        "video": 13,
-        "name": "(06.29)课程01"
-    }],//视频上传列表
+      classVideo: [],//视频上传列表
       classVideoList: [],
       index: 0,
       flag: true
@@ -163,19 +165,20 @@ export default {
     /**@name 子页面切换 */
     //不记录当前跳转路由，直接返回父级的上一层
     goexerciseCoach() {
-      //     this.isLoaded = false
+      console.log()
+      this.$refs.scroll.scrollTop = 0
+      // document.documentElement.scrollTop = document.body.scrollTop = 0;
+      this.number = 1
+      this.isLoaded = false
       this.routerIndex = 1;
       this.$refs.childObj.getuploadvideoList(1, true);
-      // this.isUpload = true;
     },
     goexerciseGrade() {
-      // this.number = 1
-      //     this.isLoaded = false
-      console.log("2222222222")
+      this.$refs.scroll.scrollTop = 0
+      this.number = 1
+      this.isLoaded = false
       this.routerIndex = 2;
       this.$refs.childObj.getuploadvideoList(1, false);
-      
-      // this.isUpload = false;
     },
     /**@name教练视频页面左滑删除 */
     //滑动开始
@@ -248,67 +251,6 @@ export default {
         listItems[i].dataset.type = 0;
       }
     },
-    /**@name调用第三方plus模块上传视频 */
-    //方法为实现，暂留保存
-    uploadSuccess() {
-      let url = this.updataVideoPic();
-
-      alert(this.videoUrl);
-
-      plus.io.resolveLocalFileSystemURL(
-        url,
-        function(entry) {
-          // 可通过entry对象操作test.html文件
-          entry.file(function(file) {
-            var fileReader = new plus.io.FileReader();
-            this.file = file;
-            var blob = new Blob([file]);
-            this.videoUrl = window.URL.createObjectURL(blob);
-            // this.videoUrl = window.URL.createObjectURL( file);
-            alert(this.videoUrl);
-            // this.toImage(file);
-          });
-        },
-        function(e) {
-          alert("Resolve file URL failed: " + e.message);
-        }
-      );
-
-      // photo.galleryVideo(this, dataparams, decideparams);
-    },
-    updataVideoPic() {
-      console.log("开始选择图片");
-      plus.gallery.pick(
-        function(path) {
-          // return path
-          alert(path);
-          plus.io.resolveLocalFileSystemURL(
-            path,
-            function(entry) {
-              // 可通过entry对象操作test.html文件
-              entry.file(function(file) {
-                //    var fileReader = new plus.io.FileReader();
-                console.log(file);
-                // alert("getFile:" + JSON.stringify(file));
-                // fileReader.readAsText(file, 'utf-8');
-                // alert(fileReader)
-                // console.log(fileReader)
-                // alert(file.size + '--' + file.name);
-              });
-            },
-            function(e) {
-              alert("Resolve file URL failed: " + e.message);
-            }
-          );
-          return path;
-        },
-        function(e) {
-          console.log("取消选择图片");
-        },
-        { filter: "video" }
-      );
-    },
-
     /**@name使用input上传视频 */
     changefile(item, index) {
       document.getElementsByClassName('Updata')[index].dispatchEvent(new MouseEvent("click"));
@@ -340,7 +282,7 @@ export default {
             .then(res => {
               if(this.classVideoList[index +1 ]){
                 this.progress3 += (1/this.classVideoList.length) * (index + 1);
-              return this.uploadvideo(index + 1)
+                return this.uploadvideo(index + 1)
               }
               if(this.progress3 == 1){
                 setTimeout(() => {
@@ -373,8 +315,7 @@ export default {
     },
     getclassVideo(){
       this.$http.get(this.$conf.env.getClassVideo).then( res =>{
-        
-        // this.classVideo = res.data
+        this.classVideo = res.data
         // console.log(this.classVideo)
       }).catch(err =>{
         this.$toast.center('服务器错误');
@@ -416,42 +357,23 @@ export default {
         this.isLoaded = true
          this.listCoach = this.list
       }
-         this.listCoach = data.data;
-      // }
-      // this.courseId = data[0].id
-      // this.courseName = data[0].name
+        this.listCoach = data.data;
      
     },
     changeisGrade() {
       this.isGrade = true;
     },
-    getSarchList() {
-      console.log("搜索");
-      this.$http
-        .get(this.$conf.env.getSarchList)
-        .then(res => {
-          this.searchData = res.data ? res.data : [];
-          console.log(res);
-        })
-        .catch(err => {
-          this.toast.center("服务器错误");
-        });
-    },
     change(data) {
       this.courseName = data.name + "教程";
       this.courseId = data.id;
     },
-    goDetail(item) {
-      // this.$emit('goDetail',item)
-    },
-    refresh() {
+    refresh(flag) {
       this.refreshing = false;
       this.number = 1
       this.$refs.container.scrollTop = 0;
        this.isLoaded = false
       console.log("上拉刷新")
-      this.$refs.childObj.getuploadvideoList(1);
-      //  this.$emit('getClassList', 1 )
+      this.$refs.childObj.getuploadvideoList(1,flag);
     },
     // refreshDetail() {
     //   this.refreshingDetail = false;
@@ -462,11 +384,11 @@ export default {
     //   this.$refs.childObj.getuploadvideoList(1);
     //   //  this.$emit('getClassList', 1 )
     // },
-    load() {
+    load(flag) {
       console.log('加载')
       this.number += 1
       // this.loading = true;
-      this.$refs.childObj.getuploadvideoList(this.number);
+      this.$refs.childObj.getuploadvideoList(this.number, flag);
     }
   },
 
@@ -477,7 +399,6 @@ export default {
     }
   },
   mounted() {
-    // this.getSarchList();
   }
 };
 </script>
